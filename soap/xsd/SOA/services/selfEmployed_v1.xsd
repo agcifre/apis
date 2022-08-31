@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:self="http://soa.spw.wallonie.be/services/selfEmployed/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:ent="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" targetNamespace="http://soa.spw.wallonie.be/services/selfEmployed/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>ajout de l'operation : getSelfEmployedContributions 11/05/2018 </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../data/common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:element name="searchSocialInsuranceFundAffiliations">
+		<xs:annotation>
+			<xs:documentation>Opération permettant d'obtenir l'ensemble des périodes et types d'affiliations d'un indépendant à une caisse d'assurance sociale</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="period" type="dat:PeriodType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchSocialInsuranceFundAffiliationsResponse">
+		<xs:annotation>
+			<xs:documentation>Opération permettant d'obtenir l'ensemble des périodes et types d'affiliations d'un indépendant à une caisse d'assurance sociale</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="selfEmployed">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="enterpriseNumber" type="ent:CbeEntityNumberType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="socialInsuranceFundAffiliations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="socialInsuranceFundAffiliation" type="self:SocialInsuranceFundPeriodAffiliationType" maxOccurs="1000"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getSelfEmployedStatus">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="referenceDate" type="xs:date"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getSelfEmployedStatusResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="contributions" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="contribution" maxOccurs="10000">
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="self:ContributionType">
+													<xs:attribute name="nisseReference" type="self:NisseReferenceType"/>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--nouvelle operation qui retourne les cotisations (V2 de la BCSS)-->
+	<xs:element name="getSelfEmployedContributions">
+		<xs:annotation>
+			<xs:documentation>Opération permettant d'obtenir les informations relatives au paiement des cotisations sociales par le travailleur indépendant</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="period" type="dat:YearQuarterPeriodType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getSelfEmployedContributionsResponse">
+		<xs:annotation>
+			<xs:documentation>Opération permettant d'obtenir les informations relatives au paiement des cotisations sociales par le travailleur indépendant</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="contributions" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="contribution" type="self:ContributionsType" maxOccurs="40"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ContributionCodeType">
+		<xs:annotation>
+			<xs:documentation>Le type d'affiliation à la caisse d'assurance sociale (Principal, complémentaire, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NisseReferenceType">
+		<xs:annotation>
+			<xs:documentation>Le numéro de référence à l'INASTI de la période d'affiliation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<!--xs:pattern value="[3]{1}[0-4 CE]{1}"-->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SocialInsuranceFundPeriodAffiliationType">
+		<xs:sequence>
+			<xs:element name="period" type="dat:PeriodType"/>
+			<xs:element name="socialInsuranceFund" type="self:SocialInsuranceFundType"/>
+			<xs:element name="contribution" type="self:ContributionType"/>
+		</xs:sequence>
+		<xs:attribute name="nisseReference" type="self:NisseReferenceType"/>
+	</xs:complexType>
+	<xs:complexType name="SocialInsuranceFundType">
+		<xs:annotation>
+			<xs:documentation>Description de la caisse d'assurance sociale</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="ent:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="code">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="codeSource" type="cod:CodeSourceType"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContributionType">
+		<xs:annotation>
+			<xs:documentation>type de Contribution (Activité principal , Activité complémentaire , Conjoint aidant ......)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="self:ContributionCodeType">
+							<xs:attribute name="codeSource" type="cod:CodeSourceType"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContributionsType">
+		<xs:sequence>
+			<xs:element name="quarter" type="dat:YearQuarterType"/>
+			<xs:element name="socialInsuranceFund" type="self:SocialInsuranceFundType"/>
+			<xs:element name="contributionSituation" type="cod:CodeType"/>
+			<xs:element name="healthAndDisabilityInsurance" type="cod:CodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

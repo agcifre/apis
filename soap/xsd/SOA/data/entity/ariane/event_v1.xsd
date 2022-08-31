@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eve="http://soa.spw.wallonie.be/data/entity/event/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/event/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:complexType name="EventType">
+        <xs:annotation>
+            <xs:documentation>Eléments d'un événement.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="code">
+				<xs:annotation>
+					<xs:documentation>Code de l'événement (Domaine de la liste : EVT_MARCHE ou EVT_LOT)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+                        <xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="occurence" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>La date et heure d'occurrence de l'événement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventsListType">
+        <xs:annotation>
+            <xs:documentation>Liste d'événements.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="event" type="eve:EventType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Liste des événements</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventMarketSearchType">
+		<xs:sequence>
+			<xs:element name="code" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Le code de l'événement (Domaine de la liste : EVT_MARCHE)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+                        <xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="from" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>La date et heure d'occurrence minimum de l'événement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="to" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>La date et heure d'occurrence maximum de l'événement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EventMarketSearchListType">
+        <xs:annotation>
+            <xs:documentation>Critères de recherche de marchés publics liés aux événements</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="event" type="eve:EventMarketSearchType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Liste des critères d'événements</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

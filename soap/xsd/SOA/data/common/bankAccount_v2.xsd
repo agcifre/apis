@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:bank="http://soa.spw.wallonie.be/data/common/bankAccount/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/data/common/bankAccount/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="BankAccountType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="bankAccountNumber" type="xs:string"/>
+				<xs:sequence>
+					<xs:element name="IBAN" type="xs:string"/>
+					<xs:element name="BIC" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="nonSepaBankAccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="usagePurposeCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="validityStartDate" type="xs:date"/>
+		<xs:attribute name="validityEndDate" type="xs:date"/>
+	</xs:complexType>
+</xs:schema>

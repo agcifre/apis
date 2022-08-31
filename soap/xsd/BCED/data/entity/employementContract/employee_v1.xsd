@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 sp1 (http://www.altova.com) by End User (free.org) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/data/entity/employementContract/employee/v1" xmlns:ns1="http://bced.wallonie.be/data/entity/employementContract/common/v1" xmlns:num="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:nam="http://bced.wallonie.be/data/entity/person/name/v1" targetNamespace="http://bced.wallonie.be/data/entity/employementContract/employee/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xsd:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../person/personNumber_v1.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/data/entity/person/name/v1" schemaLocation="../person/name_v1.xsd"/>
+	<xsd:simpleType name="IncompleteDateType">
+		<xsd:annotation>
+			<xsd:documentation>A possibly incomplete date. Format yyyy-mm-dd, yyyy-mm-00 or yyyy-00-00</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="10"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-2][0-9]{3}\-[0-1][0-9]\-[0-3][0-9]"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="DeceaseInfoType">
+		<xsd:sequence>
+			<xsd:element name="deceaseDate" type="tns:IncompleteDateType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="deceased" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="true"/>
+					<xsd:enumeration value="false"/>
+					<xsd:enumeration value="unknown"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="EmployeeNumberType">
+		<xsd:choice>
+			<xsd:element name="personNumber" type="num:PersonNumberType"/>
+			<xsd:element name="cryptPersonNumber" type="num:CryptPersonNumberType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="EmployeeType">
+		<xsd:complexContent>
+			<xsd:extension base="tns:EmployeeNumberType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="name" type="nam:NameType" minOccurs="0"/>
+					<xsd:element name="deceaseInfo" type="tns:DeceaseInfoType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="WorkerCategoryType">
+		<xsd:annotation>
+			<xsd:documentation>Type de travailleur</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

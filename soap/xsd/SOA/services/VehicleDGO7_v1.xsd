@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:veh="http://soa.spw.wallonie.be/services/vehicleDGO7/messages/v1" xmlns:bus="http://soa.spw.wallonie.be/data/business/vehicleDGO7/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" targetNamespace="http://soa.spw.wallonie.be/services/vehicleDGO7/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/vehicleDGO7/v1" schemaLocation="../data/business/vehicleDGO7/VehicleDGO7_v1.xsd"/>
+	<!--======================================== search link by ssin capability ==================================-->
+	<xs:element name="getDeclarationStatusById" type="veh:getDeclarationStatusByIdRequestType"/>
+	<xs:element name="getDeclarationStatusByIdResponse" type="veh:getDeclarationStatusByIdResponseType"/>
+	<!-- ****************************************************************************************************************** -->
+	<!-- Request getDeclarationStatusById (Plate or VIN)																	-->
+	<!-- ****************************************************************************************************************** -->
+	<xs:complexType name="getDeclarationStatusByIdRequestType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractPrivacySyncRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="bus:getDeclarationStatusRequestType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ****************************************************************************************************************** -->
+	<!-- Response getDeclarationStatusById     																		        -->
+	<!-- ****************************************************************************************************************** -->
+	<xs:complexType name="getDeclarationStatusByIdResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="declaration" type="bus:declarationType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

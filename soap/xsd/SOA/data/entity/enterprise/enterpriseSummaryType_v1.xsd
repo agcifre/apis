@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseSummaryType/v1" xmlns:basic="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" xmlns:foreign="http://soa.spw.wallonie.be/data/entity/enterprise/foreignBranchOffice/v1" xmlns:cont="http://soa.spw.wallonie.be/data/entity/enterprise/ContactInformation/v1" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" xmlns:jurs="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalSituation/v3" xmlns:activ="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v3" xmlns:func="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v5" xmlns:perm="http://soa.spw.wallonie.be/data/entity/enterprise/permission/v1" xmlns:link="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v2" xmlns:enterFunc="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseFunctions/v3" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseSummaryType/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" schemaLocation="enterpriseBasicType_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/foreignBranchOffice/v1" schemaLocation="foreignBranchOffice_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/ContactInformation/v1" schemaLocation="contactInformation_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" schemaLocation="juridicalForm_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalSituation/v3" schemaLocation="juridicalSituation_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v3" schemaLocation="activity_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v5" schemaLocation="functions_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/permission/v1" schemaLocation="permissions_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v2" schemaLocation="linkedEnterprise_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseFunctions/v3" schemaLocation="enterpriseFunctions_v3.xsd"/>
+	<xs:complexType name="EnterpriseSummaryType">
+		<xs:complexContent>
+			<xs:extension base="basic:EnterpriseBasicType">
+				<xs:sequence>
+					<xs:element name="contactInformations" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="contactInformation" type="cont:ContactInformationType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="juridicalForms" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="juridicalForm" type="jurf:JuridicalFormType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>isBasicDatas</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="juridicalSituations" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="juridicalSituation" type="jurs:JuridicalSituationType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="activities" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="activity" type="activ:ActivityType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="functions" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="function" type="func:FunctionType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="permissions" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="permission" type="perm:PermissionType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="linkedEnterprises" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="linkedEnterprise" type="link:LinkedEnterpriseType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>enterprise with KBO-known relationship</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="enterpriseFunctions" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="enterpriseFunction" type="enterFunc:EnterpriseFunctionType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="foreignBranchOffice" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>sumarry branch office in Belgium for external society.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="foreign:ForeignBranchOfficeType">
+									<xs:sequence>
+										<xs:element name="contactInformations" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="contactInformation" type="cont:ContactInformationType" maxOccurs="unbounded"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

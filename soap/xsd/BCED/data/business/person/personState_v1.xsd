@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://bced.wallonie.be/data/business/person/state/v1" targetNamespace="http://bced.wallonie.be/data/business/person/state/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of person states.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="PersonStateType">
+		<xs:annotation>
+			<xs:documentation>
+				Definitions of person states, based on the possible states from the Belgian National Register.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALIVE">
+				<xs:annotation>
+					<xs:documentation>
+						A person who is ALIVE should have birth-related information.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DECEASED">
+				<xs:annotation>
+					<xs:documentation>
+						A person who is deceased should have both birth-related and decease-related infotmation.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DISAPPEARED">
+				<xs:annotation>
+					<xs:documentation>
+						A person who is disappeared may be lacking certain information which is otherwise
+						present for persons in any of the other states. This is a special case of the unknown
+						state.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UNKNOWN">
+				<xs:annotation>
+					<xs:documentation>
+						A person is in an unknown state if it is unkown whether he is deceased or not, and
+						he is not disappeared. Certian information related to birth and decease may be unknown.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:approv="http://soa.wallonie.be/data/entity/approval/approval/v1" xmlns:org="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:date="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.wallonie.be/data/entity/approval/approval/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>Definitions of approval types.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" schemaLocation="../spw/organisation_v1.xsd"/>
+	<xs:complexType name="ApprovalType">
+		<xs:annotation>
+			<xs:documentation>Definition of a an approval.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="approvalNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro d’agrément attribué par le service public</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="approvalType" type="cod:CodeType">
+				<xs:annotation>
+					<xs:documentation>Type de l’agrément (Non Marchand, Aide à l'emlpoi, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organisation" type="org:OrganisationType">
+				<xs:annotation>
+					<xs:documentation>Organisation ou service responsable de l'agrément</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="administrativeStatus" type="cod:DescriptiveCodeType">
+				<xs:annotation>
+					<xs:documentation>Statut de l'agrément : actif, retiré, suspendu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="date:PeriodType">
+				<xs:annotation>
+					<xs:documentation>Période de validité de l'agrément</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+</xs:schema>

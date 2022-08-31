@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Regondes2Common.xsd version 1.0 -->
+<xs:schema xmlns="http://www.minfin.fgov.be/regondes2/extern/taxservice/common" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.minfin.fgov.be/regondes2/extern/taxservice/common"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <!--lum -->
+  <!--Definition of complex types -->
+  <xs:element name="report">
+    <xs:annotation>
+      <xs:documentation>Report of the transaction</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="status">
+          <xs:annotation>
+            <xs:documentation>Status of the transaction: SUCCESS or ERROR.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="SUCCESS" />
+              <xs:enumeration value="ERROR" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="error" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Business error occured while processing the message.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="longstring">
+              <xs:minLength value="1" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="errorId" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>The Id of error in the log files. With this id the helpdesk can find the logs of the error.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="longstring">
+              <xs:minLength value="1" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="attachment">
+    <xs:annotation>
+      <xs:documentation>Attached files which contain information about the dossier.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="fileName" type="longstring">
+        <xs:annotation>
+          <xs:documentation>The filename of the attachment</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="data" type="xs:base64Binary">
+        <xs:annotation>
+          <xs:documentation>The bytes base64binary encoded</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="abstractInitialService" abstract="true">
+    <xs:sequence>
+      <xs:element name="technicalReference" type="longstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Unique technical reference given by the initial service. Will be present if the dossier was imported with a technical reference.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="type">
+        <xs:annotation>
+          <xs:documentation>The type of the initial service which can be either "VLABEL" or "AAF" or "BF" or "SPW".</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="VLABEL" />
+            <xs:enumeration value="AAF" />
+            <xs:enumeration value="BF" />
+            <xs:enumeration value="SPW" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="basicInitialService">
+    <xs:complexContent>
+      <xs:extension base="abstractInitialService">
+        <xs:sequence>
+          <xs:element name="reference" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Unique reference given by the initial service. Will be present if the dossier was imported.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="longstring">
+                <xs:minLength value="1" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+       </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="completeInitialService">
+    <xs:complexContent>
+      <xs:extension base="basicInitialService">
+        <xs:sequence>
+          <xs:element name="complaintType">
+            <xs:annotation>
+                <xs:documentation>Type of complaint.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="12" />
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="registerSendDate" type="xs:date" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Date on which the notice of assessment is expected to be delivered.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="registerArticle" type="shortstring" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Number of the article in the register of the tax service.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="dateInitialService" type="xs:date">
+            <xs:annotation>
+              <xs:documentation>Date on which the dossier was created by the initial service.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="nameContact" type="longstring" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Name of the contact within the initial service.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="phoneNumberContact" type="shortstring" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Phone number of the contact within the initial service.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="emailContact" type="emailAddress" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>E-mail address of the contact within the initial sevice.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="remark">
+            <xs:annotation>
+              <xs:documentation>A remark from the initial service.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="text">
+                <xs:minLength value="1" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="address">
+    <xs:annotation>
+      <xs:documentation>Address</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="street" type="longstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Street</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="houseNumber" type="longstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>House number</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="box" type="shortstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Box</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zipCode" type="shortstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>ZIP code</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="place" type="longstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Place</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="country" type="longstring" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Country</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="cadastralIncome">
+    <xs:sequence>
+      <xs:element name="codeCadastralIncome" type="codeCadastralIncome">
+        <xs:annotation>
+          <xs:documentation>Cadastrall income code</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="definitiveCadastralIncome" type="xs:positiveInteger">
+        <xs:annotation>
+          <xs:documentation>Definitive cadastrall income</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="dateDefinitive" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Date definitive cadastrall income</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reasonDefinitive" type="longstring">
+        <xs:annotation>
+          <xs:documentation>Reason definitieve cadastrall income</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+    
+  <xs:simpleType name="shortstring">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="60" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="longstring">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="150" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="text">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="4000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="codeCadastralIncome">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="personIdNumber">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="15" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="cbeNumber">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="15" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="emailAddress">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="254" />
+      <xs:pattern value="[^@]+@[^\.]+\..+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="referenceFodFin">
+    <xs:restriction base="xs:long" />
+  </xs:simpleType>
+  <xs:simpleType name="articleNumberType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="8" />
+      <xs:pattern value="\d{0,5}(/\d{2})?" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="fiscalYearType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="4" />
+      <xs:minLength value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

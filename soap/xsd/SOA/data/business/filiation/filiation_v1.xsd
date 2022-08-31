@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fil="http://soa.spw.wallonie.be/data/business/filiation/filiation/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/filiation/filiation/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../../entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../../entity/person/name_v1.xsd"/>
+	<xs:complexType name="DescendentFiliationType">
+		<xs:sequence>
+			<xs:element name="filiationType" type="cod:DescriptiveCodeType"/>
+			<xs:element name="child" type="fil:ChildType"/>
+			<xs:element name="registration" type="fil:RegistrationType" minOccurs="0"/>
+			<xs:element name="expiryJustification" type="cod:CodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AscendentFiliationType">
+		<xs:sequence>
+			<xs:element name="filiationType" type="cod:DescriptiveCodeType"/>
+			<xs:element name="parents" type="fil:ParentsType" minOccurs="0"/>
+			<xs:element name="registration" type="fil:RegistrationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParentsType">
+		<xs:sequence>
+			<xs:element name="parent" maxOccurs="2">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="fil:PersonType">
+							<xs:attribute name="deceased" type="xs:boolean"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChildType">
+		<xs:complexContent>
+			<xs:extension base="fil:PersonType">
+				<xs:attribute name="deceased" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="personNumber" type="ns1:PersonNumberType"/>
+				<xs:element name="fictionalIdentificationNumber" type="fil:FictionalIdentificationNumberType"/>
+			</xs:choice>
+			<xs:element name="name" type="nam:NameType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationType">
+		<xs:sequence>
+			<xs:element name="registrationPlace" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="cod:CodeType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="actNumber" type="fil:RegistrationNumberType" minOccurs="0"/>
+			<xs:element name="comment" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FictionalIdentificationNumberType">
+		<xs:annotation>
+			<xs:documentation>non-SSIN reference used at the NR for family members without NR number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="11"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RegistrationNumberType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

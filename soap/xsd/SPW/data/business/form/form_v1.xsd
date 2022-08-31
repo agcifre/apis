@@ -1,0 +1,11 @@
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:tns="http://spw.wallonie.be/data/business/form/form/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fdata="http://spw.wallonie.be/data/entity/form/formData/v1" xmlns:ftype="http://spw.wallonie.be/data/entity/form/formType/v1" targetNamespace="http://spw.wallonie.be/data/business/form/form/v1" elementFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://spw.wallonie.be/data/entity/form/formType/v1" schemaLocation="../../entity/form/formType_v1.xsd"/>
+	<xs:import namespace="http://spw.wallonie.be/data/entity/form/formData/v1" schemaLocation="../../entity/form/formData_v1.xsd"/>
+	<xs:complexType name="FormType">
+		<xs:sequence>
+			<xs:element name="formType" type="ftype:FormTypeType"/>
+			<xs:element name="formData" type="fdata:FormDataType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

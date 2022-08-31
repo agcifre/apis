@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:num="http://bced.wallonie.be/data/entity/enteprise/jointCommission/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://bced.wallonie.be/data/entity/enteprise/jointCommission/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:simpleType name="JointCommissionNumberType">
+		<xs:annotation>
+			<xs:documentation>Le numéro de commission paritaire</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

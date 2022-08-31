@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wrk="http://bced.wallonie.be/data/entity/nonprofit/worker/v1" xmlns:per="http://bced.wallonie.be/data/entity/person/v1" xmlns:fun="http://bced.wallonie.be/data/entity/nonprofit/function/v1" targetNamespace="http://bced.wallonie.be/data/entity/nonprofit/worker/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>Definitions of CENM worker types.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/v1" schemaLocation="../person/person_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/function/v1" schemaLocation="function_v1.xsd"/>
+	<xs:complexType name="WorkerFunctionsType">
+		<xs:sequence>
+			<xs:element ref="per:basicPerson"/>
+			<xs:element name="functions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="function" type="fun:FunctionProvidedSrvUncomfortablehoursType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

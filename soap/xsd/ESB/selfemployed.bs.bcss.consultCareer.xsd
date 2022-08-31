@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/esb/common/v1" elementFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/esb/common/v1" schemaLocation="common_v1.xsd"/>
+	<xs:element name="consultCareer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ticket" type="xs:string"/>
+				<xs:element name="mode" type="xs:string"/>
+				<xs:choice>
+					<xs:element name="cbeNumber" type="xs:string"/>
+					<xs:sequence>
+						<xs:element name="sector" type="xs:string"/>
+						<xs:element name="institution" type="xs:string"/>
+					</xs:sequence>
+				</xs:choice>
+				<xs:element name="legalContext" type="xs:string"/>
+				<xs:element name="ssin" type="xs:string"/>
+				<xs:element name="beginDate" type="xs:date"/>
+				<xs:element name="endDate" type="xs:date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="consultCareerResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractResponseType">
+					<xs:sequence>
+						<xs:element name="personNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="enterpriseNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="profession" type="common:CodeType" minOccurs="0"/>
+						<xs:element name="socialInsuranceFundAffiliations" type="socialInsuranceFundAffiliations" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConsultContribution">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ticket" type="xs:string"/>
+				<xs:element name="mode" type="xs:string"/>
+				<xs:choice>
+					<xs:element name="cbeNumber" type="xs:string"/>
+					<xs:sequence>
+						<xs:element name="sector" type="xs:string"/>
+						<xs:element name="institution" type="xs:string"/>
+					</xs:sequence>
+				</xs:choice>
+				<xs:element name="legalContext" type="xs:string"/>
+				<xs:element name="ssin" type="xs:string"/>
+				<xs:element name="beginDate" type="common:YearQuarterType"/>
+				<xs:element name="endDate" type="common:YearQuarterType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConsultContributionResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractResponseType">
+					<xs:sequence>
+						<xs:element name="personNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="contributions" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="contribution" type="contributionType" maxOccurs="40"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="socialInsuranceFundAffiliations">
+		<xs:sequence>
+			<xs:element name="socialInsuranceFundAffiliation" type="socialInsuranceFundAffiliationType" maxOccurs="10000"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="socialInsuranceFundAffiliationType">
+		<xs:sequence>
+			<xs:element name="nisseReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="beginDate" type="xs:date"/>
+			<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="socialInsuranceFund" type="socialInsuranceFundType"/>
+			<xs:element name="contibutionType" type="common:CodeType"/>
+			<xs:element name="equality" type="common:CodeType" minOccurs="0"/>
+			<xs:element name="selfEmployedQuality" type="common:CodeType" minOccurs="0"/>
+			<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="socialInsuranceFundType">
+		<xs:complexContent>
+			<xs:extension base="common:CodeType">
+				<xs:sequence>
+					<xs:element name="enterpriseNumber" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="contributionType">
+		<xs:sequence>
+			<xs:element name="quarter" type="common:YearQuarterType"/>
+			<xs:element name="socialInsuranceFund">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="socialInsuranceFundType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="contributionSituation" type="common:CodeType"/>
+			<xs:element name="healthAndDisabilityInsurance" type="common:CodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/services/nonProfitEnterprise/messages/v1" xmlns:ns1="http://bced.wallonie.be/data/business/nonprofit/nonProfitEnterprise/v1" xmlns:ns2="http://bced.wallonie.be/common/identification/v3" xmlns:ns3="http://bced.wallonie.be/common/privacylog/v5" xmlns:num="http://bced.wallonie.be/data/entity/enteprise/number/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:stat="http://bced.wallonie.be/common/status/v1" targetNamespace="http://bced.wallonie.be/services/nonProfitEnterprise/messages/v1" elementFormDefault="qualified" version="1.00">
+	<xs:import namespace="http://bced.wallonie.be/data/business/nonprofit/nonProfitEnterprise/v1" schemaLocation="../data/business/nonProfit/nonProfit_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v3" schemaLocation="../data/common/identification_v3.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v5" schemaLocation="../data/common/privacy_v5.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/status/v1" schemaLocation="../data/common/status_v1.xsd"/>
+	<xs:element name="getNonProfitEnterprise" type="tns:GetNonProfitEnterpriseRequestType"/>
+	<xs:element name="getNonProfitEnterpriseResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:GetNonProfitEnterpriseResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNonProfitEnterprise" type="tns:PublishNonProfitEnterpriseRequestType"/>
+	<xs:element name="publishNonProfitEnterpriseResponse" type="tns:PublishNonProfitEnterpriseResponseType"/>
+	<xs:element name="isNonProfitEnterprise" type="tns:GetNonProfitEnterpriseRequestType"/>
+	<xs:element name="isNonProfitEnterpriseResponse" type="tns:IsNonProfitEnterpriseResponseType"/>
+	<xs:complexType name="GetNonProfitEnterpriseRequestType">
+		<xs:sequence>
+			<xs:element ref="ns2:requestIdentification"/>
+			<xs:element ref="ns3:privacyLog"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="enterpriseNumber" type="num:CbeEntityNumber"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetNonProfitEnterpriseResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element ref="ns1:nonProfitEnterprise"/>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PublishNonProfitEnterpriseRequestType">
+		<xs:sequence>
+			<xs:element ref="ns2:requestIdentification"/>
+			<xs:element ref="ns3:privacyLog"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns1:nonProfitEnterprise"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishNonProfitEnterpriseResponseType">
+		<xs:sequence>
+			<xs:element name="technicalStatus" type="stat:TechnicalStatusType"/>
+			<xs:element name="businessStatus" type="stat:BusinessStatusType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IsNonProfitEnterpriseResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="isNonProfitEnterprise" type="xs:boolean"/>
+				<xs:element name="hasActiveApproval" type="xs:boolean"/>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

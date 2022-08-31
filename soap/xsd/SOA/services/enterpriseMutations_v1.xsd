@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:entmut="http://soa.spw.wallonie.be/services/enterpriseMutations/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:id="http://soa.spw.wallonie.be/common/identification/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:pub="http://soa.spw.wallonie.be/common/publiclog/v1" targetNamespace="http://soa.spw.wallonie.be/services/enterpriseMutations/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/common/identification/v1" schemaLocation="../data/common/identification_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/common/publiclog/v1" schemaLocation="../data/common/publicLog_v1.xsd"/>
+	<xs:element name="searchEnterpriseMutations">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element ref="pub:publicLog" minOccurs="0"/>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="entmut:EnterpriseMutationRequestType">
+										<xs:sequence>
+											<xs:element name="mutationType" type="entmut:MutationTypeType" minOccurs="0"/>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnterpriseMutationsResponse">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="enterpriseMutations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="enterpriseNumber" type="entmut:EnterpriseMutationType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnterpriseMutationsByCBEN">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element ref="pub:publicLog" minOccurs="0"/>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="entmut:EnterpriseMutationRequestType">
+										<xs:sequence>
+											<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType"/>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnterpriseMutationsByCBENResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="enterpriseMutations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="enterpriseNumber" type="entmut:EnterpriseMutationType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="EnterpriseMutationRequestType">
+		<xs:sequence>
+			<xs:element name="mutationCategory" type="entmut:MutationCategoryType"/>
+			<xs:element name="period" type="dat:PeriodType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseMutationResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseMutationType">
+		<xs:simpleContent>
+			<xs:extension base="num:CbeEntityNumberType">
+				<xs:attribute name="mutationDate" type="xs:date" use="required"/>
+				<xs:attribute name="category" type="entmut:MutationCategoryType" use="required"/>
+				<xs:attribute name="mutationType" type="entmut:MutationTypeType" use="required"/>
+				<xs:attribute name="modificationDate" type="xs:date"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="MutationTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CREATED"/>
+			<xs:enumeration value="UPDATED"/>
+			<xs:enumeration value="RADIATED"/>
+			<xs:enumeration value="DELETED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MutationCategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BCE"/>
+			<xs:enumeration value="BNB"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

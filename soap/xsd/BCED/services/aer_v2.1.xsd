@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Hugues Roland (Service Public de Wallonie) -->
+<xsd:schema xmlns:tns="http://bced.wallonie.be/services/aer/messages/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:id="http://bced.wallonie.be/common/identification/v3" xmlns:priv="http://bced.wallonie.be/common/privacylog/v5" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" xmlns:num="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" targetNamespace="http://bced.wallonie.be/services/aer/messages/v2" elementFormDefault="qualified" version="2.1">
+	<xsd:import namespace="http://bced.wallonie.be/common/identification/v3" schemaLocation="../data/common/identification_v3.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/common/privacylog/v5" schemaLocation="../data/common/privacy_v5.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../data/common/code_v1.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xsd:element name="getTaxCertificateDataResponse" nillable="true">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="tns:getTaxCertificateDataResponseType">
+					<xsd:choice>
+						<xsd:sequence>
+							<xsd:element name="involvedPersons" type="tns:InvolvedPersonsType"/>
+							<xsd:element name="taxCertificate">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="incomeYear" type="xsd:gYear"/>
+										<xsd:element name="articleNumber" type="xsd:string"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="items">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="item" type="cod:CodeValueType" maxOccurs="unbounded"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element ref="err:warning" minOccurs="0"/>
+						</xsd:sequence>
+						<xsd:element ref="err:error"/>
+					</xsd:choice>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="getTaxCertificateData" type="tns:getTaxCertificateDataRequestType" nillable="true"/>
+	<xsd:complexType name="getTaxCertificateDataResponseType"/>
+	<xsd:complexType name="getTaxCertificateDataRequestType">
+		<xsd:sequence>
+			<xsd:element ref="id:requestIdentification"/>
+			<xsd:element ref="priv:privacyLog"/>
+			<xsd:element name="request">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="personNumber" type="num:PersonNumberType"/>
+						<xsd:element name="incomeYear">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:gYear">
+									<xsd:pattern value="\d{4}"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="items" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="item" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="code" type="cod:SimpleCodeType"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FinancialPersonType">
+		<xsd:sequence>
+			<xsd:element name="personNumber" type="num:PersonNumberType"/>
+			<xsd:element name="fiscalState">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="A"/>
+						<xsd:enumeration value="B"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvolvedPersonsType">
+		<xsd:sequence>
+			<xsd:element name="requestedPerson" type="tns:FinancialPersonType"/>
+			<xsd:element name="relatedPerson" type="tns:FinancialPersonType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/services/regondes2Import/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:dos="http://www.minfin.fgov.be/regondes2/extern/taxservice/imports/dossier" xmlns:si="http://www.minfin.fgov.be/regondes2/extern/taxservice/imports/supplementaryInformation" xmlns:com="http://www.minfin.fgov.be/regondes2/extern/taxservice/common" targetNamespace="http://soa.spw.wallonie.be/services/regondes2Import/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://www.minfin.fgov.be/regondes2/extern/taxservice/imports/dossier" schemaLocation="../data/business/regondes2/regondes2ImportDossier.xsd"/>
+	<xs:import namespace="http://www.minfin.fgov.be/regondes2/extern/taxservice/imports/supplementaryInformation" schemaLocation="../data/business/regondes2/regondes2ImportSupplementaryInformation.xsd"/>
+	<xs:import namespace="http://www.minfin.fgov.be/regondes2/extern/taxservice/common" schemaLocation="../data/business/regondes2/regondes2Common.xsd"/>
+	<xs:element name="importDossier" type="tns:importDossierRequestType"/>
+	<xs:complexType name="importDossierRequestType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractPrivacySyncRequestType">
+				<xs:sequence>
+					<xs:element ref="dos:dossier"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="importSupplementaryInformation" type="tns:supplementaryInformationRequestType"/>
+	<xs:complexType name="supplementaryInformationRequestType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractPrivacySyncRequestType">
+				<xs:sequence>
+					<xs:element ref="si:supplementaryInformation"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="importDossierResponse" type="tns:importDossierResponseType"/>
+	<xs:complexType name="importDossierResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="com:report" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="importSupplementaryInformationResponse" type="tns:importSupplementaryInformationResponseType"/>
+	<xs:complexType name="importSupplementaryInformationResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="com:report" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

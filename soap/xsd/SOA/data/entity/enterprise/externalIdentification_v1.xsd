@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/externalIdentification/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/externalIdentification/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="ExternalIdentificationCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ExternalIdentificationType">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string"/>
+			<xs:element name="ExternalIdentificationCode" type="tns:ExternalIdentificationCodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

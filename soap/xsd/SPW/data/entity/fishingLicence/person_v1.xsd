@@ -1,0 +1,19 @@
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:ns1="http://bced.wallonie.be/data/common/code/v1" xmlns:ns2="http://bced.wallonie.be/data/common/date/v1" xmlns:ns3="http://bced.wallonie.be/data/entity/person/v1" xmlns:ns4="http://dgo3.spw.wallonie.be/services/FishingLicense/messages/v1" xmlns:ns5="http://bced.wallonie.be/data/entity/address/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns6="http://dgo3.spw.wallonie.be/data/fishingLicense/person/v1" xmlns:bpe="http://bced.wallonie.be/data/business/person/v1" targetNamespace="http://dgo3.spw.wallonie.be/data/fishingLicense/person/v1" version="1.0">
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../../../BCED/data/common/code_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/v1" schemaLocation="../../../../BCED/data/entity/person/person_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/address/v1" schemaLocation="../../../../BCED/data/entity/address/address_v1.xsd"/>
+	<xs:complexType name="personType">
+		<xs:complexContent>
+			<xs:extension base="ns3:BasicPersonType">
+				<xs:sequence>
+					<xs:element ref="ns5:structuredAddress"/>
+					<xs:element name="language" type="ns1:CodeType" nillable="true" minOccurs="0"/>
+					<xs:element name="gsm" type="xs:string" minOccurs="0"/>
+					<xs:element name="email" type="xs:string" minOccurs="0"/>
+					<xs:element name="dataPrivate" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

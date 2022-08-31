@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dmfaV2="http://soa.spw.wallonie.be/services/dmfa/messages/v2" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:entnum="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" xmlns:bcss_commonV3="http://kszbcss.fgov.be/types/common/v3" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v3" xmlns:bcss_dmfa_att="http://kszbcss.fgov.be/types/dmfa/attestation/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/services/dmfa/messages/v2" schemaLocation="../../../../SOA/services/dmfa_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../../../../SOA/data/entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../../../../SOA/data/entity/enterprise/enterpriseNumber_v2.1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../../../SOA/data/common/date_v1.xsd"/>
+	<xs:import namespace="http://kszbcss.fgov.be/types/dmfa/attestation/v1" schemaLocation="bcssDmfaAttestationV1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v3" schemaLocation="../../../../SOA/data/common/code_v3.xsd"/>
+	<xs:import namespace="http://kszbcss.fgov.be/types/common/v3" schemaLocation="bcssCommonV3.xsd"/>
+	<xs:element name="formatDMFABatchRequest" type="FormatDMFABatchRequestType"/>
+	<xs:element name="formatDMFABatchResponse" type="FormatDMFABatchResponseType"/>
+	<xs:element name="publishEmployeeDMFABatchClaim" type="PublishEmployeeDMFABatchClaimType"/>
+	<xs:element name="publishEmployeeDMFABatchClaimResponse" type="PublishEmployeeDMFABatchClaimResponseType"/>
+	<xs:complexType name="FormatDMFABatchRequestType">
+		<xs:sequence>
+			<xs:element name="criteria" type="CriteriaType"/>
+			<xs:element name="filters" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="filter" type="FilterType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="consolidation" type="ConsolidationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>si present =>consolidation      si absent => pas de consolidation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="response" type="ResponseType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FormatDMFABatchResponseType">
+		<xs:sequence>
+			<xs:element name="criteria" type="CriteriaType"/>
+			<xs:element name="employeeDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="personNumber" type="num:PersonNumberType"/>
+							<xs:element name="cryptPersonNumber" type="num:CryptPersonNumberType"/>
+						</xs:choice>
+						<xs:element name="gender" type="cod:CodeType" minOccurs="0"/>
+						<xs:element name="officialDeceaseDate" type="dat:IncompleteDateType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="dmfaV2:searchEmployeeDMFAResponse"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FilterType">
+		<xs:sequence>
+			<xs:element name="attEmployerDeclaration" type="xs:boolean"/>
+			<xs:element name="attJustification" type="xs:boolean"/>
+			<xs:element name="attNaturalPerson" type="xs:boolean"/>
+			<xs:element name="cryptPersonNumber" type="xs:boolean"/>
+			<xs:element name="attWorkerRecord" type="xs:boolean"/>
+			<xs:element name="attWorkerRecordAttJustification" type="xs:boolean"/>
+			<xs:element name="attOccupations" type="xs:boolean"/>
+			<xs:element name="attOccupationInformation" type="xs:boolean"/>
+			<xs:element name="attServices" type="xs:boolean"/>
+			<xs:element name="attRemuns" type="xs:boolean"/>
+			<xs:element name="attReorgMeasureInformation" type="xs:boolean"/>
+			<xs:element name="attOccupationDeductions" type="xs:boolean"/>
+			<xs:element name="attOccupationDeductionDetails" type="xs:boolean"/>
+			<xs:element name="attWorkerContributions" type="xs:boolean"/>
+			<xs:element name="attWorkerDeductions" type="xs:boolean"/>
+			<xs:element name="attDeductionDetails" type="xs:boolean"/>
+			<xs:element name="attDismissedStatutoryWorkerContribution" type="xs:boolean"/>
+			<xs:element name="attStudentContribution" type="xs:boolean"/>
+			<xs:element name="attEarlyRetirementContributions" type="xs:boolean"/>
+			<xs:element name="attIndemnityWapms" type="xs:boolean"/>
+			<xs:element name="attAnomalies" type="xs:boolean"/>
+			<xs:element name="anonymization" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Flag pour l'anonymisation du NISS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConsolidationType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="routing" type="RoutingType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponseType">
+		<xs:sequence>
+			<xs:element name="ssin" type="SsinWithReplacesStatusType"/>
+			<xs:element name="bcssDmfaResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="dmfaAttestations" type="bcss_dmfa_att:DmfaAttestationsType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SsinWithReplacesStatusType">
+		<xs:simpleContent>
+			<xs:extension base="bcss_commonV3:SsinType">
+				<xs:attribute name="replaces" type="bcss_commonV3:SsinType"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CriteriaType">
+		<xs:sequence>
+			<xs:element name="transactionId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>= bced UUID = customerTicket BCSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="customerTicket" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>= ticket consomateur du premier appel byemployeur ou by employee</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organisationId" type="xs:string"/>
+			<xs:element name="context" type="xs:string"/>
+			<xs:element name="dmfaVersion" type="xs:string"/>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="requestType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>utilisé par TALEND pour identifier le type de la req initial :publishEmployeeDMFAClaim ou  publishEmployerDMFAClaim</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>= uniquement pour les appels beEmployee pour une entreprise</xs:documentation>
+				</xs:annotation>
+				<xs:element name="nssoRegistrationNumber" type="entnum:NOSSRegistrationNumberSimpleType"/>
+				<xs:element name="enterpriseNumber" type="entnum:CbeEntityNumberType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishEmployeeDMFABatchClaimType">
+		<xs:sequence>
+			<xs:element name="transactionId" type="xs:string"/>
+			<xs:element name="customerTicket" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>= ticket consomateur du premier appel byemployeur ou by employee</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="routing" type="RoutingType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="personNumber" type="num:PersonNumberType"/>
+						<xs:element name="quarterPeriod" type="dat:ClosedYearQuarterPeriodType"/>
+						<xs:element name="latestSituationOnly" type="xs:boolean"/>
+						<xs:choice>
+							<xs:element name="nssoRegistrationNumber" type="entnum:NOSSRegistrationNumberSimpleType"/>
+							<xs:element name="enterpriseNumber" type="entnum:CbeEntityNumberType"/>
+						</xs:choice>
+						<xs:element name="employerClass" type="xs:string" minOccurs="0"/>
+						<xs:element name="workerCode" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishEmployeeDMFABatchClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="dmfaV2:PublishEmployeeDMFAClaimResponseType">
+				<xs:sequence>
+					<xs:element name="personNumber" type="num:PersonNumberType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+		<!--xs:sequence>
+			<xs:element name="publishEmployeeDMFAClaimResponse" type="dmfaV2:PublishEmployeeDMFAClaimResponseType"/>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+		</xs:sequence-->
+	</xs:complexType>
+	<xs:complexType name="RoutingType">
+		<xs:sequence>
+			<xs:element name="service" type="xs:string"/>
+			<xs:element name="operation" type="xs:string"/>
+			<xs:element name="targetUrl" type="xs:string"/>
+			<xs:element name="authentication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="bcss">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="sentOnBehalfOf" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:string"/>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="cbeNumber" type="xs:string"/>
+									<xs:element name="legalContext" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

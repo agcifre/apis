@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			xmlns:adr="http://fsb.belgium.be/data/entity/address/v1_00" 
+			xmlns:per="http://fsb.belgium.be/data/entity/person/v1_00" 
+			xmlns:err="http://fsb.belgium.be/data/common/error/v1_00"
+			xmlns:sta="http://fsb.belgium.be/data/business/person/state/v1_00"
+			xmlns:bpe="http://fsb.belgium.be/data/business/person/v1_00"
+			targetNamespace="http://fsb.belgium.be/data/business/person/v1_00" 
+			elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+
+	<xs:annotation>
+		<xs:documentation>Definitions of a natural person.
+17/03/2009: toevoeging van optioneel element addressChangeDeclaration bij BasicNaturalPersonType</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://fsb.belgium.be/data/entity/person/v1_00" schemaLocation="../../../entity/person/v1_00/person.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/entity/address/v1_00" schemaLocation="../../../entity/address/v1_00/address.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/business/person/state/v1_00" schemaLocation="../state/v1_00/personState.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/common/error/v1_00" schemaLocation="../../../common/error/v1_00/error.xsd"/>
+
+	<xs:complexType name="NaturalPersonType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>A natural person is a composite object, which combines a person's data with his state and his address(es).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="state" type="sta:PersonStateType" nillable="true"/>
+			<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="err:error" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BasicNaturalPersonType">
+		<xs:annotation>
+			<xs:documentation>A simple natural person is a composite object, which combines a simple person's data with his state and his current address.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="bpe:NaturalPersonType">
+				<xs:sequence>
+					<xs:element ref="per:basicPerson"/>
+					<xs:element ref="adr:address" minOccurs="0"/>
+					<xs:element name="addressChangeDeclaration" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>In some cases a person can have declared to be moving to a new address, but as long as this new address is not verified, the address is not official, and it is provided here for informational use.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="adr:address"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="basicNaturalPerson" type="bpe:BasicNaturalPersonType"/>
+</xs:schema>

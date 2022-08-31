@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:req="http://bced.wallonie.be/data/business/requestEvolution/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://bced.wallonie.be/data/business/requestEvolution/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:complexType name="RequestEvolutionType">
+		<xs:sequence>
+			<xs:element name="legislation">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="requestDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="administrativePendingRequest" type="xs:boolean"/>
+			<xs:element name="handicapRecognitionPending" type="xs:boolean"/>
+			<xs:element name="folderCompletionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="appeal" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by Frédéric Boudin (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:veh="http://soa.spw.wallonie.be/data/entity/vehicle/characteristics/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/vehicle/characteristics/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:complexType name="VehicleType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="vin" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle Identification Number or Chassisnumber</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="unifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A code to make a unique VIN number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="category" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>European category</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bodyworktype" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>European code for bodywork type</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="commercialName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Commercial name of vehicle (CoC 2.0.1)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="kind" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle kind</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fuel" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Fuel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="euroNorm" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Euronorm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="buildDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle build date</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="firstRegistrationDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle first registration date (the first time a plate was assigned to it)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalCylinderCapacity" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle cylinder (cc)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="status" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle life cycle status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="legalStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle legal status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="administrativeStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vehicle administrative status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExtendedVehicleType">
+		<xs:complexContent>
+			<xs:extension base="veh:VehicleType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="homologationNumber" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="wvta" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>European homologation number uniquely identifying a homologation dossier.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="40"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="belgianPVA" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Belgian homologation file number (PVA/PVG).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="europeanApproval" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Type of the european approval.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="25"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="revision" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Revision of the european approval.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="2"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="vehicleVariant" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Vehicle variant of the european approval.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="25"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="vehicleVersion" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Vehicle version of the european approval.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="35"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="maker" type="cod:DescriptiveCodeType" minOccurs="0"/>
+					<xs:element name="makerType" type="cod:DescriptiveCodeType" minOccurs="0"/>
+					<xs:element name="buildupCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="colour" type="cod:DescriptiveCodeType" minOccurs="0"/>
+					<xs:element name="offRoad" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>'G' value if the vehicle is an 'off-road'; no values in other cases.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="configuration" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Configuration of the vehicle (Pick-up,...)</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="tankContent" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:totalDigits value="6"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="axles" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="totalAxles" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="2"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="poweredAxles" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="places" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="numberOfSeats" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="numberOfStandingPlaces" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="numberOfFrontPlaces" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="2"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="numberOfRearPlaces" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="2"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="numberOfTotalPlaces" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="dimensions" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="length" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Vehicle length (cm).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="width" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Vehicle width (cm).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="heigth" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Vehicle height (cm).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="tare" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Vehicle tare (kg).</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:totalDigits value="6"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="mass" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="massOnCoupling" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Mass on coupling (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="massInRunningOrder" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Mass in running order (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="maxMassOnAxles" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Mass on axles (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="maxMassTrailerCombination" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Mass of the trailer combination (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="technicPermissibleMaxMass" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Maximal mass (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="nationalMaxMass" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>National maximal mass (kg).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="loadWheelbaseRatio" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="suspension" type="cod:DescriptiveCodeType" minOccurs="0"/>
+					<xs:element name="connectMode" type="cod:DescriptiveCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Trailer/Car connect mode. EX: 4: ball, 6: US system, 7: UK System, 8: German system, 9: Other.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="power" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="maxNetPowerRPM" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Engine speed when the power is maximum.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="weightPowerRatio" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:decimal">
+											<xs:totalDigits value="6"/>
+											<xs:fractionDigits value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="maxNetPower" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:decimal">
+											<xs:totalDigits value="6"/>
+											<xs:fractionDigits value="2"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="maxSpeed" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:totalDigits value="6"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="isDisabledPersonCar" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indication if the vehicle is adapted to disabled people.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="hasTachograph" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indication if the vehicle has a tachograph.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="engineId" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="customStickerCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="co2Combined" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:totalDigits value="4"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="fuelConsumptionCombined" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Combined fuel consumption (cl/100km).</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:totalDigits value="4"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="counter" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="counterType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Number of digit on the counter (5 or 6).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="distanceType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Distance using in the vehicle: K (km) or M (miles).</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="previousDistance" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="7"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="currentDistance" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:totalDigits value="7"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="demolishedStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Vehicle demolished code:
+0: demolished by a non-approved center
+1: demolished by an approved center</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

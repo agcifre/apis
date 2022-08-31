@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v3" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:exOff="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v2" xmlns:person="http://soa.spw.wallonie.be/data/entity/person/number/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v1" schemaLocation="ExOfficioExecution_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="enterpriseNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v2" schemaLocation="denomination_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../person/personNumber_v1.xsd"/>
+	<xs:complexType name="FunctionType">
+		<xs:sequence>
+			<xs:element name="heldByEnterprise" type="tns:FunctionExecutorEnterpriseType" minOccurs="0"/>
+			<xs:element name="heldByPerson" type="tns:FunctionExecutorPersonType" minOccurs="0"/>
+			<xs:element name="type" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="exemption" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="cod:DescriptiveCodeType">
+							<xs:sequence>
+								<xs:element name="exemptionValue" type="xs:boolean" minOccurs="0"/>
+								<xs:element name="exemptionNOSMEValue" type="xs:boolean" minOccurs="0"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="stopReason" type="cod:DescriptiveCodeType" minOccurs="0"/>
+			<xs:element name="exOfficioExecutions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="exOfficioExecution" type="exOff:ExOfficioExecutionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="validityStartDate" type="xs:date"/>
+		<xs:attribute name="validityEndDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="FunctionExecutorEnterpriseType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The enterprisenumber of the enterprise holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="denominations" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="denomination" type="den:DenominationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Names of the enterprise holding the function</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FunctionExecutorPersonType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="person:PersonNumberType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The personnumber of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="firstName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The first name of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lastName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The last name of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

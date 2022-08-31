@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:per="http://soa.spw.wallonie.be/data/entity/person/personBasicType/v2" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v2" xmlns:addr="http://soa.spw.wallonie.be/data/entity/address/address/v3" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v3" targetNamespace="http://soa.spw.wallonie.be/data/entity/person/personBasicType/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xs:annotation>
+		<xs:documentation>Definitions of person types.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v2" schemaLocation="name_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v3" schemaLocation="../address/address_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v3" schemaLocation="../../common/code_v3.xsd"/>
+	<xs:element name="personNumber" type="num:PersonNumberType" nillable="true"/>
+	<xs:element name="name" type="nam:NameType" nillable="true"/>
+	<xs:element name="gender" type="cod:CodeType" nillable="true"/>
+	<xs:complexType name="PersonBasicType">
+		<xs:annotation>
+			<xs:documentation>A detailed person is a simple person, with additional, optional information. 
+The detailed person is modelled after the information present in the Belgian National Register.
+Information that is not relevant to certain applications/services may be omitted.
+All fields are nillable, but fields should only be set to nil if the information is deliberately witheld. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="name" type="nam:NameType"/>
+			<xs:element name="gender" type="cod:CodeType" minOccurs="0"/>
+			<xs:element name="addresses" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="address" type="addr:AddressType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="xs:string"/>
+	</xs:complexType>
+	<xs:element name="basicPerson" type="per:PersonBasicType">
+		<xs:annotation>
+			<xs:documentation>Root element holding a person of one of the subtypes.</xs:documentation>
+			<!--Because not all XML web service frameworks correctly interprete substitution groups, it was decided to work with XML choices instead of substitution groups. This means that you will always have an element 'person' which contains a subelement 'simplePerson' or 'detailedPerson.'
+Using substitution groups would be simpler and yields cleaner XML; it also more extensible and looser coupled than choice groups. Hence, it is advisable to change the choice-group constructions in the future and to prefer substitution groups.-->
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

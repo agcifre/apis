@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v3" targetNamespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:annotation>
+		<xs:documentation>A person number is a unique identifier for a person. In Belgium, the person number is defined by the birth date in the format yymmdd plus a three-digit sequential number, and a two-digit control number. Odd or even sequential numbers also indicate the gender of the person. 
+For people with a Bis number, the month if the birthdate is incremented by 20 or 40 depending of the knowledge of the gender.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="personNumber" type="num:PersonNumberType"/>
+	<xs:simpleType name="PersonNumberType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CryptPersonNumberType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

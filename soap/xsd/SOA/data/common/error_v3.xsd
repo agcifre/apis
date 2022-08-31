@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v3" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v3" targetNamespace="http://soa.spw.wallonie.be/data/common/error/v3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>Definitions of error and warning types.</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/code/v3" schemaLocation="code_v3.xsd"/>
+	<xsd:complexType name="ErrorOrWarningType">
+		<xsd:annotation>
+			<xsd:documentation>Definition of a business error or warning. I consists of a code, including optional language-dependent description, and a possible cause.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="information" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="informationField" type="xsd:string"/>
+						<xsd:element name="informationValue" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="category">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="\d{3}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="code" type="cod:CodeType" nillable="true"/>
+			<xsd:element name="cause" type="err:ErrorOrWarningType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="warning" type="err:ErrorOrWarningType"/>
+	<xsd:element name="error" type="err:ErrorOrWarningType"/>
+</xsd:schema>

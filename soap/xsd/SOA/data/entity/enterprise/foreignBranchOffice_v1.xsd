@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:foreign="http://soa.spw.wallonie.be/data/entity/enterprise/foreignBranchOffice/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" xmlns:exOff="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" xmlns:addr="http://soa.spw.wallonie.be/data/entity/address/address/v5" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/foreignBranchOffice/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../../common/code_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" schemaLocation="exOfficioExecution_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v5" schemaLocation="../address/address_v5.xsd"/>
+	<xs:complexType name="ForeignBranchOfficeType">
+		<xs:annotation>
+			<xs:documentation>Data's of a foreign branch office, regarding address and validity.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the address is removed (for privacy for instance), the details of the former address should not be seen, else details are visible</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="addr:BasicAddressType">
+							<xs:sequence>
+								<xs:element name="creationReason" type="cod:CodeType" minOccurs="0"/>
+								<xs:element name="stopReason" type="cod:CodeType" minOccurs="0"/>
+								<xs:element name="exOfficioExecutions" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="ExOfficioExecution" type="exOff:ExOfficioExecutionType" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="validityStartDate" type="xs:date"/>
+							<xs:attribute name="validityEndDate" type="xs:date"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

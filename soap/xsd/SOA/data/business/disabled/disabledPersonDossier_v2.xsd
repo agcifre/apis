@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonDossier/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v3" xmlns:dis="http://soa.spw.wallonie.be/data/business/disabled/disabledDossier/v2" xmlns:dcom="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonCommon/v1" xmlns:per="http://soa.spw.wallonie.be/data/entity/person/personBasicType/v3" xmlns:pay="http://soa.spw.wallonie.be/data/entity/disabled/payments/v2" targetNamespace="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonDossier/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/personBasicType/v3" schemaLocation="../../entity/person/personBasicType_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" schemaLocation="../../entity/person/personNumber_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/disabled/disabledDossier/v2" schemaLocation="disabledDossier_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonCommon/v1" schemaLocation="disabledPersonCommon_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/disabled/payments/v2" schemaLocation="../../entity/disabled/payments_v2.xsd"/>
+	<xs:complexType name="DisabledPersonDossierByDateType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="handicapAuthenticSources" type="dcom:HandicapAuthenticSourcesType"/>
+			<xs:element name="referenceDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Reference date for all the information requested</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="parts" type="dcom:FilePartsType"/>
+			<xs:element name="decisionStatus" type="xs:boolean" default="false" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If true, the service will return the decisionStatus in the results for those authentic sources having already implemented this new feature.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="enrichedRecognition" type="xs:boolean" default="false" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If true, the service will return the legislation and the booleans isRecognizedBeforePensionAge in the handicaprecognition results for those authentic sources having already implemented this new feature.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisabledPersonDossierByDateResponseType">
+		<xs:sequence>
+			<xs:element name="person" type="per:PersonBasicType" minOccurs="0"/>
+			<xs:element name="disabledDossiers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="disabledDossier" type="dis:DisabledDossierByDateType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisabledPersonDossierByPeriodType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="handicapAuthenticSources" type="dcom:HandicapAuthenticSourcesType"/>
+			<xs:element name="referencePeriod">
+				<xs:annotation>
+					<xs:documentation>reference period for all the information requested</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="beginDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parts" type="dcom:FilePartsType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisabledPersonDossierByPeriodResponseType">
+		<xs:sequence>
+			<xs:element name="person" type="per:PersonBasicType" minOccurs="0"/>
+			<xs:element name="disabledDossiers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="disabledDossier" type="dis:DisabledDossierByPeriodType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisabledPersonPaymentsByPeriodType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="handicapAuthenticSources" type="dcom:HandicapAuthenticPaymentsSourcesType"/>
+			<xs:element name="referencePeriod">
+				<xs:annotation>
+					<xs:documentation>reference period for all the information requested</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="beginDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisabledPersonPaymentsByPeriodResponseType">
+		<xs:sequence>
+			<xs:element name="payments" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="payment" type="pay:PaymentsType" maxOccurs="24"/>
+					</xs:sequence>
+					<xs:attribute name="handicapAuthenticSource" type="xs:string"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

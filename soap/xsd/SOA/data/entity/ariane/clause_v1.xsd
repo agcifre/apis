@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://soa.spw.wallonie.be/data/entity/clause/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cla="http://soa.spw.wallonie.be/data/entity/clause/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+	<xs:complexType name="ClausesListType">
+        <xs:annotation>
+            <xs:documentation>Liste de clauses.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="clauseCode" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Le code de la clause (Domaine de la liste : CLAUSE_ENVIRONNEMENTALE, CLAUSE_ETHIQUE, CLAUSE_INNOVATION ou CLAUSE_SOCIALE)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"></xs:maxLength>
+                        <xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

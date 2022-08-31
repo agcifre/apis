@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:common="http://soa.spw.wallonie.be/esb/common/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/esb/common/v1" schemaLocation="common_v1.xsd"/>
+	<xs:element name="getPerson">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractRequestType">
+					<xs:sequence>
+						<xs:element name="filter" type="FilterType"/>
+						<xs:element name="personNumber" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getPersonResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractResponseType">
+					<xs:sequence>
+						<xs:element name="person" type="PersonType">
+							<xs:annotation>
+								<xs:documentation>The person found based on the given NR, BIS or RAD number</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element name="ssin" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The NR, BIS or RAD number of the found person (can be different from the ssin comprised in the request in case this ssin was replaced).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="lastName" type="xs:string" maxOccurs="unbounded"/>
+						<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+						<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="nationalities" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="nationality" maxOccurs="20">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="nationalityCode" type="xs:string"/>
+									<xs:element name="nationalityDescription" minOccurs="0" maxOccurs="3">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="language" type="xs:string"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="birth" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="birthDate" type="xs:date"/>
+						<xs:element name="birthPlace">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="countryCode" type="xs:string"/>
+									<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="language" type="xs:string" use="optional"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="language" type="xs:string" use="optional"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decease" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="deceaseDate" type="xs:date"/>
+						<xs:element name="deceasePlace">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="countryCode" type="xs:string"/>
+									<xs:element name="countryName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+									<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="cityName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gender" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="genderCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="M"/>
+									<xs:enumeration value="F"/>
+									<xs:enumeration value="U"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="nobilityTitle" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="nobilityTitleCode" type="xs:string"/>
+						<xs:element name="nobilityTitleDescription" minOccurs="0" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="language" type="xs:string" use="optional"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="civilStates" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="civilState" maxOccurs="20">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="civilStateCode" type="xs:string"/>
+									<xs:element name="civilStateDescription" minOccurs="0" maxOccurs="3">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="language"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="partner" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:choice minOccurs="0">
+													<xs:element name="partnerSsin" type="xs:string"/>
+													<xs:element name="partnerReference">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="11"/>
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:choice>
+												<xs:element name="partnerBirthDate" type="xs:date" minOccurs="0"/>
+												<xs:element name="partnerName" minOccurs="0">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="lastName" type="xs:string"/>
+															<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+															<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="location" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="countryCode" type="xs:string"/>
+												<xs:element name="countryName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+												<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+												<xs:element name="cityName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="address" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="residentialAddress">
+								<xs:annotation>
+									<xs:documentation>Element containing all information comprised in the residential address datagroup of the found person</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="countryCode">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="codeSource" use="optional">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="ISO-3166">
+																		<xs:annotation>
+																			<xs:documentation>
+						ISO two-letter country code
+					</xs:documentation>
+																		</xs:annotation>
+																	</xs:enumeration>
+																	<xs:enumeration value="RN/RR">
+																		<xs:annotation>
+																			<xs:documentation>
+						A code defined by the 
+						Registre National (fr) / Rijksregister (nl)
+					</xs:documentation>
+																		</xs:annotation>
+																	</xs:enumeration>
+																	<xs:enumeration value="BCSS/KSZ">
+																		<xs:annotation>
+																			<xs:documentation>
+						A code defined by the
+						Banque Carrefour de la Securite Sociale (fr) / Kruispuntbank der Sociale Zekerheid (nl)
+					</xs:documentation>
+																		</xs:annotation>
+																	</xs:enumeration>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+										<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+										<xs:element name="streetCode" type="xs:string" minOccurs="0"/>
+										<xs:element name="streetName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="houseNumber" type="xs:string" minOccurs="0"/>
+										<xs:element name="boxNumber" type="xs:string" minOccurs="0"/>
+										<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:sequence>
+								<xs:element name="diplomaticPost">
+									<xs:annotation>
+										<xs:documentation>Diplomatic post responsible for the diplomatic address.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="countryCode" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>Country code of the diplomatic post.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attribute name="language" type="xs:string" use="optional"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="diplomaticPostCode" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>The official code of the diplomatic post.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="diplomaticPostName" minOccurs="0" maxOccurs="3">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attribute name="language" type="xs:string" use="optional"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="diplomaticAddress">
+									<xs:annotation>
+										<xs:documentation>Diplomatic address of the found person</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="countryCode" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>the country of this address</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attribute name="language" type="xs:string" use="optional"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="address" type="xs:string" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>the actual address, in unformatted form</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="postAddress" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>An optional post address of the found person.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="countryCode" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>the country of this address</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="countryName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+											<xs:element name="address" type="xs:string" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>the actual address, in unformatted form</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+						<xs:element name="temporaryAddress" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="countryCode" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>the country of this address</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attribute name="language" type="xs:string" use="optional"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="address" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>the actual address, in unformatted form</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:sequence>
+											<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attribute name="language" type="xs:string" use="optional"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="streetCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="streetName" minOccurs="0" maxOccurs="3">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attribute name="language" type="xs:string" use="optional"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="houseNumber" type="xs:string" minOccurs="0"/>
+											<xs:element name="boxNumber" type="xs:string" minOccurs="0"/>
+										</xs:sequence>
+									</xs:choice>
+									<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="administrator" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="location">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="countryCode" type="xs:string"/>
+										<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+										<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="specialNotion">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="specialNotionCode" type="xs:string"/>
+										<xs:element name="specialNotionName" minOccurs="0" maxOccurs="3">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="language" type="xs:string" use="optional"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="subregister" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subregisterCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:unsignedShort">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="99"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="subregisterDescription" minOccurs="0" maxOccurs="3">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="language" type="xs:string"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="legalCohabitation" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="partner">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice minOccurs="0">
+										<xs:element name="partnerSsin" type="xs:string"/>
+										<xs:element name="partnerReference">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="11"/>
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="partnerBirthDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="partnerName" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="lastName" type="xs:string"/>
+												<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="3"/>
+												<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="registration">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="registrationDate" type="xs:date"/>
+									<xs:element name="location">
+										<xs:annotation>
+											<xs:documentation>Place where civil state was registered.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="countryCode" type="xs:string"/>
+												<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attribute name="language" type="xs:string" use="optional"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+												<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attribute name="language" type="xs:string" use="optional"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="registrationBailiff" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="bailiffName" type="xs:string"/>
+												<xs:element name="location" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Place where civil state was registered.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="countryCode" type="xs:string"/>
+															<xs:element name="countryName" minOccurs="0" maxOccurs="3">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attribute name="language" type="xs:string" use="optional"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+															<xs:element name="cityName" minOccurs="0" maxOccurs="3">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attribute name="language" type="xs:string" use="optional"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="inceptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="photo" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="unauthorizedPhoto" type="xs:boolean"/>
+						<xs:element name="photoMissing" type="xs:boolean"/>
+						<xs:element name="jpeg">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="captureDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Capture date of the photo.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="encodedPhoto" type="xs:base64Binary">
+										<xs:annotation>
+											<xs:documentation>Base64 encoded photo.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="register" type="xs:string"/>
+		<xs:attribute name="state">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ALIVE">
+						<xs:annotation>
+							<xs:documentation>
+						A person who is ALIVE should have birth-related information.
+					</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="DECEASED">
+						<xs:annotation>
+							<xs:documentation>
+						A person who is deceased should have both birth-related and decease-related infotmation.
+					</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="DISAPPEARED">
+						<xs:annotation>
+							<xs:documentation>
+						A person who is disappeared may be lacking certain information which is otherwise
+						present for persons in any of the other states. This is a special case of the unknown
+						state.
+					</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="UNKNOWN">
+						<xs:annotation>
+							<xs:documentation>
+						A person is in an unknown state if it is unkown whether he is deceased or not, and
+						he is not disappeared. Certian information related to birth and decease may be unknown.
+					</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="source">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="RN/RR"/>
+					<xs:enumeration value="BCSS/KSZ">
+						<xs:annotation>
+							<xs:documentation>
+						A code defined by the
+						Banque Carrefour de la Securite Sociale (fr) / Kruispuntbank der Sociale Zekerheid (nl)
+					</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="searchPersonByName">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractRequestType">
+					<xs:sequence>
+						<xs:element name="filter" type="FilterType"/>
+						<xs:element name="criteria">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="firstName" type="xs:string" maxOccurs="3"/>
+									<xs:element name="lastName" type="xs:string"/>
+									<xs:element name="birthDate" type="xs:date"/>
+									<xs:element name="bithDateTolerence" type="xs:nonNegativeInteger"/>
+									<xs:element name="gender" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="M"/>
+												<xs:enumeration value="F"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="nisCode" type="xs:string" minOccurs="0"/>
+									<xs:element name="register" type="xs:string" minOccurs="0"/>
+									<xs:element name="maxReturnData" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:positiveInteger">
+												<xs:maxInclusive value="50"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchPersonByNameResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractResponseType">
+					<xs:sequence>
+						<xs:element name="person" type="PersonType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchPersonByAddress">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractRequestType">
+					<xs:sequence>
+						<xs:element name="filter" type="FilterType"/>
+						<xs:element name="criteria">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="postalCode" type="xs:string"/>
+									<xs:element name="streetCode" type="xs:string"/>
+									<xs:element name="houseNumber" type="xs:string"/>
+									<xs:element name="houseIndex" type="xs:string" minOccurs="0"/>
+									<xs:element name="maxReturnData" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:positiveInteger">
+												<xs:maxInclusive value="50"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="typeOfPersons" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="ALL"/>
+												<xs:enumeration value="HEAD_OF_FAMILY"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="page" type="xs:nonNegativeInteger" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>
+											The page number of the search results. Defaults to one.
+										</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchPersonByAddressResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractResponseType">
+					<xs:sequence>
+						<xs:element name="person" type="PersonType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FilterType">
+		<xs:sequence>
+			<xs:element name="ssin" type="xs:boolean"/>
+			<xs:element name="name" type="xs:boolean"/>
+			<xs:element name="gender" type="xs:boolean"/>
+			<xs:element name="birthDate" type="xs:boolean"/>
+			<xs:element name="birthPlace" type="xs:boolean"/>
+			<xs:element name="deceaseDate" type="xs:boolean"/>
+			<xs:element name="deceasePlace" type="xs:boolean"/>
+			<xs:element name="address" type="xs:boolean"/>
+			<xs:element name="nationality" type="xs:boolean"/>
+			<xs:element name="civilState" type="xs:boolean"/>
+			<xs:element name="administrator" type="xs:boolean"/>
+			<xs:element name="subregister" type="xs:boolean"/>
+			<xs:element name="legalCohabitation" type="xs:boolean"/>
+			<xs:element name="photo" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

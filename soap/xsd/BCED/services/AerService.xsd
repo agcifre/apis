@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:tns="http://bced.wallonie.be/services/AerService/messages/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns1="http://bced.wallonie.be/common/identification" xmlns:tns2="http://bced.wallonie.be/common/privacylog/v2" targetNamespace="http://bced.wallonie.be/services/AerService/messages/v1" elementFormDefault="qualified">
+	<xsd:import namespace="http://bced.wallonie.be/common/identification" schemaLocation="../data/common/identification_v1.xsd"/>
+	<xsd:import namespace="http://bced.wallonie.be/common/privacylog/v2" schemaLocation="../data/common/privacy_v2.xsd"/>
+	<xsd:element name="ResultSummary">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReturnCode" type="xsd:integer"/>
+				<xsd:element name="Detail" type="tns:DetailMessageType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="ok" type="tns:ResultSummaryStatusType" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SSIN" type="xsd:string" nillable="true"/>
+	<xsd:complexType name="ClosedPeriodType">
+		<xsd:sequence>
+			<xsd:element name="StartDate" type="xsd:anySimpleType"/>
+			<xsd:element name="EndDate" type="xsd:anySimpleType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DescriptionType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="lang" type="tns:t_Language"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="StartingPeriodType">
+		<xsd:sequence>
+			<xsd:element name="StartDate" type="xsd:anySimpleType"/>
+			<xsd:element name="EndDate" type="xsd:anySimpleType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodType">
+		<xsd:sequence>
+			<xsd:element name="StartDate" type="xsd:anySimpleType" minOccurs="0"/>
+			<xsd:element name="EndDate" type="xsd:anySimpleType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InscriptionType">
+		<xsd:sequence>
+			<xsd:element name="SSIN" type="xsd:string"/>
+			<xsd:element name="OrgUnit" type="xsd:string"/>
+			<xsd:element name="Purpose" type="xsd:integer"/>
+			<xsd:element name="Period" type="tns:PeriodType" minOccurs="0"/>
+			<xsd:element name="InscriptionCode" type="xsd:integer" minOccurs="0"/>
+			<xsd:element name="PhaseCode" type="xsd:integer" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DetailMessageType">
+		<xsd:sequence>
+			<xsd:element name="Severity" type="tns:SeverityType"/>
+			<xsd:element name="ReasonCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Diagnostic" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AuthorCodeList" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Information" type="tns:InformationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InformationType">
+		<xsd:sequence>
+			<xsd:element name="FieldName" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="FieldValue" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EndingPeriodType">
+		<xsd:sequence>
+			<xsd:element name="StartDate" type="xsd:anySimpleType" minOccurs="0"/>
+			<xsd:element name="EndDate" type="xsd:anySimpleType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="t_Language">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="nl"/>
+			<xsd:enumeration value="fr"/>
+			<xsd:enumeration value="de"/>
+			<xsd:enumeration value="en"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SeverityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="INFORMATION"/>
+			<xsd:enumeration value="WARNING"/>
+			<xsd:enumeration value="ERROR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ResultSummaryStatusType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="YES"/>
+			<xsd:enumeration value="NO"/>
+			<xsd:enumeration value="WARNING"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="getTaxCertificateDataResponse" type="tns:getTaxCertificateDataResponseType" nillable="true"/>
+	<xsd:element name="getTaxCertificateData" type="tns:getTaxCertificateDataRequestType" nillable="true"/>
+	<xsd:complexType name="getTaxCertificateDataResponseType">
+		<xsd:sequence>
+			<xsd:element name="InvolvedPersons" type="tns:InvolvedPersonsType"/>
+			<xsd:element name="IncomeYear" type="xsd:gYear"/>
+			<xsd:element name="ArticleNumber" type="xsd:string"/>
+			<xsd:element name="Items" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Item" type="tns:ItemReplyType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="getTaxCertificateDataRequestType">
+		<xsd:sequence>
+			<xsd:element name="CustomerInformations" type="tns1:ClientIdentification"/>
+			<xsd:element name="RequestIdentification" type="tns1:RequestIdentification"/>
+			<xsd:element name="PrivacyLog" type="tns2:PrivacyLog"/>
+			<xsd:element name="Request">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="SSIN" type="xsd:string"/>
+						<xsd:element name="IncomeYear" type="xsd:gYear"/>
+						<xsd:element name="Items">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Item" type="tns:ItemRequestType" maxOccurs="unbounded"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FinancialPersonType">
+		<xsd:sequence>
+			<xsd:element name="SSIN" type="xsd:string"/>
+			<xsd:element name="FiscalState" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ItemRequestType">
+		<xsd:sequence>
+			<xsd:element name="Code" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvolvedPersonsType">
+		<xsd:sequence>
+			<xsd:element name="RequestedPerson" type="tns:FinancialPersonType"/>
+			<xsd:element name="RelatedPerson" type="tns:FinancialPersonType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ItemReplyType">
+		<xsd:sequence>
+			<xsd:element name="Code" type="xsd:string"/>
+			<xsd:element name="Value" type="xsd:long"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="getTaxCertificateDataFault" type="tns:getTaxCertificateDataFaultType" nillable="true"/>
+	<xsd:complexType name="getTaxCertificateDataFaultType">
+		<xsd:sequence>
+			<xsd:element name="FaultCode" type="xsd:int"/>
+			<xsd:element name="FaultMessage" type="xsd:string"/>
+			<xsd:element name="FaultDetailInfo" type="xsd:anyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

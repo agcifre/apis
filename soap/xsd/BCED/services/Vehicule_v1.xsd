@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
+<xs:schema xmlns:priv="http://bced.wallonie.be/common/privacylog/v5" xmlns:id="http://bced.wallonie.be/common/identification/v2" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:pla="http://bced.wallonie.be/data/entity/vehicle/plateNumber/v1" xmlns:veb="http://bced.wallonie.be/data/business/vehicle/vehicle/v1" xmlns:num="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:tps="http://bced.wallonie.be/common/thirdPartySubEntity/v1" xmlns:tns="http://bced.wallonie.be/services/vehicle/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:titb="http://bced.wallonie.be/data/business/vehicle/titular/v1" targetNamespace="http://bced.wallonie.be/services/vehicle/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://bced.wallonie.be/data/business/vehicle/vehicle/v1" schemaLocation="../data/business/vehicle/vehicle_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v2" schemaLocation="../data/common/identification_v2.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v5" schemaLocation="../data/common/privacy_v5.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/thirdPartySubEntity/v1" schemaLocation="../data/common/thirdPartySubEntity_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/vehicle/plateNumber/v1" schemaLocation="../data/entity/vehicle/plateNumber_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/business/vehicle/titular/v1" schemaLocation="../data/business/vehicle/titular_v1.xsd"/>
+	<xs:element name="getVehicleByPlate" type="tns:getVehicleByPlateType"/>
+	<xs:element name="getVehicleByPlateResponse" type="tns:getVehicleResponseType"/>
+	<xs:element name="getVehicleByVIN" type="tns:getVehicleByVINType"/>
+	<xs:element name="getVehicleByVINResponse" type="tns:getVehicleResponseType"/>
+	<xs:element name="searchVehicleBySSIN" type="tns:searchVehicleBySSINType"/>
+	<xs:element name="searchVehicleBySSINResponse" type="tns:searchVehicleResponseType"/>
+	<xs:element name="searchVehicleByCBEN" type="tns:searchVehicleByCBENType"/>
+	<xs:element name="searchVehicleByCBENResponse" type="tns:searchVehicleResponseType"/>
+	<xs:complexType name="getVehicleByPlateType">
+		<xs:sequence>
+			<xs:element ref="tps:thirdPartySubEntity" minOccurs="0"/>
+			<xs:element name="requestIdentification" type="id:RequestIdentificationType"/>
+			<xs:element name="privacyLog" type="priv:PrivacyLogType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="pla:plateNumber">
+							<xs:annotation>
+								<xs:documentation>License plate number</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="consolidedTitularData" type="xs:boolean" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getVehicleByVINType">
+		<xs:sequence>
+			<xs:element ref="tps:thirdPartySubEntity" minOccurs="0"/>
+			<xs:element name="requestIdentification" type="id:RequestIdentificationType"/>
+			<xs:element name="privacyLog" type="priv:PrivacyLogType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="vin">
+							<xs:annotation>
+								<xs:documentation>Vehicle Identification Number or Chassisnumber
+								</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="17"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="consolidedTitularData" type="xs:boolean" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="searchVehicleBySSINType">
+		<xs:sequence>
+			<xs:element ref="tps:thirdPartySubEntity" minOccurs="0"/>
+			<xs:element name="requestIdentification" type="id:RequestIdentificationType"/>
+			<xs:element name="privacyLog" type="priv:PrivacyLogType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="personNumber" type="num:PersonNumberType">
+							<xs:annotation>
+								<xs:documentation>A person his/her national ID (SSIN = Social
+									Security Id Number)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="getFullData" type="xs:boolean" default="true" minOccurs="0"/>
+						<xs:element name="consolidedTitularData" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="paging" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Last Plate Number received.
+									Empty for the
+									first
+									50
+									elements.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="searchVehicleByCBENType">
+		<xs:sequence>
+			<xs:element ref="tps:thirdPartySubEntity" minOccurs="0"/>
+			<xs:element name="requestIdentification" type="id:RequestIdentificationType"/>
+			<xs:element name="privacyLog" type="priv:PrivacyLogType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="getFullData" type="xs:boolean" default="true" minOccurs="0"/>
+						<xs:element name="cbeNumber">
+							<xs:annotation>
+								<xs:documentation>The unique CBE enterprise number of the
+									company
+									for which this request is done.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="consolidedTitularData" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="paging" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Last Plate Number received.
+									Empty for the
+									first
+									50
+									elements.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getVehicleResponseType">
+		<xs:sequence>
+			<xs:element ref="titb:titular" minOccurs="0"/>
+			<xs:element ref="veb:vehicle" minOccurs="0"/>
+			<xs:element ref="err:warning" minOccurs="0"/>
+			<xs:element ref="err:error" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="searchVehicleResponseType">
+		<xs:sequence>
+			<!--xs:element name="vehicles" minOccurs="1" maxOccurs="50" type="veb:VehicleRegistrationType"/ -->
+			<xs:element name="hasNextPage" type="xs:boolean"/>
+			<xs:element ref="titb:titular" minOccurs="0"/>
+			<xs:element ref="veb:vehicle" minOccurs="0" maxOccurs="50"/>
+			<xs:element ref="err:warning" minOccurs="0"/>
+			<xs:element ref="err:error" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

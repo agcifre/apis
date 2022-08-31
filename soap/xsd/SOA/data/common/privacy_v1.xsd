@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:priv="http://soa.spw.wallonie.be/common/privacylog/v1" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" targetNamespace="http://soa.spw.wallonie.be/common/privacylog/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<!--PrivacyLog is used to achieve CPVP requirements.
+Inscription and tracing is covered by that Types.
+A final usage is authorization at the context level.-->
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/ticket/v1" schemaLocation="ticket_v1.xsd"/>
+	<xs:complexType name="PrivacyLogType">
+		<xs:sequence>
+			<xs:element name="context">
+				<xs:annotation>
+					<xs:documentation>Context linked to the request :
+In which case the civil servant send the request</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="64"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="treatmentManagerIdentifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier of the treatment responsible civil servant.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="identityManager" use="required">
+								<xs:annotation>
+									<xs:documentation>Ex : RN,ULIS</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="64"/>
+										<xs:enumeration value="RN/RBis"/>
+										<xs:enumeration value="ULIS"/>
+										<xs:enumeration value="CERBERE"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="civilServantIdentifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier of the agent who is executing the request</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="identityManager" use="required">
+								<xs:annotation>
+									<xs:documentation>Ex : RN,ULIS</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="64"/>
+										<xs:enumeration value="RN/RBis"/>
+										<xs:enumeration value="ULIS"/>
+										<xs:enumeration value="CERBERE"/>
+										<xs:enumeration value="OTHER"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="dossier" type="priv:DossierType">
+					<xs:annotation>
+						<xs:documentation>The dossier linked to the request :
+For which administrative folder the request is done.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="inscriptionReference" type="tic:UUIDType">
+					<xs:annotation>
+						<xs:documentation>The inscription reference linked to the request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="privacyLog" type="priv:PrivacyLogType">
+		<xs:annotation>
+			<xs:documentation>PrivacyLog is used to achieve CPVP requirements.
+Inscription and tracing is covered by that Types.
+A final usage is authorization at the context level.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DossierType">
+		<xs:annotation>
+			<xs:documentation>A dossier is a collection of documents about a particular person, event, or subject. This type identify the dossier that would be treated.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dossierId">
+				<xs:annotation>
+					<xs:documentation>The folder identifier</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="source" type="xs:string" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dossierType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of the folder.
+Could be, for example : inspection, bonus request, ...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="inscriptionDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The inscription date is the date of the event that trigger the folder creation. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

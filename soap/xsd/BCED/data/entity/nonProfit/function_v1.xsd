@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fun="http://bced.wallonie.be/data/entity/nonprofit/function/v1" xmlns:prosrv="http://bced.wallonie.be/data/entity/nonprofit/providedservice/v1" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" targetNamespace="http://bced.wallonie.be/data/entity/nonprofit/function/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>Definitions of CENM functions types.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/providedservice/v1" schemaLocation="providedservice_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:complexType name="BasicFunctionType">
+		<xs:sequence>
+			<xs:element name="functionCode" type="cod:CodeType">
+				<xs:annotation>
+					<xs:documentation>Code de la fonction</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointIndustrialComitee" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Commission Paritaire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="salaryScaleNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro de l’échelle barémique utilisée par l’entreprise dans le cadre de cet agrément et de cette fonction</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationalLevel" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Le niveau d'étude (humanité inférieure, supérieure, graduat, master, universitaire)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="diplomas" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="avrgWeeklyHours" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Nombre d’heures moyen de travail par semaine, ce nombre est utilisé pour les calculs effectués par les organismes publics</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ouvrier, employé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="seniorityInFunction" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nombre d’années d’ancienneté reconnue par les sources authentiques dans cette fonction</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="seniorityType" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Base de calcul pour établir l’ancienneté (par exemple : ancienneté sur base de la fonction dans le secteur, ancienneté barémique, …)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="compensatoryHiring" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indique si ce travailleur a été engagé dans le cadre de l'embauche compensatoire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:complexType name="FunctionProvidedSrvUncomfortablehoursType">
+		<xs:complexContent>
+			<xs:extension base="fun:BasicFunctionType">
+				<xs:sequence>
+					<xs:element name="providedServices" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>liste des prestations effectuées dans le cadre de cette fonction</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="providedService" type="prosrv:ProvidedServiceType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

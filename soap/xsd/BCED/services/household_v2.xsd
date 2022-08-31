@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/services/household/messages/v2" xmlns:num="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:id="http://bced.wallonie.be/common/identification/v3" xmlns:priv="http://bced.wallonie.be/common/privacylog/v5" xmlns:bhh="http://bced.wallonie.be/data/business/household/v1" targetNamespace="http://bced.wallonie.be/services/household/messages/v2" elementFormDefault="qualified" version="2.00">
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v3" schemaLocation="../data/common/identification_v3.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v5" schemaLocation="../data/common/privacy_v5.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/business/household/v1" schemaLocation="../data/business/person/household_v1.xsd"/>
+	<xs:element name="getHeadOfHousehold" type="tns:GetHeadOfHouseholdType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getHeadOfHouseholdResponse" type="tns:GetHeadOfHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the getHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="isHeadOfHousehold" type="tns:IsHeadOfHouseholdRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the isHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="isHeadOfHouseholdResponse" type="tns:IsHeadOfHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the isHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getNumberOfHouseholdMembers" type="tns:GetNumberOfHouseholdMembersRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getNumberOfHouseholdMembers operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getNumberOfHouseholdMembersResponse" type="tns:GetNumberOfHouseholdMembersResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the getNumberOfHouseholdMembers operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getHousehold" type="tns:GetHouseholdRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the getHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="householdEvents" type="bhh:HouseholdEventsType">
+		<xs:annotation>
+			<xs:documentation>The household history</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="household" type="bhh:HouseholdType">
+		<xs:annotation>
+			<xs:documentation>The household</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getHouseholdResponse" type="tns:GetHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the getHousehold operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getHouseholdEvents" type="tns:GetHouseholdEventsRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getHouseholdEvents operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getHouseholdEventsResponse" type="tns:GetHouseholdEventsResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the response message for the getHouseholdEvents operation</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetHeadOfHouseholdType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:GeneralRequestRefDateType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IsHeadOfHouseholdRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the isHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:GeneralRequestRefDateType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetNumberOfHouseholdMembersRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getNumberOfHouseholdMembers operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:GeneralRequestRefDateType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetHouseholdRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:GeneralRequestRefDateType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetHouseholdEventsRequestType">
+		<xs:annotation>
+			<xs:documentation>Definition of the request message for the getHouseholdEvents operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:GeneralRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GeneralRequestType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the general request message for household operations</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="id:requestIdentification"/>
+			<xs:element ref="priv:privacyLog"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<!-- xs:element ref="ctx:userContext" /-->
+						<xs:element name="personNumber" type="num:PersonNumberType">
+							<xs:annotation>
+								<xs:documentation>The person's national or social security number. This must be exactly 11 digits long.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeneralRequestRefDateType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the general request message for household operations</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="id:requestIdentification"/>
+			<xs:element ref="priv:privacyLog"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<!-- xs:element ref="ctx:userContext" /-->
+						<xs:element name="personNumber" type="num:PersonNumberType">
+							<xs:annotation>
+								<xs:documentation>The person's national or social security number. This must be exactly 11 digits long.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="referenceDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>
+								A reference date may be given to which date the request refers to. This date can only be in the past. If omitted, today's date is
+								implied, and the actual, current situation is returned. If a future date is given, an error will occur.
+							</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetHeadOfHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the getHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="headOfHousehold" type="bhh:HouseholdMemberType"/>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="IsHeadOfHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the isHeadOfHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="isHeadOfHousehold" type="xs:boolean"/>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetNumberOfHouseholdMembersResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the getNumberOfHouseholdMembers operation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="numberOfHouseholdMembers" type="xs:int"/>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetHouseholdResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the getHousehold operation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element ref="tns:household"/>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:warning"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetHouseholdEventsResponseType">
+		<xs:annotation>
+			<xs:documentation>Definition of the type of the getHouseholdEvents operation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element ref="tns:householdEvents"/>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

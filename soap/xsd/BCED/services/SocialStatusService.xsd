@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:id="http://bced.wallonie.be/common/identification/v2" xmlns:num="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:priv="http://bced.wallonie.be/common/privacylog/v4" xmlns:tns="http://bced.wallonie.be/services/SocialStatus/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://bced.wallonie.be/services/SocialStatus/messages/v1" elementFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v2" schemaLocation="../data/common/identification_v2.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v4" schemaLocation="../data/common/privacy_v4.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:element name="isBIM" type="tns:IsBIMRequestType"/>
+	<xs:element name="isBIMResponse" type="tns:IsBIMResponseType"/>
+	<xs:complexType name="IsBIMResponseType">
+		<xs:annotation>
+			<xs:documentation>The response is a boolean value about BIM status.
+The status entry date is also provided.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="isBIM" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="bimStartDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="bimEndDate" type="xs:date" minOccurs="0"/>
+			<xs:element ref="err:warning" minOccurs="0"/>
+			<xs:element ref="err:error" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IsBIMRequestType">
+		<xs:annotation>
+			<xs:documentation>The request requires a NISS and a date for the BIM status.
+Optionally BIM&apos;s end date could be requested.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestIdentification" type="id:RequestIdentificationType"/>
+			<xs:element name="privacyLog" type="priv:PrivacyLogType"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="personNumber" type="num:PersonNumberType" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="temporalCriteria" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>date du statut BIM</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="endDateOption" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>disposer de la date de fin</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

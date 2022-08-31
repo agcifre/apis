@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://bced.wallonie.be/services/PersonMutationService/messages/v1" xmlns:ns2="http://bced.wallonie.be/data/entity/mutation/mutationEvent/v1" xmlns:priv="http://bced.wallonie.be/common/privacylog/v4" xmlns:id="http://bced.wallonie.be/common/identification/v2" xmlns:ns3="http://bced.wallonie.be/data/business/mutation/mutationEvent/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" targetNamespace="http://bced.wallonie.be/services/PersonMutationService/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://bced.wallonie.be/data/business/mutation/mutationEvent/v1" schemaLocation="../data/business/mutation/mutationEvent_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v4" schemaLocation="../data/common/privacy_v4.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v2" schemaLocation="../data/common/identification_v2.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../data/common/error_v1.xsd"/>
+	<xs:element name="getMutationsListResponse">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="numberOfMutationEvents" type="xs:int"/>
+						<xs:element name="hasNextPage" type="xs:boolean"/>
+						<xs:element ref="ns3:mutation" maxOccurs="50"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="err:warning" minOccurs="0"/>
+						<xs:element ref="err:error" minOccurs="0"/>
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getMutationsList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id:requestIdentification"/>
+				<xs:element ref="priv:privacyLog"/>
+				<xs:element name="request">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="period" type="ns1:mutationPeriod"/>
+							<xs:element name="paging" type="xs:integer" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getMutationsByNISS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id:requestIdentification"/>
+				<xs:element ref="priv:privacyLog"/>
+				<xs:element name="request">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="personNumber"/>
+							<xs:element name="period" type="ns1:mutationPeriod"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getMutationsByNISSResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ns3:mutation" minOccurs="0" maxOccurs="10"/>
+				<xs:element ref="err:warning" minOccurs="0"/>
+				<xs:element ref="err:error" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="observeMutations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id:requestIdentification"/>
+				<xs:element ref="priv:privacyLog"/>
+				<xs:element name="request">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Period" type="ns1:mutationPeriod"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="observeMutationsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="numberOfMutationEvents" type="xs:int"/>
+						<xs:element ref="ns3:observedMutation" maxOccurs="unbounded"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="err:warning" minOccurs="0"/>
+						<xs:element ref="err:error" minOccurs="0"/>
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="mutationPeriod">
+		<xs:sequence>
+			<xs:element name="startDate" type="xs:date"/>
+			<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

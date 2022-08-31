@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:isoLang="http://soa.spw.wallonie.be/data/iso/language/v1" targetNamespace="http://soa.spw.wallonie.be/data/iso/language/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:simpleType name="LanguageType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Language codes follow the ISO-639-1 two-letter code standards.
+For details, see http://www.loc.gov/standards/iso639-2/iso639jac.html
+
+Validation rules:
+  - two lower case letters
+
+Regular expression: [a-z]{2}
+
+Examples: nl, fr, de, en, es, ...
+
+Notes.
+1. The xs:language type has a facet ([a-zA-Z]{1,8})(-[a-zA-Z0-9]{1,8})*  which allows more than two characters. For example to denote regional languages.
+2. For undetermined languages, ISO reserves the three-letter code "und". For this reason, the two-letter restriction is not enforced in the schema. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:language"/>
+	</xs:simpleType>
+</xs:schema>

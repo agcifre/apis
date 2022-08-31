@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:bank="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:complexType name="BankAccount">
+		<xs:sequence>
+			<xs:element name="bankAccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="instrumentalAdministration" type="xs:string" minOccurs="0"/>
+			<xs:element name="usagePurposeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="IBAN" type="bank:Varchar16" minOccurs="0"/>
+			<xs:element name="BIC" type="bank:BICCodeType" minOccurs="0"/>
+			<xs:element name="nonSepaBankAccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="validityPeriod" type="dat:PeriodType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Varchar16">
+		<xs:restriction base="xs:string">
+			<xs:length value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BICCodeType">
+		<xs:annotation>
+			<xs:documentation>
+ISO 9362 - SWIFT/Bank Identifier Code (BIC) - Format: 11(x)(A-Z|0-9)
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}" id="upperCaseLetters11"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

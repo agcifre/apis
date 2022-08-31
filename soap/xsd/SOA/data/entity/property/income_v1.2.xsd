@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 (http://www.altova.com) by Hugues Roland (Service Public de Wallonie) -->
+<xs:schema xmlns:income="http://soa.spw.wallonie.be/data/entity/cadaster/income/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/cadaster/income/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:complexType name="CadastralIncomeType">
+		<xs:sequence>
+			<xs:element name="cadastralIncomeValue">
+				<xs:annotation>
+					<xs:documentation>Revenu cadastral</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="cadastralIncomeReason" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Explication montant revenu cadastral</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fiscalStatus" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code et description statut fiscal du revenu cadastral
+(code lettre)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="propertyType" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code et description genre de bien pour le revenu cadastral
+(ordinaire, industriel, ...) (code chiffre)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="surfaceVerification" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code et description vérification contenance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="notAppl" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Quotité parties communes non définie</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="number" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Numérateur quotité parties communes</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="order" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ordre des composantes de la parcelle</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="cadastralIncomePerSurface" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Revenu cadastral par hectare</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="surfaceTaxable" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Surface taxable</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="surfaceNotTaxable" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Surface not taxable</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="exoneration" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="decretes" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Code et description décret (exonération du revenu cadastral)</xs:documentation>
+									</xs:annotation>
+									<xs:element name="decrete" type="cod:CodeType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exonerationEndDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Date de fin d'exoneration</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="administrativeMunicipality" type="cod:CodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

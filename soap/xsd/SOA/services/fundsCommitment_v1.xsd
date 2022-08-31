@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2021 rel. 3 (x64) (http://www.altova.com) by Marc De Graef (Proxcellence) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/fundsCommitment/messages/v1" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v4" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:pag="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" targetNamespace="http://soa.spw.wallonie.be/services/fundsCommitment/messages/v1" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/response/v1" schemaLocation="../data/common/response_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v4" schemaLocation="../data/common/error_v4.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" schemaLocation="../data/entity/specific/wbFin/paging_v1.xsd"/>
+	<xs:element name="fault" type="err:ErrorOrWarningType"/>
+	<xs:element name="publishFundsCommitment" type="msg:PublishfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="publishFundsCommitmentResponse" type="msg:PublishfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="updateFundsCommitment" type="msg:UpdatefundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Opération de modification  </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="updateFundsCommitmentResponse" type="msg:UpdatefundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de modification  </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getFundsCommitment" type="msg:GetfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getFundsCommitmentResponse" type="msg:GetfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchFundsCommitment" type="msg:SearchfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchFundsCommitmentResponse" type="msg:SearchfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SearchfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:SearchFundsCommitmentResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchFundsCommitmentResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="searchfundsCommitment">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="fundsCommitments" type="msg:FundsCommitmentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="pagingResult" type="pag:PagingResultType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:SearchfundsCommitmentDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchfundsCommitmentDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fundsCommitment">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="idFrom" type="xs:string" minOccurs="0"/>
+						<xs:element name="idTo" type="xs:string" minOccurs="0"/>
+						<xs:element name="typeFrom" type="xs:string" minOccurs="0"/>
+						<xs:element name="typeTo" type="xs:string" minOccurs="0"/>
+						<xs:element name="submissionDateFrom" type="xs:date" minOccurs="0"/>
+						<xs:element name="submissionDateTo" type="xs:date" minOccurs="0"/>
+						<xs:element name="accountingDateFrom" type="xs:date" minOccurs="0"/>
+						<xs:element name="accountingDateTo" type="xs:date" minOccurs="0"/>
+						<xs:element name="entityCode" type="xs:string" minOccurs="0"/>
+						<xs:element name="financialScope" type="xs:string" minOccurs="0"/>
+						<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+						<xs:element name="referenceID" type="xs:string" minOccurs="0"/>
+						<xs:element name="reference2" type="xs:string" minOccurs="0"/>
+						<xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+						<xs:element name="creationDateFrom" type="xs:date" minOccurs="0"/>
+						<xs:element name="creationDateTo" type="xs:date" minOccurs="0"/>
+						<xs:element name="modifiedBy" type="xs:string" minOccurs="0"/>
+						<xs:element name="modificationDateFrom" type="xs:date" minOccurs="0"/>
+						<xs:element name="modificationDateTo" type="xs:date" minOccurs="0"/>
+						<xs:element name="status" type="xs:string" minOccurs="0"/>
+						<xs:element name="finalCompletion" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="documentApproved" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="approvedOnce" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="blockingIndicator" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="reason" type="xs:string" minOccurs="0"/>
+						<xs:element name="fundsCommitmentLineItems" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="totalAmountMin" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="totalAmountMax" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="modifiedAmountMin" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="modifiedAmountMax" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="remainingAmountMin" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="remainingAmountMax" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="functionalDomain" type="xs:string" minOccurs="0"/>
+									<xs:element name="generalAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="fund" type="xs:string" minOccurs="0"/>
+									<xs:element name="costCenter" type="xs:string" minOccurs="0"/>
+									<xs:element name="partnerID" type="xs:string" minOccurs="0"/>
+									<xs:element name="budgetPeriod" type="xs:string" minOccurs="0"/>
+									<xs:element name="ItemText" type="xs:string" minOccurs="0"/>
+									<xs:element name="visa" type="xs:string" minOccurs="0"/>
+									<xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+									<xs:element name="creationDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="modifiedBy" type="xs:string" minOccurs="0"/>
+									<xs:element name="modificationDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="itemApproved" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="completionIndicator" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="blockingIndicator" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="carryOver" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="exceedReserved" type="xs:boolean" minOccurs="0"/>
+									<xs:element name="financialCenter" type="xs:string" minOccurs="0"/>
+									<xs:element name="budgetAccount" type="xs:string" minOccurs="0"/>
+									<xs:element name="preCommitmentReference" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="posId" type="xs:string" minOccurs="0"/>
+												<xs:element name="lineItemId" type="xs:string" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération GetfundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetfundsCommitmentDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetfundsCommitment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetfundsCommitmentDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetfundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="lineItemId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdatefundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération UpdatefundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:UpdatefundsCommitmentDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération UpdatefundsCommitment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="UpdatefundsCommitmentDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération UpdatefundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="updateFundsCommitment">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="fundsCommitment" type="msg:FundsCommitmentUpdateType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishfundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération PublishfundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:PublishfundsCommitmentDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishfundsCommitment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishfundsCommitmentDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishfundsCommitment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fundsCommitment" type="msg:FundsCommitmentCreationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:PublishfundsCommitmentResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishfundsCommitmentResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="Id" type="xs:string"/>
+			<xs:element name="workspaceUrl" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdatefundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:UpdatefundsCommitmentResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="UpdatefundsCommitmentResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="workspaceUrl" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetfundsCommitmentResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetfundsCommitmentResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetfundsCommitmentResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="fundsCommitment" type="msg:FundsCommitmentType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PrecommitmentReferenceType">
+		<xs:annotation>
+			<xs:documentation>Ces données .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="lineItemId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundsCommitmentLineItemType">
+		<xs:annotation>
+			<xs:documentation>Ces données .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="actionCode" type="xs:string"/>
+			<xs:element name="totalAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="modifiedAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="newAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="remainingAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="precommitmentReference" type="msg:PrecommitmentReferenceType" minOccurs="0"/>
+			<xs:element name="functionalDomain" type="xs:string" minOccurs="0"/>
+			<xs:element name="generalAccount" type="xs:string" minOccurs="0"/>
+			<xs:element name="fund" type="xs:string" minOccurs="0"/>
+			<xs:element name="costCenter" type="xs:string" minOccurs="0"/>
+			<xs:element name="partnerID" type="xs:string" minOccurs="0"/>
+			<xs:element name="budgetPeriod" type="xs:string" minOccurs="0"/>
+			<xs:element name="itemText" type="xs:string" minOccurs="0"/>
+			<xs:element name="visa" type="xs:string" minOccurs="0"/>
+			<xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="modifiedBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="modificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="itemApproved" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="completionIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="blockingIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="carryOver" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="exceedReserved" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="fundComplete" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="count" type="xs:integer" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundsCommitmentCreationType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="referenceID" type="xs:string" minOccurs="0"/>
+			<xs:element name="reference2" type="xs:string" minOccurs="0"/>
+			<xs:element name="entityCode" type="xs:string"/>
+			<xs:element name="submissionDate" type="xs:date"/>
+			<xs:element name="accountingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="currency" type="iso:CurrencyType" minOccurs="0"/>
+			<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+			<xs:element name="fundsCommitmentLineItem" type="msg:FundsCommitmentLineItemType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundsCommitmentUpdateType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="referenceID" type="xs:string" minOccurs="0"/>
+			<xs:element name="reference2" type="xs:string" minOccurs="0"/>
+			<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+			<xs:element name="fundsCommitmentLineItem" type="msg:FundsCommitmentLineItemType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundsCommitmentType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="referenceID" type="xs:string" minOccurs="0"/>
+			<xs:element name="reference2" type="xs:string" minOccurs="0"/>
+			<xs:element name="entityCode" type="xs:string"/>
+			<xs:element name="submissionDate" type="xs:date"/>
+			<xs:element name="accountingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="currency" type="iso:CurrencyType" minOccurs="0"/>
+			<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+			<xs:element name="analyticalScope" type="xs:string" minOccurs="0"/>
+			<xs:element name="financialScope" type="xs:string" minOccurs="0"/>
+			<xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="modifiedBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="modificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="status" type="xs:string" minOccurs="0"/>
+			<xs:element name="reason" type="xs:string" minOccurs="0"/>
+			<xs:element name="finalCompletion" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="documentApproved" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="approvedOnce" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="blockingIndicator" type="xs:string" minOccurs="0"/>
+			<xs:element name="fundsCommitmentLineItem" type="msg:FundsCommitmentLineItemType" maxOccurs="unbounded"/>
+			<xs:element name="fundsConsumption" type="msg:FundsConsumptionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FundsConsumptionType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="lineitem" type="xs:string"/>
+			<xs:element name="itemProcessing" type="xs:string" minOccurs="0"/>
+			<xs:element name="documentNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="lineitemAccounting" type="xs:string" minOccurs="0"/>
+			<xs:element name="fiscalYear" type="xs:string" minOccurs="0"/>
+			<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+			<xs:element name="amount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="usageAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="submissionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="accountingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="modifiedBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="modificationDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

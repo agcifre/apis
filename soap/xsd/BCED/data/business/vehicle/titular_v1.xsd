@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by MESMERiZE (MiZE) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:titb="http://bced.wallonie.be/data/business/vehicle/titular/v1" xmlns:per="http://bced.wallonie.be/data/entity/person/v1" xmlns:add="http://bced.wallonie.be/data/entity/address/v1" xmlns:tns="http://bced.wallonie.be/data/entity/enterprise/enterprise/v2" targetNamespace="http://bced.wallonie.be/data/business/vehicle/titular/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/v1" schemaLocation="../../entity/person/person_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/address/v1" schemaLocation="../../entity/address/address_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/enterprise/enterprise/v2" schemaLocation="../../entity/enterprise/enterprise_v2.xsd"/>
+	<xs:element name="titular">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="person">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="per:basicPerson"/>
+								<xs:element ref="add:address"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="enterprise" type="tns:EnterpriseType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

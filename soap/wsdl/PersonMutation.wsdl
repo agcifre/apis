@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mut2="http://soa.spw.wallonie.be/services/mutation/person/messages/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/services/personMutation/v1" xmlns:mut="http://bced.wallonie.be/services/PersonMutationService/messages/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" targetNamespace="http://bced.wallonie.be/services/personMutation/v1">
+	<wsdl:types>
+		<xs:schema>
+			<xs:import namespace="http://bced.wallonie.be/services/PersonMutationService/messages/v1" schemaLocation="../xsd/BCED/services/PersonMutationService_v1.xsd"/>
+			<xs:import namespace="http://soa.spw.wallonie.be/services/mutation/person/messages/v2" schemaLocation="../xsd/SOA/services/personMutations_v2.xsd"/>
+			<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../xsd/BCED/data/common/error_v1.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getMutationsList">
+		<wsdl:part name="request" element="mut:getMutationsList"/>
+	</wsdl:message>
+	<wsdl:message name="getMutationsListResponse">
+		<wsdl:part name="response" element="mut:getMutationsListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getMutationsByNISS">
+		<wsdl:part name="request" element="mut:getMutationsByNISS"/>
+	</wsdl:message>
+	<wsdl:message name="getPersonMutationResponse">
+		<wsdl:part name="response" element="mut:getMutationsByNISSResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getPersonMutationFault">
+		<wsdl:part name="fault" element="err:error"/>
+	</wsdl:message>
+	<wsdl:message name="searchPersonMutationEventFault">
+		<wsdl:part name="fault" element="err:error"/>
+	</wsdl:message>
+	<wsdl:message name="observeMutations">
+		<wsdl:part name="request" element="mut:observeMutations"/>
+	</wsdl:message>
+	<wsdl:message name="observeMutationsResponse">
+		<wsdl:part name="response" element="mut:observeMutationsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="observeMutationsFault">
+		<wsdl:part name="fault" element="err:error"/>
+	</wsdl:message>
+	<wsdl:message name="searchPersonMutationsRequest">
+		<wsdl:part name="request" element="mut2:searchPersonMutations"/>
+	</wsdl:message>
+	<wsdl:message name="searchPersonMutationsResponse">
+		<wsdl:part name="response" element="mut2:searchPersonMutationsResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="PersonMutationPortType">
+		<wsdl:operation name="getMutationsList">
+			<wsdl:input message="tns:getMutationsList"/>
+			<wsdl:output message="tns:getMutationsListResponse"/>
+			<wsdl:fault name="FaultName" message="tns:searchPersonMutationEventFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="getMutationsByNISS">
+			<wsdl:input message="tns:getMutationsByNISS"/>
+			<wsdl:output message="tns:getPersonMutationResponse"/>
+			<wsdl:fault name="FaultName" message="tns:getPersonMutationFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="observeMutations">
+			<wsdl:input message="tns:observeMutations"/>
+			<wsdl:output message="tns:observeMutationsResponse"/>
+			<wsdl:fault name="FaultName" message="tns:observeMutationsFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="searchPersonMutations">
+			<wsdl:input message="tns:searchPersonMutationsRequest"/>
+			<wsdl:output message="tns:searchPersonMutationsResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PersonMutationSOAP" type="tns:PersonMutationPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getMutationsList">
+			<soap:operation soapAction="http://bced.wallonie.be/services/personMutation/getMutationsList"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName"/>
+		</wsdl:operation>
+		<wsdl:operation name="getMutationsByNISS">
+			<soap:operation soapAction="http://bced.wallonie.be/services/personMutation/getMutationsByNISS"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName"/>
+		</wsdl:operation>
+		<wsdl:operation name="observeMutations">
+			<soap:operation soapAction="http://bced.wallonie.be/services/personMutation/observeMutations"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName"/>
+		</wsdl:operation>
+		<wsdl:operation name="searchPersonMutations">
+			<soap:operation soapAction="http://soa.spw.wallonie.be/services/mutation/person/searchPersonMutations"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PersonMutation">
+		<wsdl:port name="PersonMutationPort" binding="tns:PersonMutationSOAP">
+			<soap:address location="http://0.0.0.0:8792/personMutationsV1"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

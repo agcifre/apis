@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		xmlns:mes="http://fsb.belgium.be/getPersonService/messages/v2_00" 
+		xmlns:num="http://fsb.belgium.be/data/entity/person/number/v1_00" 
+		xmlns:ctx="http://fsb.belgium.be/data/business/context/v1_00"
+		xmlns:bus="http://fsb.belgium.be/data/business/person/v1_00"
+		xmlns:err="http://fsb.belgium.be/data/common/error/v1_00"
+		targetNamespace="http://fsb.belgium.be/getPersonService/messages/v2_00" 
+		elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+
+	<xs:annotation>
+		<xs:documentation>Definition of the request and response messages used by the wsPerson get service. </xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://fsb.belgium.be/data/entity/person/number/v1_00" schemaLocation="../data/entity/person/number/v1_00/personNumber.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/business/person/v1_00" schemaLocation="../data/business/person/v1_00/naturalPerson.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/business/context/v1_00" schemaLocation="../data/business/context/v1_00/context.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/common/error/v1_00" schemaLocation="../data/common/error/v1_00/error.xsd"/>
+
+	<xs:element name="getPersonRequest" type="mes:GetPersonRequestType"/>
+	<xs:element name="getPersonResponse" type="mes:GetPersonResponseType"/>
+
+	<xs:complexType name="GetPersonRequestType">
+		<xs:annotation>
+			<xs:documentation>The request requires a single person number, which can be either a national number or a social security number.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="ctx:userContext"/>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GetPersonResponseType">
+		<xs:annotation>
+			<xs:documentation>The response is a single person with basic information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element ref="bus:basicNaturalPerson"/>
+				<xs:element name="referenceNumber" type="num:PersonNumberType"/>
+			</xs:choice>
+			<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="err:error" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

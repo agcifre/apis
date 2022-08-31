@@ -1,0 +1,150 @@
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:ns1="http://bced.wallonie.be/data/entity/person/v1" xmlns:ns2="http://bced.wallonie.be/data/common/code/v1" xmlns:tns="http://dgo3.spw.wallonie.be/services/FishingLicense/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns12="http://dgo3.spw.wallonie.be/data/fishingLicense/person/v1" xmlns:ns13="http://dgo3.spw.wallonie.be/data/fishingLicense/territory/v1" xmlns:ns14="http://dgo3.spw.wallonie.be/data/entity/fishingLicense/license/v1" xmlns:iso="http://bced.wallonie.be/data/common/isocodes/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:stat="http://bced.wallonie.be/common/status/v1" targetNamespace="http://dgo3.spw.wallonie.be/services/FishingLicense/messages/v1" elementFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://dgo3.spw.wallonie.be/data/fishingLicense/person/v1" schemaLocation="../data/entity/fishingLicence/person_v1.xsd"/>
+	<xs:import namespace="http://dgo3.spw.wallonie.be/data/entity/fishingLicense/license/v1" schemaLocation="../data/entity/fishingLicence/licence_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/isocodes/v1" schemaLocation="../../BCED/data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../../BCED/data/common/error_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/status/v1" schemaLocation="../../BCED/data/common/status_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../BCED/data/common/code_v1.xsd"/>
+	<xs:element name="getAuthenticLicense" type="tns:GetAuthenticLicenseType"/>
+	<xs:element name="getAuthenticLicenseResponse" type="tns:GetAuthenticLicenseResponseType"/>
+	<xs:element name="getLicenseStatusForUser" type="tns:GetLicenseStatusForUserType"/>
+	<xs:element name="getLicenseStatusForUserResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:GetLicenseStatusForUserResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getPerson" type="tns:GetPersonType"/>
+	<xs:element name="getPersonResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:GetPersonResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getTerritoryList" type="tns:GetTerritoryListType"/>
+	<xs:element name="getTerritoryListResponse" type="tns:GetTerritoryListResponseType"/>
+	<xs:element name="publishLicense" type="tns:PublishLicenseType"/>
+	<xs:element name="publishPermisResponse" type="tns:PublishLicenseResponseType"/>
+	<xs:element name="publishPerson" type="tns:PublishPersonType"/>
+	<xs:element name="publishPersonResponse" type="tns:PublishPersonResponseType"/>
+	<xs:element name="searchActiveLicenses" type="tns:SearchActiveLicensesType"/>
+	<xs:element name="searchActiveLicensesResponse" type="tns:SearchActiveLicensesResponseType"/>
+	<xs:complexType name="GetPersonType">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="birthdate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetPersonResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="fisher" type="ns12:personType"/>
+					<xs:element name="applicant" type="ns12:personType"/>
+				</xs:choice>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetTerritoryListType">
+		<xs:sequence>
+			<xs:element name="language" type="iso:LanguageType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetTerritoryListResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="territory" type="ns2:DescriptiveCodeType" maxOccurs="unbounded"/>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PublishLicenseType">
+		<xs:complexContent>
+			<xs:extension base="ns14:LicenseMetadataType">
+				<xs:sequence>
+					<xs:element name="orderNumber" type="xs:long" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishLicenseResponseType">
+		<xs:complexContent>
+			<xs:extension base="stat:StatusType">
+				<xs:sequence>
+					<xs:element name="licenseId" type="xs:decimal" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchActiveLicensesType">
+		<xs:sequence>
+			<xs:element name="year" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:totalDigits value="4"/>
+						<xs:minInclusive value="1950"/>
+						<xs:maxInclusive value="2100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="language" type="iso:LanguageType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchActiveLicensesResponseType">
+		<xs:sequence>
+			<xs:element name="license" type="ns14:LicenseDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishPersonType">
+		<xs:complexContent>
+			<xs:extension base="ns12:personType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishPersonResponseType">
+		<xs:complexContent>
+			<xs:extension base="stat:StatusType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetLicenseStatusForUserType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetLicenseStatusForUserResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="licenseStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="DELIVERED"/>
+							<xs:enumeration value="NOT_DELIVERED"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element ref="err:warning"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetAuthenticLicenseType">
+		<xs:sequence>
+			<xs:element name="licenseId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetAuthenticLicenseResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="license" type="ns14:AuthenticLicenseType"/>
+				<xs:element ref="err:warning" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

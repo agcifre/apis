@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wbpriv="http://soa.spw.wallonie.be/data/entity/specific/wbfin/wbfinprivacylog/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/specific/wbfin/wbfinprivacylog/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+	<xs:complexType name="WbfinPrivacyLogType">
+		<xs:sequence>
+			<xs:element name="context" type="wbpriv:ContextType">
+				<xs:annotation>
+					<xs:documentation>Context linked to the request : in which case the civil servant send the request</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="treatmentManagerIdentifier">
+				<xs:annotation>
+					<xs:documentation>The identifier of the treatment responsible civil servant.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="identityManager" use="required">
+								<xs:annotation>
+									<xs:documentation>Ex : RN,ULIS</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="64"/>
+										<xs:enumeration value="RN/RBis"/>
+										<xs:enumeration value="ULIS"/>
+										<xs:enumeration value="CERBERE"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="civilServantIdentifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier of the agent who is executing the request</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="identityManager" use="required">
+								<xs:annotation>
+									<xs:documentation>Ex : RN,ULIS</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="64"/>
+										<xs:enumeration value="RN/RBis"/>
+										<xs:enumeration value="ULIS"/>
+										<xs:enumeration value="CERBERE"/>
+										<xs:enumeration value="OTHER"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ContextType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

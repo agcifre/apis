@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" xmlns:tns="http://soa.spw.wallonie.be/services/userDossier/messages/v3" xmlns:ud="http://soa.spw.wallonie.be/data/business/userDossier/v3" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v1" targetNamespace="http://soa.spw.wallonie.be/services/userDossier/messages/v3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/userDossier/v3" schemaLocation="../data/business/userDossier/userDossierV3_data.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/ticket/v1" schemaLocation="../data/common/ticket_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:element name="publishEmptyUserDossier">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishEmptyUserDossierRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEmptyUserDossierResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="userDossierId" type="tic:UUIDType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="submitUserDossier">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:SubmitUserDossierRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="submitUserDossierResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishUserDossier">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishUserDossierRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishUserDossierResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchUserDossiers">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:SearchUserDossiersRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchUserDossiersResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="searchUserDossiersResult" type="ud:SearchUserDossiersResultType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getUserDossier">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:GetUserDossierRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getUserDossierResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="userDossier" type="ud:UserDossierType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishStatus">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishStatusRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishStatusResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishDossierItem">
+		<xs:annotation>
+			<xs:documentation>Add or update a dossier item (form/attachment/rfai/payment) into a UserDossier</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishDossierItemRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishDossierItemResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="dossierItemId" type="tic:UUIDType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteDossierItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:DeleteDossierItemRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteDossierItemResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDossierItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:GetDossierItemRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDossierItemResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="getDossierItemResult" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice minOccurs="0">
+										<xs:element name="form" type="ud:UserDossierFormType"/>
+										<xs:element name="attachment" type="ud:UserDossierAttachmentType"/>
+										<xs:element name="rfai" type="ud:UserDossierRfaiType"/>
+										<xs:element name="payment" type="ud:UserDossierPaymentType"/>
+									</xs:choice>
+									<xs:element name="dossierItemContent" type="ud:ContentStreamType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fault" type="tns:faultType" nillable="true"/>
+	<xs:complexType name="faultType">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="code" type="xs:integer"/>
+			<xs:element name="message" type="xs:string"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserDossierRequestBaseType">
+		<xs:choice>
+			<xs:element name="profileId">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="applicationId">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="GetUserDossierRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="userDossierId" type="tic:UUIDType"/>
+						<xs:element name="userDossierNumber" type="xs:string"/>
+					</xs:choice>
+					<xs:element name="userDossierVersion" type="xs:integer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchUserDossiersRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:element name="criteria" type="ud:SearchUserDossiersCriteriaType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishDossierItemRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:element name="userDossierId" type="tic:UUIDType"/>
+					<xs:choice>
+						<xs:element name="attachment" type="ud:UserDossierAttachmentType"/>
+						<xs:element name="rfai" type="ud:UserDossierRfaiType"/>
+						<xs:element name="payment" type="ud:UserDossierPaymentType"/>
+					</xs:choice>
+					<xs:element name="stream" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishUserDossierRequestType">
+		<xs:sequence>
+			<xs:element name="userDossier" type="ud:UserDossierType" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeleteDossierItemRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:choice>
+					<xs:element name="formId" type="tic:UUIDType"/>
+					<xs:element name="attachment" type="tns:removeAttachmentType"/>
+					<xs:element name="paymentId" type="tic:UUIDType"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="removeAttachmentType">
+		<xs:sequence>
+			<xs:element name="attachmentId" type="tic:UUIDType"/>
+			<xs:element name="onlyFileContent" type="xs:boolean" default="false" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetDossierItemRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:element name="userDossierId" type="tic:UUIDType"/>
+					<xs:element name="onlyContent" type="xs:boolean" default="true" minOccurs="0"/>
+					<xs:choice>
+						<xs:element name="formId">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="tic:UUIDType">
+										<xs:attribute name="format" type="ud:FormFormatType"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="attachmentId" type="xs:string"/>
+						<xs:element name="rfaiId" type="xs:string"/>
+						<xs:element name="paymentId" type="xs:string"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishEmptyUserDossierRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:element name="identification" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="number" type="xs:string" minOccurs="0"/>
+								<xs:element name="citizenReference" type="xs:string" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="procedure">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="procedureRef" type="xs:string"/>
+								<xs:element name="procedureName" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="owner">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="eSpaceId" type="xs:string"/>
+								<xs:element name="ownerProfileId" type="xs:string"/>
+								<xs:element name="eSpaceType" type="ud:SpaceType"/>
+								<xs:element name="ownerName" type="xs:string" minOccurs="0"/>
+								<xs:element name="ownerLastName" type="xs:string" minOccurs="0"/>
+								<xs:element name="ownerFirstName" type="xs:string"/>
+								<xs:element name="ownerLanguage" type="iso:LanguageType"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="dossierStatus" type="ud:UserDossierStatusType" minOccurs="0"/>
+					<xs:element name="processingStatus" type="xs:string" minOccurs="0"/>
+					<xs:element name="submissionDateTime" type="xs:dateTime" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SubmitUserDossierRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:choice>
+					<xs:element name="userDossierId" type="tic:UUIDType"/>
+					<xs:element name="userDossierNumber" type="xs:string"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishStatusRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:sequence>
+					<xs:element name="userDossierId" type="tic:UUIDType"/>
+					<xs:element name="userDossierStatus" type="ud:UserDossierStatusType"/>
+					<xs:element name="processingStatus" type="xs:string" minOccurs="0"/>
+					<xs:element name="actor" type="ud:UserDossierActorType" minOccurs="0"/>
+					<xs:element name="isHidden" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="details" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="getSpaceId">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:getSpaceIdRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="getSpaceIdRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:UserDossierRequestBaseType">
+				<xs:choice>
+					<xs:element name="bceNumber" type="xs:long"/>
+					<xs:element name="personNumber" type="num:PersonNumberType"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="getSpaceIdResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="eSpaceId" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

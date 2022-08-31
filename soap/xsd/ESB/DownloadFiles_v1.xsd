@@ -1,0 +1,25 @@
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
+<xs:schema targetNamespace="http://bced.wallonie.be/tools/DownloadFiles/v1" xmlns:ns1="http://bced.wallonie.be/tools/DownloadFiles/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="downloadFiles" type="ns1:downloadFilesType"/>
+	<xs:complexType name="downloadFilesType">
+		<xs:sequence>
+			<xs:element name="lotFile" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="fileName" type="xs:string"/>
+						<xs:element name="integrityCheck" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="integrityMethod" type="xs:string"/>
+									<xs:element name="value" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="endPoint" type="xs:string" minOccurs="0"/>
+						<xs:element name="downloaded" type="xs:boolean" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2021 rel. 3 (x64) (http://www.altova.com) by Marc De Graef (Proxcellence) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/budget/messages/v1" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v1" xmlns:pag="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v4" xmlns:bgt="http://soa.spw.wallonie.be/data/entity/budget/address/v1" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" targetNamespace="http://soa.spw.wallonie.be/services/budget/messages/v1" version="1.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/response/v1" schemaLocation="../data/common/response_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" schemaLocation="../data/entity/specific/wbFin/paging_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/budget/address/v1" schemaLocation="../data/entity/budget/budgetAddress_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v4" schemaLocation="../data/common/error_v4.xsd"/>
+	<!-- Message de faute -->
+	<xs:element name="fault" type="err:ErrorOrWarningType"/>
+	<!-- Messages -->
+	<!-- getBudgetAccounts -->
+	<xs:element name="getBudgetAccounts" type="msg:GetBudgetAccountsType"/>
+	<xs:element name="getBudgetAccountsResponse" type="msg:GetBudgetAccountsResponseType"/>
+	<!-- getBudgetAccountFromGeneralAccount -->
+	<xs:element name="getBudgetAccountFromGeneralAccount" type="msg:GetBudgetAccountFromGeneralAccountType"/>
+	<xs:element name="getBudgetAccountFromGeneralAccountResponse" type="msg:GetBudgetAccountFromGeneralAccountResponseType"/>
+	<!-- getBudgetAddresses -->
+	<xs:element name="getBudgetAddresses" type="msg:GetBudgetAddressesType"/>
+	<xs:element name="getBudgetAddressesResponse" type="msg:GetBudgetAddressesResponseType"/>
+	<!-- getCostCenters -->
+	<xs:element name="getCostCenters" type="msg:GetCostCentersType"/>
+	<xs:element name="getCostCentersResponse" type="msg:GetCostCentersResponseType"/>
+	<!-- getCostCentersFromFinancialCenter -->
+	<xs:element name="getCostCentersFromFinancialCenter" type="msg:GetCostCentersFromFinancialCenterType"/>
+	<xs:element name="getCostCentersFromFinancialCenterResponse" type="msg:GetCostCentersFromFinancialCenterResponseType"/>
+	<!-- getFinancialCenters -->
+	<xs:element name="getFinancialCenters" type="msg:GetFinancialCentersType"/>
+	<xs:element name="getFinancialCentersResponse" type="msg:GetFinancialCentersResponseType"/>
+	<!-- getFinancialCenterFromCostCenter -->
+	<xs:element name="getFinancialCenterFromCostCenter" type="msg:GetFinancialCenterFromCostCenterType"/>
+	<xs:element name="getFinancialCenterFromCostCenterResponse" type="msg:GetFinancialCenterFromCostCenterResponseType"/>
+	<!-- getFunctionalDomains -->
+	<xs:element name="getFunctionalDomains" type="msg:GetFunctionalDomainsType"/>
+	<xs:element name="getFunctionalDomainsResponse" type="msg:GetFunctionalDomainsResponseType"/>
+	<!-- getFunds -->
+	<xs:element name="getFunds" type="msg:GetFundsType"/>
+	<xs:element name="getFundsResponse" type="msg:GetFundsResponseType"/>
+	<!-- getGeneralAccounts -->
+	<xs:element name="getGeneralAccounts" type="msg:GetGeneralAccountsType"/>
+	<xs:element name="getGeneralAccountsResponse" type="msg:GetGeneralAccountsResponseType"/>
+	<!-- getGeneralAccountsFromBudgetAccount -->
+	<xs:element name="getGeneralAccountsFromBudgetAccount" type="msg:GetGeneralAccountsFromBudgetAccountType"/>
+	<xs:element name="getGeneralAccountsFromBudgetAccountResponse" type="msg:GetGeneralAccountsFromBudgetAccountResponseType"/>
+	<!-- searchBudgetAddresses -->
+	<xs:element name="searchBudgetAddresses" type="msg:SearchBudgetAddressesType"/>
+	<xs:element name="searchBudgetAddressesResponse" type="msg:SearchBudgetAddressesResponseType"/>
+	<!-- getBudgetConsumption -->
+	<xs:element name="getBudgetConsumption" type="msg:GetBudgetConsumptionType"/>
+	<xs:element name="getBudgetConsumptionResponse" type="msg:GetBudgetConsumptionResponseType"/>
+	<!-- Types des messages -->
+	<!-- getBudgetAccounts -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetBudgetAccountsType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getBudgetAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetBudgetAccountsDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAccounts.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetBudgetAccountsDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetBudgetAccountsResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getBudgetAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetBudgetAccountsResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAccounts.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetBudgetAccountsResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAccountReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des compte budgétaires utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="budgetAccount" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Compte budgétaire utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du compte budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getBudgetAccountFromGeneralAccount -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetBudgetAccountFromGeneralAccountType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetBudgetAccountFromGeneralAccountDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetBudgetAccountFromGeneralAccountDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="generalAccount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Compte général.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetBudgetAccountFromGeneralAccountResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetBudgetAccountFromGeneralAccountResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetBudgetAccountFromGeneralAccountResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAccountFromGeneralAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAccount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Compte budgétaire lié au centre de coût.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Libellé du compte budgétaire.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getBudgetAddresses -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetBudgetAddressesType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetBudgetAddressesDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAddresses.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetBudgetAddressesDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAddress" type="bgt:BudgetAddressType" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données des adresses budgétaires dont il faut consulter les données.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetBudgetAddressesResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetBudgetAddressesResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAddresses.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetBudgetAddressesResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAddressReference" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Données des adresses budgétaires.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="budgetAddress" type="bgt:BudgetAddressType">
+							<xs:annotation>
+								<xs:documentation>Addresse budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé de l'adresses budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="currentTotalAmount" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation>Total du montant en devise sur l'adresse budgétaire en tenant compte des différentes opérations comptabilisées.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="currencyCode" type="iso:CurrencyType">
+							<xs:annotation>
+								<xs:documentation>Code ISO 4217 sur 3 caractères pour la devise.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="usedForExpenses" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indique si l'adresse budgétaire est utilisable en dépenses (true) ou recettes (false)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getCostCenters -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetCostCentersType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getCostCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetCostCentersDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getCostCenters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetCostCentersDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getCostCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetCostCentersResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getCostCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetCostCentersResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getCostCenters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetCostCentersResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getCostCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="costCenterReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des centre de coûts utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="costCenter" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Fond utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du centre de coût.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getCostCentersFromFinancialCenter -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetCostCentersFromFinancialCenterType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetCostCentersFromFinancialCenterDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetCostCentersFromFinancialCenterDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="financialCenter" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Centre financier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetCostCentersFromFinancialCenterResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetCostCentersFromFinancialCenterResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetCostCentersFromFinancialCenterResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getCostCentersFromFinancialCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="costCenterReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des centres de coûts liés au centre financier.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="costCenter" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Centre de coûts lié au centre financier.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du centre de coûts.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getFinancialCenters -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetFinancialCentersType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getFinancialCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetFinancialCentersDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFinancialCenters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetFinancialCentersDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFinancialCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="entityCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Option : Code société à utiliser pour le filtrage des résultats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetFinancialCentersResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getFinancialCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetFinancialCentersResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFinancialCenters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetFinancialCentersResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFinancialCenters.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="financialCenterReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des centre financiers utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="financialCenter" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Centre financier utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du centre financier.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getFinancialCenterFromCostCenter -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetFinancialCenterFromCostCenterType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetFinancialCentersFromCostCenterDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetFinancialCentersFromCostCenterDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="costCenter" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Centre de coûts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetFinancialCenterFromCostCenterResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetFinancialCentersFromCostCenterResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetFinancialCentersFromCostCenterResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFinancialCenterFromCostCenter.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="financialCenter" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Centre financier lié au centre de coût.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Libellé du centre financier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getFunctionalDomains -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetFunctionalDomainsType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getFunctionalDomains.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetFunctionalDomainDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFunctionalDomains.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetFunctionalDomainDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFunctionalDomains.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetFunctionalDomainsResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getFunctionalDomains.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetFunctionalDomainResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFunctionalDomains.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetFunctionalDomainResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFunctionalDomains.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="functionalDomainReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des domaine fonctionnel utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="functionalDomain" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Domaine fonctionnel utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du domaine fonctionnel.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getFunds -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetFundsType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getFunds.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetFundsDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFunds.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetFundsDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getFunds.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetFundsResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getFunds.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetFundsResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFunds.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetFundsResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getFunds.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fundsReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des fonds utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="fund" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Fond utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du fond.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getGeneralAccounts -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetGeneralAccountsType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getGeneralAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetGeneralAccountDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getGeneralAccounts.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetGeneralAccountDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getGeneralAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="class" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Classe du compte général.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subclass" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sous-classe du compte général.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="section" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rubrique du compte général.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetGeneralAccountsResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getGeneralAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetGeneralAccountResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getGeneralAccounts.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetGeneralAccountResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getGeneralAccounts.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="generalAccountReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des compte généraux utilisables dans WBFIN.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="generalAccount" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Compte général utilisable dans WBFIN.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du compte général.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getGeneralAccountsFromBudgetAccount -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetGeneralAccountsFromBudgetAccountType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetGeneralAccountsFromBudgetAccountDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetGeneralAccountsFromBudgetAccountDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAccount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Compte budgétaire.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetGeneralAccountsFromBudgetAccountResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetGeneralAccountsFromBudgetAccountResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetGeneralAccountsFromBudgetAccountResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getGeneralAccountsFromBudgetAccount.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="generalAccountReference" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Références des compte généraux liés au compte budgétaire.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="generalAccount" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Compte général lié au compte budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé du compte général.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- searchBudgetAddresses -->
+	<!-- Description de la requête -->
+	<xs:complexType name="SearchBudgetAddressesType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération searchBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:SearchBudgetAddressesDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération searchBudgetAddresses.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="SearchBudgetAddressesDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération searchBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="targetFund" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Fond ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="targetFinancialCenters" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Centre financier ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="targetEntityCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code société ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="targetFunctionalDomains" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Domaine fonctionel ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="targetBudgetAccounts" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Compte budgétaire ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="targetBudgetPeriod" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Période budgétaire ciblée par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données utilisées pour paramétrer le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="SearchBudgetAddressesResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération searchBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:SearchBudgetAddressesResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération searchBudgetAddresses.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="SearchBudgetAddressesResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération searchBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetAddressReference" minOccurs="0" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Données des adresses budgétaires.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="budgetAddress" type="bgt:BudgetAddressType">
+							<xs:annotation>
+								<xs:documentation>Addresse budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="label" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Libellé de l'adresses budgétaire.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="currentTotalAmount" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation>Total du montant en devise sur l'adresse budgétaire en tenant compte des différentes opérations comptabilisées.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="currencyCode" type="iso:CurrencyType">
+							<xs:annotation>
+								<xs:documentation>Code ISO 4217 sur 3 caractères pour la devise.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="usedForExpenses" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indique si l'adresse budgétaire est utilisable en dépenses (true) ou recettes (false)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType">
+				<xs:annotation>
+					<xs:documentation>Cet élément contient les données sur la pagination renvoyées par le mécanisme de pagination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- getBudgetConsumption -->
+	<!-- Description de la requête -->
+	<xs:complexType name="GetBudgetConsumptionType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération getBudgetConsumption.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetBudgetConsumptionDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération getBudgetConsumption.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la requête -->
+	<xs:complexType name="GetBudgetConsumptionDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération searchBudgetAddresses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="financialScope" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Fond ciblé par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fiscalYear" type="xs:decimal">
+				<xs:annotation>
+					<xs:documentation>Période budgétaire ciblée par la recherche.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="budgetAddress" type="bgt:BudgetAddressType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Description de la réponse -->
+	<xs:complexType name="GetBudgetConsumptionResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération getBudgetConsumption.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetBudgetConsumptionResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetConsumption.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Description des données de la réponse -->
+	<xs:complexType name="GetBudgetConsumptionResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération getBudgetConsumption.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="budgetConsumptionReference">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="budgetAddress" type="bgt:BudgetAddressType" minOccurs="0"/>
+						<xs:element name="currencyCode" type="iso:CurrencyType" minOccurs="0"/>
+						<xs:element name="existPaymentBudget" type="xs:boolean"/>
+						<xs:element name="existCommitmentBudget" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="paymentBudgetReference">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="consumablePBAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="consumedPBAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="availablePBAmount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="commitmentBudgetReference">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="consumableCBAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="consumedCBAmount" type="xs:decimal" minOccurs="0"/>
+									<xs:element name="availableCBAmount" type="xs:decimal" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

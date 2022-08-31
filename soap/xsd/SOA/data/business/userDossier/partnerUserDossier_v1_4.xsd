@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie)-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v1" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" xmlns:tns="http://soa.spw.wallonie.be/data/business/userDossier/partner/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/userDossier/partner/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../../common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/ticket/v1" schemaLocation="../../common/ticket_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../../entity/person/personNumber_v1.xsd"/>
+	<xs:complexType name="UserDossierType">
+		<xs:sequence>
+			<xs:element name="id" type="tic:UUIDType" minOccurs="0"/>
+			<xs:element name="number" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Backward compatible ID in format 1XXXXXX-XXXXXX</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="procedureRef" type="xs:string"/>
+			<xs:element name="procedureName" type="xs:string"/>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+			<xs:element name="reference" type="xs:string" minOccurs="0"/>
+			<xs:element name="citizenReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="eSpaceId" type="xs:string"/>
+			<xs:element name="ownerProfileId" type="xs:string"/>
+			<xs:element name="requesterLastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="requesterFirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="language" type="iso:LanguageType"/>
+			<xs:element name="securityLevel" type="tns:SecurityLevelType"/>
+			<xs:element name="actor" type="tns:UserDossierActorType" minOccurs="0"/>
+			<xs:element name="currentStatus" type="tns:UserDossierStatusType" minOccurs="0"/>
+			<xs:element name="processingStatus" type="xs:string" minOccurs="0"/>
+			<xs:element name="receiptMode" type="tns:ReceiptModeType" minOccurs="0"/>
+			<xs:element name="duplicable" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="helpdeskVisible" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:dateTime"/>
+			<xs:element name="modificationDate" type="xs:dateTime"/>
+			<xs:element name="submissionDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="receptionDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="startProcessingDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="endProcessingDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="retrieved" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="firstRetrievalDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="uploadInDossier" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="attachmentsDefinedByForm" type="xs:boolean" default="true" minOccurs="0"/>
+			<xs:element name="form" type="tns:UserDossierFormType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="attachment" type="tns:UserDossierAttachmentType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="rfai" type="tns:UserDossierRfaiType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="historyStatus" type="tns:UserDossierHistoryStatusType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="UserDossierActorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="YOU"/>
+			<xs:enumeration value="THEM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UserDossierStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PREPARATION"/>
+			<xs:enumeration value="COMPLETE"/>
+			<xs:enumeration value="SUBMITTED"/>
+			<xs:enumeration value="RECEIVED"/>
+			<xs:enumeration value="PROCESSING"/>
+			<xs:enumeration value="ENDED"/>
+			<xs:enumeration value="CANCELLED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReceiptModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AUTO"/>
+			<xs:enumeration value="MANUAL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SecurityLevelType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LOW"/>
+			<xs:enumeration value="MEDIUM"/>
+			<xs:enumeration value="HIGH"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="UserDossierFormType">
+		<xs:sequence>
+			<xs:element name="id" type="tic:UUIDType"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="formDefId" type="xs:string"/>
+			<xs:element name="formDefVersion" type="xs:string"/>
+			<xs:element name="creationDate" type="xs:dateTime"/>
+			<xs:element name="modificationDate" type="xs:dateTime"/>
+			<xs:element name="status" type="tns:FormStatusType"/>
+			<xs:element name="signData" type="tns:SignDataType"/>
+			<xs:element name="formBinaryData" type="xs:base64Binary" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FormStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DRAFT"/>
+			<xs:enumeration value="WAITING_FOR_PDF"/>
+			<xs:enumeration value="TO_SIGN"/>
+			<xs:enumeration value="SIGNED"/>
+			<xs:enumeration value="ENDED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FormFormatType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="XML"/>
+			<xs:enumeration value="PDF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SignDataType">
+		<xs:sequence>
+			<xs:element name="mode" type="tns:SignModeType"/>
+			<xs:element name="type" type="tns:SignTypeType"/>
+			<xs:element name="signature" type="tns:SignatureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SignModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NO_SIGNATURE"/>
+			<xs:enumeration value="SINGLE_SIGNATURE"/>
+			<xs:enumeration value="CO_SIGNATURE"/>
+			<xs:enumeration value="COUNTER_SIGNATURE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SignTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NONE"/>
+			<xs:enumeration value="PAPER_ONLY"/>
+			<xs:enumeration value="ELECTRONIC_ONLY"/>
+			<xs:enumeration value="PAPER_OR_ELECTRONIC"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SignatureType">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+			<xs:element name="function" type="xs:string" minOccurs="0"/>
+			<xs:element name="personNumber" type="num:PersonNumberType" minOccurs="0"/>
+			<xs:element name="done" type="xs:boolean" default="false"/>
+			<xs:element name="signatureDate" type="xs:dateTime" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="order" type="xs:int" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="UserDossierAttachmentType">
+		<xs:sequence>
+			<xs:element name="id" type="tic:UUIDType"/>
+			<xs:element name="typeKey" type="xs:string" minOccurs="0"/>
+			<xs:element name="typeLabel" type="xs:string" minOccurs="0"/>
+			<xs:element name="filename" type="xs:string"/>
+			<xs:element name="mimeType" type="xs:string" minOccurs="0"/>
+			<xs:element name="status" type="tns:AttachmentStatusType"/>
+			<xs:element name="origin" type="tns:AttachmentOriginType"/>
+			<xs:element name="mandatory" type="xs:boolean" default="false"/>
+			<xs:element name="citizenLabel" type="xs:string" minOccurs="0"/>
+			<xs:element name="visible" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="generated" type="xs:boolean" default="false" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:dateTime"/>
+			<xs:element name="modificationDate" type="xs:dateTime"/>
+			<xs:element name="authorProfileId" type="xs:string" minOccurs="0"/>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+			<xs:element name="contentLength" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AttachmentStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EMPTY"/>
+			<xs:enumeration value="SUBMITTED"/>
+			<xs:enumeration value="TO_SIGN"/>
+			<xs:enumeration value="SIGNED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AttachmentOriginType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BO"/>
+			<xs:enumeration value="FO"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="UserDossierRfaiType">
+		<xs:sequence>
+			<xs:element name="id" type="tic:UUIDType"/>
+			<xs:element name="subject" type="xs:string"/>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="authorProfileId" type="xs:string"/>
+			<xs:element name="linkedAttachments" type="xs:string" minOccurs="0"/>
+			<xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="modificationDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="done" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserDossierHistoryStatusType">
+		<xs:sequence>
+			<xs:element name="id" type="tic:UUIDType"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="date" type="xs:dateTime"/>
+			<xs:element name="details" type="xs:string" minOccurs="0"/>
+			<xs:element name="authorProfileId" type="xs:string" minOccurs="0"/>
+			<xs:element name="actor" type="tns:UserDossierActorType"/>
+			<xs:element name="isHidden" type="xs:boolean" default="false" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchUserDossiersCriteriaType">
+		<xs:sequence>
+			<xs:element name="procedureRef" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="eSpaceId" type="xs:string" minOccurs="0"/>
+			<xs:element name="includeStatus" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="excludeStatus" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="withDependencies" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="period" type="dat:OpenPeriodType" minOccurs="0"/>
+			<xs:element name="citizenReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="pagination" type="tns:PaginationType" minOccurs="0"/>
+			<xs:element name="sort" type="tns:SortType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PaginationType">
+		<xs:sequence>
+			<xs:element name="start" type="xs:int"/>
+			<xs:element name="delta" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SortType">
+		<xs:sequence>
+			<xs:element name="field" type="tns:SortUserDossierFieldType"/>
+			<xs:element name="order" type="tns:SortOrderType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SortUserDossierFieldType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="currentStatus"/>
+			<xs:enumeration value="modificationDate"/>
+			<xs:enumeration value="creationDate"/>
+			<xs:enumeration value="number"/>
+			<xs:enumeration value="procedureRef"/>
+			<xs:enumeration value="citizenReference"/>
+			<xs:enumeration value="reference"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SortOrderType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ASC"/>
+			<xs:enumeration value="DESC"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SearchUserDossiersResultType">
+		<xs:sequence>
+			<xs:element name="totalCount" type="xs:int"/>
+			<xs:element name="userDossier" type="tns:UserDossierType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContentStreamType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="fileName" type="xs:string"/>
+			<xs:element name="length" type="xs:long"/>
+			<xs:element name="mimeType" type="xs:string"/>
+			<xs:element name="stream" type="xs:base64Binary"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SpaceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="citizen"/>
+			<xs:enumeration value="professional"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

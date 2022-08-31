@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:com="http://soa.spw.wallonie.be/data/business/mutation/common/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/mutation/common/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:complexType name="MutationInformationType">
+		<xs:sequence>
+			<xs:element name="timestamp" type="xs:dateTime"/>
+			<xs:element name="reason" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BasicMutationType">
+		<xs:sequence>
+			<xs:element name="mutationInformation" type="com:MutationInformationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MutationEventType">
+		<xs:sequence>
+			<xs:element name="modificationDate">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="source" type="cod:CodeSourceType"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="modifiedField" type="com:ModifiedFieldType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ModifiedFieldType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="name"/>
+			<xs:enumeration value="nationalities"/>
+			<xs:enumeration value="birth"/>
+			<xs:enumeration value="decease"/>
+			<xs:enumeration value="gender"/>
+			<xs:enumeration value="civilStates"/>
+			<xs:enumeration value="address"/>
+			<xs:enumeration value="administrator"/>
+			<xs:enumeration value="subregister"/>
+			<xs:enumeration value="legalCohabitation"/>
+			<xs:enumeration value="refugeeType"/>
+			<xs:enumeration value="statusOfRefugee"/>
+			<xs:enumeration value="organizationInCharge"/>
+			<xs:enumeration value="documentType"/>
+			<xs:enumeration value="alias"/>
+			<xs:enumeration value="statedAddress"/>
+			<xs:enumeration value="identityCard"/>
+			<xs:enumeration value="professionCard"/>
+			<xs:enumeration value="workCard"/>
+			<xs:enumeration value="immigrationReason"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

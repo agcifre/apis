@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:entity="http://soa.spw.wallonie.be/data/entity/enterprise/enterprise/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:addr="http://soa.spw.wallonie.be/data/entity/address/bce-address/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:entcode="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" xmlns:activity="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v1" xmlns:fun="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v1" xmlns:link="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v1" xmlns:auth="http://soa.spw.wallonie.be/data/entity/enterprise/authorization/v1" xmlns:entdate="http://soa.spw.wallonie.be/data/entity/enterprise/date/v1" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" xmlns:jurs="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalSituation/v1" xmlns:bank="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" xmlns:fin="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v1" xmlns:externalId="http://soa.spw.wallonie.be/data/entity/enterprise/externalIdentification/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterprise/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/bce-address/v1" schemaLocation="../address/bce-address_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" schemaLocation="code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" schemaLocation="denomination_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v1" schemaLocation="activity_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v1" schemaLocation="functions_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v1" schemaLocation="linkedEnterprise_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/authorization/v1" schemaLocation="authorization_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/date/v1" schemaLocation="date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" schemaLocation="juridicalForm_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalSituation/v1" schemaLocation="juridicalSituation_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" schemaLocation="bankAccount_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v1" schemaLocation="finances_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/externalIdentification/v1" schemaLocation="externalIdentification_v1.xsd"/>
+	<xs:complexType name="EntityCommonDataType">
+		<xs:annotation>
+			<xs:documentation>Domains containing all general information about an enterprise and/or a business unit. iow: common fields of a business entity (common between all realization).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Status" type="entity:StatusType" minOccurs="0"/>
+			<xs:element name="Denomination" type="den:DenominationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Address" type="entity:AddressType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Activity" type="activity:ActivityType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Function" type="fun:FunctionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LinkedEnterprise" type="link:LinkedEnterpriseType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>enterprise with KBO-known relationship</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Permission" type="auth:AuthorizationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Validity" type="entdate:ValidityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:annotation>
+			<xs:documentation>Specific data's used by CBE for the address of an entity</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address" type="addr:addressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the address is removed (for privacy for instance), the details of the former address should not be seen, else details are visible</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ForeignBranchOfficeType">
+		<xs:annotation>
+			<xs:documentation>Data's of a foreign branch office, regarding address and validity.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address" type="addr:addressType"/>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="StopCode" type="entcode:CbeStopCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if stopped. CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required, Attention, lié à l'existence de StopCode. Devrait être en attribut.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseType">
+		<xs:annotation>
+			<xs:documentation>atomic enterprise (entity realization)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType"/>
+			<xs:element name="Type" type="entcode:CbeEnterpriseTypeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>EPP/EPM. isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JuridicalForm" type="jurf:JuridicalForm" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JuridicalSituation" type="jurs:JuridicalSituationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ForeignBranchOffice" type="entity:ForeignBranchOfficeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>branch office in Belgium for external society.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessUnit" type="entity:BusinessUnitType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>should not contain details for sub-BusinessUnit.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Date" type="entdate:EnterpriseDateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EntityCommonInfo" type="entity:EntityCommonDataType" minOccurs="0"/>
+			<xs:element name="Capital" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Currency" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankAccount" type="bank:BankAccount" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Finances" type="fin:Finances" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ExternalIdentification" type="externalId:ExternalIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EnterpriseFunctions" type="fun:EnterpriseFunctionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:complexType name="BusinessUnitType">
+		<xs:annotation>
+			<xs:documentation>atomic business unit (entity realization)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="EntityCommonInfo" type="entity:EntityCommonDataType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="StatusCode" type="entcode:CbeStatusCodeType">
+				<xs:annotation>
+					<xs:documentation>CBE status code isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BasicEnterpriseType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType"/>
+			<xs:element name="nossRegistrationNumber" type="num:NOSSRegistrationNumberType" minOccurs="0"/>
+			<xs:element name="denomination" type="den:DenominationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

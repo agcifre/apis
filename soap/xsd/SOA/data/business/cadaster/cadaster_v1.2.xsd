@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:bcad_common="http://soa.spw.wallonie.be/data/businness/cadaster/cadaster/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:adr="http://soa.spw.wallonie.be/data/entity/address/address/v2" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:ns2="http://soa.spw.wallonie.be/data/entity/property/rights/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:parcelId="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentification/v1" xmlns:parcelIdH="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentificationPropertySitHist/v1" xmlns:pdesc="http://soa.spw.wallonie.be/data/entity/cadaster/parcelDescription/v1" xmlns:income="http://soa.spw.wallonie.be/data/entity/cadaster/income/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/businness/cadaster/cadaster/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v2" schemaLocation="../../entity/address/address_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../../entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../../entity/person/name_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" schemaLocation="../../entity/enterprise/denomination_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../../entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/property/rights/v1" schemaLocation="../../entity/property/rights_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentification/v1" schemaLocation="../../entity/property/parcelIdentification_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentificationPropertySitHist/v1" schemaLocation="../../entity/property/parcelIdentificationPropertySitHist_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/cadaster/parcelDescription/v1" schemaLocation="../../entity/property/parcelDesccription_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/cadaster/income/v1" schemaLocation="../../entity/property/income_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType" minOccurs="0"/>
+			<xs:element name="name" type="nam:BasicNameType" minOccurs="0"/>
+			<xs:element name="address" type="adr:AddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="ns1:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="denomination" type="den:DenominationType" minOccurs="0"/>
+			<xs:element name="address" type="adr:AddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PropertyOwnerType">
+		<xs:complexContent>
+			<xs:extension base="ns2:RightType">
+				<xs:sequence>
+					<xs:element name="titulars" minOccurs="0">
+						<xs:complexType>
+							<xs:choice minOccurs="0">
+								<xs:element name="community" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="person" type="bcad_common:PersonType" maxOccurs="2"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="person" type="bcad_common:PersonType" minOccurs="0"/>
+								<xs:element name="enterprise" type="bcad_common:EnterpriseType" minOccurs="0"/>
+								<xs:element name="anonymous" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="anonymousOwner" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>String of the anonymous owners and their businessrights (# en 2 rechthebbenden -BE 1/4- #)</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="100"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="association" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence minOccurs="0">
+											<xs:element name="person" type="bcad_common:PersonType" minOccurs="0" maxOccurs="unbounded"/>
+											<xs:element name="enterprise" type="bcad_common:EnterpriseType" minOccurs="0" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="coOwner" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>String of the coOwners</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="serviceManagerId" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PersIdf manager service
+PersIdf service gestionnaire
+PersIdf beherende dienst</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="12"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParcelLocationType">
+		<xs:sequence>
+			<xs:element name="CAPAKey" type="xs:string"/>
+			<xs:element name="address" type="adr:AddressType" minOccurs="0"/>
+			<xs:element name="visualizationData" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="link" type="xs:string"/>
+						<xs:element name="picture" type="xs:base64Binary"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParcelType">
+		<xs:sequence>
+			<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType" minOccurs="0"/>
+			<xs:element name="parcelDescription" type="pdesc:ParcelDescriptionType" minOccurs="0"/>
+			<xs:element name="cadastralIncomes" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="cadastralIncome" type="income:CadastralIncomeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parcelLocation" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="bcad_common:ParcelLocationType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="property" type="bcad_common:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="situationBeginDate" type="xs:date"/>
+		<xs:attribute name="situationEndDate" type="xs:date"/>
+		<xs:attribute name="situationId" use="optional">
+			<xs:annotation>
+				<xs:documentation>ID situation parcelle</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:long">
+					<xs:totalDigits value="19"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PropertyType">
+		<xs:sequence>
+			<xs:element name="propertyOwners" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="propertyOwner" type="bcad_common:PropertyOwnerType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="propertyStatus" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="propertyStatusCode" type="cod:DescriptiveCodeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Code et description statut de la situation patrimoniale (active/passive)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="lastArticleInscription">
+							<xs:annotation>
+								<xs:documentation>Dernière inscription article</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="22"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="previousArticleInscription">
+							<xs:annotation>
+								<xs:documentation>Inscription article précédente</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="22"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="fiscalStatusPeriod" minOccurs="0">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="dat:OpenPeriodType">
+										<xs:sequence>
+											<xs:element name="dateBeginYear" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Année fiscale de début de la situation patrimoniale</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:totalDigits value="4"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="dateEndYear" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Année fiscale de fin de la situation patrimoniale	</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:totalDigits value="4"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="juridicalStatusPeriod" minOccurs="0">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="dat:OpenPeriodType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="doubtfulRight" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Droits réels douteux (true/false)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="marketValue" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="calculatedMarketValue" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Valeur vénale calculée</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:decimal">
+													<xs:attribute name="evaluationDate" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>Date de la valeur vénale calculée</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="calculatedMinMarketValue" type="xs:decimal" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Valeur vénale minimum calculée</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="calculatedMaxMarketValue" type="xs:decimal" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Valeur vénale maximum calculée</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="beginDate" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Timestamp version début situation patrimoniale</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="endDate" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Timestamp version fin situation patrimoniale</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="cancelDate" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Timestamp version annulation situation patrimoniale</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PropertySituationType">
+		<xs:sequence>
+			<xs:element name="parcelIdentification" type="parcelIdH:ParcelIdentificationPropertySitHistType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>number of the stipad dossier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="propertySituationIdf" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SitPatrimoniale.oIdfTech</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="no-parcel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Textfield for when there isn't a situation (typically before 1979) or for public domains and similar cases.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="detailApp" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Detail of appartement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="propertySituationStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code et description statut de la situation patrimoniale (active/passive)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0">
+				<xs:element name="dossiers" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="dossier" type="bcad_common:PropertySituationDossierType" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The dossier in which the mutation happened</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="expiredDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Expireddate of the situation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateBegin" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Validity date of the situation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateBeginYear" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>year of the start date</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dateEnd" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>end date of situation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateEndYear" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>year of the end date</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="flag-expired" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="flag-intermediate" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="article" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Article</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sequenceNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sequence</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PropertySituationDossierType">
+		<xs:sequence>
+			<xs:element name="dossierNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>number of the dossier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dossierType" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The dossierType codedescription stipad</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="causeMutation" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The causes of the mutation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schets" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The schets</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateRealLife" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Validitydate of the parcel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yearRealLife" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Mutationyear</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateValidationDossier" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Validitydate of the parcel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!--
+			<xs:element name="searchedPropertySituation" type="ws:pathislSp" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="previousPropertySituation" type="ws:pathislSp" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="nextPropertySituation" type="ws:pathislSp" minOccurs="0" maxOccurs="unbounded"/>
+			-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PropertySituationHistoryType">
+		<xs:annotation>
+			<xs:documentation>The previous and next situations of this property</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="searchedPropertySituation" type="bcad_common:PropertySituationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="previousPropertySituation" type="bcad_common:PropertySituationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="nextPropertySituation" type="bcad_common:PropertySituationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

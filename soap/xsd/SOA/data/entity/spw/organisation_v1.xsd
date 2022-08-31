@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:org="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:loc="http://soa.spw.wallonie.be/data/entity/spw/location/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/spw/location/v1" schemaLocation="location_v1.xsd"/>
+	<xs:element name="organisation">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="org:OrganisationType">
+					<xs:sequence>
+						<xs:element name="locations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="location" type="loc:LocationType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="parentOrganisation" type="org:OrganisationType" minOccurs="0"/>
+						<xs:element name="childOrganisations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="childOrganisation" type="org:OrganisationType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="OrganisationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="code" type="xs:string"/>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="type" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="internal" type="xs:boolean"/>
+		<xs:attribute name="active" type="xs:boolean"/>
+		<xs:attribute name="modificationDate" type="xs:date"/>
+	</xs:complexType>
+</xs:schema>

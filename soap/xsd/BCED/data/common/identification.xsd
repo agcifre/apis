@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/identification/common" targetNamespace="http://bced.wallonie.be/identification/common" elementFormDefault="unqualified" version="1.0">
+	<xsd:complexType name="ClientIdentification">
+		<xsd:sequence>
+			<xsd:element name="HumanContact" type="xsd:string"/>
+			<xsd:element name="E-Mail">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[^@]+@[^\.]+\..+"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ApplicationName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="collapse"/>
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="20"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="RwId">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="collapse"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RequestIdentification">
+		<xsd:sequence>
+			<xsd:element name="Ticket">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="TimestampSent" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

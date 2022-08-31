@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:common="http://soa.spw.wallonie.be/esb/common/v2" xmlns:fc="http://soa.spw.wallonie.be/tools/flowConfiguration/v1" xmlns:filter="http://soa.spw.wallonie.be/tools/filter/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/esb/common/v2" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/tools/flowConfiguration/v1" schemaLocation="../../tools/flowConfiguration_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/tools/filter/v1" schemaLocation="../../tools/filter_v1.xsd"/>
+	<xs:complexType name="AbstractBsResponseType">
+		<xs:sequence>
+			<xs:element name="status" type="common:StatusType"/>
+		</xs:sequence>
+		<xs:attribute name="providerTicket" type="xs:string"/>
+		<xs:attribute name="transactionId">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="36"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AbstractBsRequestType">
+		<xs:sequence>
+			<xs:element name="routing" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="provider" type="xs:string"/>
+						<xs:element name="service" type="xs:string"/>
+						<xs:element name="operation" type="xs:string"/>
+						<xs:element name="transactionId" type="xs:string"/>
+						<xs:element name="configuration" type="fc:TargetFlowConfigurationType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="filters" type="filter:FiltersType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="transactionId" type="xs:string"/>
+	</xs:complexType>
+	<!--Common types-->
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="value">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="PROCESSED"/>
+						<xs:enumeration value="PROCESSING"/>
+						<xs:enumeration value="ERROR"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="SOA[0-9]{7}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="description" minOccurs="0" maxOccurs="3">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="lang" type="common:LanguageType"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="details" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="informations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="information" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="informationField" type="xs:string"/>
+												<xs:element name="informationValue" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element ref="common:warning" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element ref="common:error" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ErrorOrWarningType">
+		<xs:annotation>
+			<xs:documentation>Definition of a business error or warning. I consists of a code, including optional language-dependent description, and a possible cause.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code" type="common:CodeType" nillable="true"/>
+			<xs:element name="cause" type="common:ErrorOrWarningType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="warning" type="common:ErrorOrWarningType"/>
+	<xs:element name="error" type="common:ErrorOrWarningType"/>
+	<xs:complexType name="DescriptiveCodeType">
+		<xs:annotation>
+			<xs:documentation>A descriptive code type consists of a simple code, and zero or more descriptions for that code. If more than one description is provided, each should be in a different language, although this is not enforced in the schema.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code" type="common:SimpleCodeType" nillable="true">
+				<xs:annotation>
+					<xs:documentation>A code should have a simple code which identifies it. However, if this code is unknown, for whatever reason, it should be explicitly set to nill.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="common:DescriptionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The description of a code is not always known, or required. In many cases, the simple code is sufficient, and the description can be omitted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CodeType">
+		<xs:annotation>
+			<xs:documentation>A code type is the generally reusable code which equals a descriptive code, with the addition of an attribute which defines the origin, or source, of the code. This is useful when passing on codes defined by service providers, and which need to be identified as such.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:DescriptiveCodeType">
+				<xs:attribute name="codeSource" type="common:CodeSourceType" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DescriptionType">
+		<xs:annotation>
+			<xs:documentation>A language-dependent description can be created by setting the language attribute of the DescriptionType.
+A short description can be provided in the shortDescription attribute. Although there are no restrictions set on the short description, it is really meant for short descriptions, not  complete novels.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="language" type="common:LanguageType" use="optional"/>
+				<xs:attribute name="shortDescription" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="SimpleCodeType">
+		<xs:annotation>
+			<xs:documentation>A simple code type consists of a string, which is at least one character long, and cannot start with whitespace.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^\s].*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LanguageType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Language codes follow the ISO-639-1 two-letter code standards.
+For details, see http://www.loc.gov/standards/iso639-2/iso639jac.html
+
+Validation rules:
+	- two lower case letters
+Regular expression: [a-z]{2}
+
+Examples: nl, fr, de, en, es, ...
+
+Notes.
+	1. The xs:language type has a facet ([a-zA-Z]{1,8})(-[a-zA-Z0-9]{1,8})* which allows more than two characters. For example to denote regional languages.
+	2. For undetermined languages, ISO reserves the three-letter code "und". For this reason, the two-letter restriction is not enforced in the schema.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:language"/>
+	</xs:simpleType>
+	<xs:simpleType name="CodeSourceType">
+		<xs:annotation>
+			<xs:documentation>A code-source type is a simple code which is restricted to known code sources.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="common:SimpleCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="YearQuarterType">
+		<xs:restriction base="xs:string">
+			<xs:length value="6"/>
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="[1-2]\d{3}Q(1|2|3|4)"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

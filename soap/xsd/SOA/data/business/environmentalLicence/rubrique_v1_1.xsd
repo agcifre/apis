@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:date="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:pe="http://soa.spw.wallonie.be/data/business/environmentalLicence/v1" xmlns:tns="http://soa.spw.wallonie.be/data/business/rubrique/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/rubrique/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/environmentalLicence/v1" schemaLocation="environmentalLicence_v1.1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../../common/common_v1.xsd"/>
+	<xs:complexType name="RubricType">
+		<xs:sequence>
+			<xs:element name="identifier" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>Identifiant unique de la rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="parentIdentifier" type="xs:long" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifiant de la rubrique parente</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Code "unique" de la rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="category" type="pe:DomainDescriptiveCodeType">
+				<xs:annotation>
+					<xs:documentation>Catégorie (ou niveau) de la rubrique :
+DIVISION - Division
+FAMILLE - Famille
+RANG1 - Rang 1
+RANG2 - Rang 2
+RANG3 - Rang 3
+RUBRIQUE - Rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="validityPeriod" type="date:PeriodType">
+				<xs:annotation>
+					<xs:documentation>Période de validité de la rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Le "libellé simplifié rubrique" (libellé non disponible pour les autres niveaux) est utilisé pour effectuer la recherche des rubriques.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="simpleLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description simplifiée de la rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="completeLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description complète de la rubrique (libellé non disponible pour les autres niveaux)
+Libellé complet de l'installation ou activité (rubrique)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="officialLabel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Libellé officiel de l'installation ou activité</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="classe" type="pe:DomainDescriptiveCodeType">
+				<xs:annotation>
+					<xs:documentation>Classification de la rubrique
+Exemple de Valeurs : https://confluence.nsi-sa.be/display/TWICE/8.+Classe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="toSum" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A sommer
+Valeurs possibles : ‘Non', 'Oui', 'Peut-être'
+https://confluence.nsi-sa.be/pages/viewpage.action?pageId=768508386</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="unity" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unité
+Voir le référentiel des liste de valeurs
+https://confluence.nsi-sa.be/pages/viewpage.action?pageId=614596870
+Exemple : animaux, m, t/an...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="preRubric" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pré rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="environmentalImpactStudy" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Une étude d’incidence sur l’environnement doit être fournie pour cette rubrique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="groundDecree" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Impact sur le décret SOL</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lowThreshold" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Seuil bas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lowThresholdOperator" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Opérateur Seuil bas
+PLUS_GRAND
+PLUS_GRAND_OU_EGALE
+PLUS_PETIT
+PLUS_PETIT_OU_EGALE
+EGALE
+
+Exemple : https://confluence.nsi-sa.be/pages/viewpage.action?pageId=772898949</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="highThreshold" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Seuil haut</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="highThresholdOperator" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Opérateur Seuil haut
+PLUS_GRAND
+PLUS_GRAND_OU_EGALE
+PLUS_PETIT
+PLUS_PETIT_OU_EGALE
+EGALE
+
+Exemple : https://confluence.nsi-sa.be/pages/viewpage.action?pageId=772898949</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fdhz" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Facteur de division si le projet est en zone habitat</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fdhzr" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Facteur de division si le projet est en zone habitat résidentiel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fdzi" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Facteur de division si le projet est en zone industrielle</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="activityArea" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Secteur d'activité
+https://confluence.nsi-sa.be/pages/viewpage.action?pageId=772899272</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mainActivity" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Activité principale
+https://confluence.nsi-sa.be/pages/viewpage.action?pageId=772899274</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="activityType" type="pe:DomainDescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Type d'activité/installation
+https://confluence.nsi-sa.be/pages/viewpage.action?pageId=772899276</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="object" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Objet de la rubrique
+Exemple : veaux à l’engraissement de plus de 2 semaines et de moins de 6 mois</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="detail" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Détail
+Exemple : Pour la classification, les distances sont celles comprises entre les limites du stockage et l'angle de façade la plus proche de l'habitation de tiers existante ou la limite de
+                        la ou des zones.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ranking" type="tns:RubriqRankingType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classements</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="annex" type="pe:DomainDescriptiveCodeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Annexes
+Exemple : https://confluence.nsi-sa.be/display/TWICE/60.+Annexes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="keyword" type="tns:KeywordType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Mot-clés</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RubriqRankingType">
+		<xs:sequence>
+			<xs:element name="ranking" type="pe:rankingType">
+				<xs:annotation>
+					<xs:documentation>Classement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="threshold" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Seuil</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="warning" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Avertissement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeywordType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Code unique du mot clé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="label" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Libellé du mot clé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Description du mot clé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

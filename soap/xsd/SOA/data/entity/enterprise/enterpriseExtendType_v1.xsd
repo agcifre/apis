@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseExtendType/v1" xmlns:summary="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseSummaryType/v1" xmlns:businessUnit="http://soa.spw.wallonie.be/business/enterprise/businessUnit/v3" xmlns:bank="http://soa.spw.wallonie.be/data/common/bankAccount/v2" xmlns:finances="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v2" xmlns:exOff="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseExtendType/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseSummaryType/v1" schemaLocation="enterpriseSummaryType_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/business/enterprise/businessUnit/v3" schemaLocation="businessUnit_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/bankAccount/v2" schemaLocation="../../common/bankAccount_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v2" schemaLocation="finances_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" schemaLocation="exOfficioExecution_v2.xsd"/>
+	<xs:complexType name="EnterpriseExtendType">
+		<xs:complexContent>
+			<xs:extension base="summary:EnterpriseSummaryType">
+				<xs:sequence>
+					<xs:element name="businessUnits" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>extend</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="businessUnit" type="businessUnit:BusinessUnitType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>
+						should not contain details for sub-BusinessUnit.
+					</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="capital" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>extend</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="value" type="xs:decimal" minOccurs="0"/>
+								<xs:element name="currency" type="xs:string" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="bankAccounts" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>extend</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="bankAccount" type="bank:BankAccountType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="finances" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>extend</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="finance" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:complexContent>
+											<xs:extension base="finances:FinanceType"/>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="exOfficioExecutions" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>extend</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="exOfficioExecution" type="exOff:ExOfficioExecutionType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

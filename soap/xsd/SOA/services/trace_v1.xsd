@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 sp1 (http://www.altova.com) by End User (free.org) -->
+<xs:schema xmlns:trace="http://soa.spw.wallonie.be/services/trace/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:id="http://soa.spw.wallonie.be/common/identification/v1" xmlns:priv="http://soa.spw.wallonie.be/common/privacylog/v1" xmlns:stat="http://soa.spw.wallonie.be/common/status/v1" targetNamespace="http://soa.spw.wallonie.be/services/trace/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/common/identification/v1" schemaLocation="../data/common/identification_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/common/privacylog/v1" schemaLocation="../data/common/privacy_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/common/status/v1" schemaLocation="../data/common/status_v1.xsd"/>
+	<xs:element name="publishTrace" type="trace:PublishTraceRequestType">
+		<xs:annotation>
+			<xs:documentation>root element describing a CPVP trace publication</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="publishTraceResponse" type="stat:TechnicalStatusType"/>
+	<xs:complexType name="PublishTraceRequestType">
+		<xs:sequence>
+			<xs:element ref="id:customerInformations"/>
+			<xs:element ref="priv:privacyLog"/>
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subject">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="type" use="required">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="SSIN"/>
+													<xs:enumeration value="CBEN"/>
+													<xs:enumeration value="OTHER"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="treatment">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="userRole" type="xs:string" minOccurs="0"/>
+									<xs:element name="timestamp" type="xs:dateTime"/>
+									<xs:element name="treatmentType" type="xs:string" minOccurs="0"/>
+									<xs:element name="comment" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

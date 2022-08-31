@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/property/rights/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/property/rights/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:complexType name="RightType">
+		<xs:sequence>
+			<xs:element name="right" type="xs:string" minOccurs="0"/>
+			<xs:element name="rightType" type="cod:CodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>rightType Code et description type de droit réel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="rightScope" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Portée du droit réel (surface ou partie d'un bien impossible à diviser)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="part"/>
+						<xs:enumeration value="surface"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="normalisedRightFraction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>fraction d’un droit réel normalisé</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="numerator" type="xs:int" minOccurs="0"/>
+						<xs:element name="denominator" type="xs:int" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="expirationDate" type="xs:date">
+			<xs:annotation>
+				<xs:documentation>Date d'extinction du droit</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

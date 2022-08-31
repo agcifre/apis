@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:batch="http://soa.spw.wallonie.be/data/business/batch/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/batch/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://schemas.xmlsoap.org/soap/envelope/" schemaLocation="../../../../../../envelope/envelope.xsd"/>
+	<xs:complexType name="BatchResponseType"/>
+	<xs:element name="batchResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="batch:BatchResponseType">
+					<xs:sequence>
+						<xs:element name="soapEnvelopes" type="batch:SoapEnvelopeType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SoapEnvelopeType">
+		<xs:sequence>
+			<xs:element name="soapEnvelope" type="soapenv:Envelope" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

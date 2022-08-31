@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:fte="http://soa.spw.wallonie.be/data/entity/enterprise/fte/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/fte/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:complexType name="FTEType">
+		<xs:sequence>
+			<xs:element name="quarter" type="dat:QuarterType"/>
+			<xs:element name="numberOfDays" type="xs:decimal"/>
+			<xs:element name="numberOfFTEs" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

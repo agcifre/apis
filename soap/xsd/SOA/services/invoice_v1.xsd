@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Marc De Graef (Proxcellence) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/invoice/messages/v1" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v4" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:pag="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" targetNamespace="http://soa.spw.wallonie.be/services/invoice/messages/v1" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/response/v1" schemaLocation="../data/common/response_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" schemaLocation="../data/entity/specific/wbFin/paging_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v4" schemaLocation="../data/common/error_v4.xsd"/>
+	<xs:element name="fault" type="err:ErrorOrWarningType"/>
+	<xs:element name="publishInvoice" type="msg:PublishInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="publishInvoiceResponse" type="msg:PublishInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoiceStatus" type="msg:GetInvoiceStatusType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoiceStatusResponse" type="msg:GetInvoiceStatusResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoiceRequestStatus" type="msg:GetInvoiceRequestStatusType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoiceRequestStatusResponse" type="msg:GetInvoiceRequestStatusResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoice" type="msg:GetInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="getInvoiceResponse" type="msg:GetInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de consultation </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="publishInvoiceApproval" type="msg:PublishInvoiceApprovalType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="publishInvoiceApprovalResponse" type="msg:PublishInvoiceApprovalResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de demande de création .</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchInvoiceByExternalId" type="msg:SearchInvoiceByExternalIdType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchInvoiceByExternalIdResponse" type="msg:SearchInvoiceByExternalIdResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchSilogInvoice" type="msg:SearchSilogInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="searchSilogInvoiceResponse" type="msg:SearchSilogInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Opération de recherche.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SearchSilogInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:SearchSilogInvoiceDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchSilogInvoiceDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="approvalStatusCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchSilogInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:SearchSilogInvoiceResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchSilogInvoiceResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="Invoices" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="approvalStatusCode" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchInvoiceByExternalIdResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:SearchInvoiceByExternalIdResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchInvoiceByExternalIdResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="Invoices" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagingResult" type="pag:PagingResultType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchInvoiceByExternalIdType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:SearchInvoiceByExternalIdDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchInvoiceByExternalIdDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="byVISA" type="xs:string" minOccurs="0"/>
+			<xs:element name="byCreditReservation" type="xs:string" minOccurs="0"/>
+			<xs:element name="byReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="byTicketId" type="xs:string" minOccurs="0"/>
+			<xs:element name="pagingParameters" type="pag:PagingParametersType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceStatusType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetInvoiceStatusDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetInvoiceStatusDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceStatusDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="lineItemId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceApprovalType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération PublishInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:PublishInvoiceApprovalDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishInvoice.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceApprovalDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="approvalStatus" type="xs:string" minOccurs="0"/>
+			<xs:element name="approvalStatusCode" type="xs:string"/>
+			<xs:element name="lockPayment" type="xs:string" minOccurs="0"/>
+			<xs:element name="comment" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceApprovalResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:PublishInvoiceApprovalResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceApprovalResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération PublishInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:PublishInvoiceDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishInvoice.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération PublishInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="invoice" type="msg:InvoiceType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:PublishInvoiceResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishInvoiceResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceRequestStatusType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="msg:GetInvoiceRequestStatusDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceRequestStatusDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la requête à l'opération GetInvoice.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceRequestStatusResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetInvoiceRequestStatusResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceRequestStatusResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="Id" type="xs:string"/>
+			<xs:element name="workspaceUrl" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceStatusResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données de la réponse de l'opération .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetInvoiceStatusResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceStatusResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément contient les données spécifiques de la réponse de l'opération </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="Id" type="xs:string"/>
+			<xs:element name="documentStatus" type="xs:string"/>
+			<xs:element name="documentStatusCode" type="xs:string"/>
+			<xs:element name="lockPayment" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceResponseType">
+		<xs:annotation>
+			<xs:documentation>Cet élément </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="resp:warnings" minOccurs="0"/>
+					<xs:element name="response" type="msg:GetInvoiceResponseDataType">
+						<xs:annotation>
+							<xs:documentation>Cet élément </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetInvoiceResponseDataType">
+		<xs:annotation>
+			<xs:documentation>Cet élément </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestId" type="xs:string"/>
+			<xs:element name="invoice" type="msg:InvoiceType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvoiceItemType">
+		<xs:annotation>
+			<xs:documentation>Ces données .</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="invoiceLineItemId" type="xs:integer"/>
+			<xs:element name="entityCode" type="xs:string"/>
+			<xs:element name="accountingKey" type="xs:string"/>
+			<xs:element name="fundsCommitmentId" type="xs:string"/>
+			<xs:element name="lineFundsCommitmentId" type="xs:integer" minOccurs="0"/>
+			<xs:element name="lineVisaId" type="xs:string"/>
+			<xs:element name="functionalDomain" type="xs:string" minOccurs="0"/>
+			<xs:element name="generalAccount" type="xs:string" minOccurs="0"/>
+			<xs:element name="costCenter" type="xs:string" minOccurs="0"/>
+			<xs:element name="silogOrder" type="xs:string" minOccurs="0"/>
+			<xs:element name="vatRate" type="xs:integer"/>
+			<xs:element name="vatCode" type="xs:string"/>
+			<xs:element name="vatcAmount" type="xs:decimal"/>
+			<xs:element name="vatAmount" type="xs:decimal"/>
+			<xs:element name="amount" type="xs:decimal"/>
+			<xs:element name="inlineText" type="xs:string" minOccurs="0"/>
+			<xs:element name="assetId" type="xs:string" minOccurs="0"/>
+			<xs:element name="subAssetId" type="xs:string" minOccurs="0"/>
+			<xs:element name="costObject" type="xs:string" minOccurs="0"/>
+			<xs:element name="internalOrder" type="xs:string" minOccurs="0"/>
+			<xs:element name="wbs" type="xs:string" minOccurs="0"/>
+			<xs:element name="iwbsLine" type="xs:string" minOccurs="0"/>
+			<xs:element name="vatRate1" type="xs:integer" minOccurs="0"/>
+			<xs:element name="vatRate2" type="xs:integer" minOccurs="0"/>
+			<xs:element name="vatRate3" type="xs:integer" minOccurs="0"/>
+			<xs:element name="vatRate4" type="xs:integer" minOccurs="0"/>
+			<xs:element name="vatAmount1" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="vatAmount2" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="vatAmount3" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="vatAmount4" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="invoiceFinal" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvoiceType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="header" type="msg:HeaderType"/>
+			<xs:element name="invoiceItem" type="msg:InvoiceItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeaderType">
+		<xs:annotation>
+			<xs:documentation>Cet objet correspond à.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="entityCode" type="xs:string"/>
+			<xs:element name="operationType" type="xs:string"/>
+			<xs:element name="documentType" type="xs:string"/>
+			<xs:element name="flowId" type="xs:string"/>
+			<xs:element name="partnerID" type="xs:string"/>
+			<xs:element name="accountDocumentId" type="xs:string" minOccurs="0"/>
+			<xs:element name="fiscalYear" type="xs:string" minOccurs="0"/>
+			<xs:element name="accountingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="submissionDate" type="xs:date"/>
+			<xs:element name="reference" type="xs:string" minOccurs="0"/>
+			<xs:element name="supplierVatNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="authorizingOfficerReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="caseReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="silogOrder" type="xs:string" minOccurs="0"/>
+			<xs:element name="referenceDocumentNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="referenceDocumentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="vatCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="vatRate" type="xs:integer" minOccurs="0"/>
+			<xs:element name="currency" type="iso:CurrencyType"/>
+			<xs:element name="amountDocCurrency" type="xs:decimal"/>
+			<xs:element name="vatAmount" type="xs:decimal"/>
+			<xs:element name="amount" type="xs:decimal"/>
+			<xs:element name="vatcAmount" type="xs:decimal"/>
+			<xs:element name="fundsCommitmentId" type="xs:string"/>
+			<xs:element name="paymentReference" type="xs:string"/>
+			<xs:element name="paymentDueDate" type="xs:date"/>
+			<xs:element name="houseBank" type="xs:string" minOccurs="0"/>
+			<xs:element name="paymentAccount" type="xs:string" minOccurs="0"/>
+			<xs:element name="partnerBank" type="xs:string"/>
+			<xs:element name="partnerAccount" type="xs:string"/>
+			<xs:element name="paymentInstruction" type="xs:string"/>
+			<xs:element name="paiementCondition" type="xs:string"/>
+			<xs:element name="paymentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="lockPayment" type="xs:string" minOccurs="0"/>
+			<xs:element name="headerText" type="xs:string" minOccurs="0"/>
+			<xs:element name="inlineHeaderText" type="xs:string" minOccurs="0"/>
+			<xs:element name="workspaceUrl" type="xs:string" minOccurs="0"/>
+			<xs:element name="documentStatus" type="xs:string" minOccurs="0"/>
+			<xs:element name="documentStatusCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="supplierName1" type="xs:string" minOccurs="0"/>
+			<xs:element name="supplierName2" type="xs:string" minOccurs="0"/>
+			<xs:element name="supplierEmail" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitStreet" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitHouseNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitZipCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitCountryKey" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitCity" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitRegion" type="xs:string" minOccurs="0"/>
+			<xs:element name="remitPoBox" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingStreet" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingHousNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingZipCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingCountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingCity" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippingRegion" type="xs:string" minOccurs="0"/>
+			<xs:element name="shippinPoBox" type="xs:string" minOccurs="0"/>
+			<xs:element name="vatNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="swiftInternational" type="xs:string" minOccurs="0"/>
+			<xs:element name="discountInvoice" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="paiementDateCahsDiscount1" type="xs:date" minOccurs="0"/>
+			<xs:element name="paiementDateCahsDiscount2" type="xs:date" minOccurs="0"/>
+			<xs:element name="namePaymentInstruction" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

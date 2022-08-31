@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:trusd="http://soa.spw.wallonie.be/data/entity/employerRegister/trustee/v1" xmlns:adr="http://soa.spw.wallonie.be/data/entity/address/address/v2" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:niss="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/employerRegister/trustee/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v2" schemaLocation="../address/address_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:complexType name="RepresentativeType">
+		<xs:complexContent>
+			<xs:extension base="trusd:BasicTrusteeType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasicTrusteeType">
+		<xs:annotation>
+			<xs:documentation>Définition du curateur ou du mandataire.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="offices">
+				<xs:annotation>
+					<xs:documentation>Bureaux du curateur/mandataire.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="office" maxOccurs="2">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="denomination" nillable="false">
+										<xs:annotation>
+											<xs:documentation>Dénomination/Nom du curateur ou du mandataire c.q. mandataire Mineur.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="48"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="trusteeAddress" type="adr:BasicAddressType" nillable="false"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="countryCode" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code du pays où le curateur est établi.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="00000"/>
+						<xs:maxInclusive value="99999"/>
+						<xs:pattern value="[0-9]{5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="qualityCode" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>La qualité du curateur ou mandataire. Elle concerne le lien avec un employeur particulier:
+1 Curateur/Mandataire principal
+0 Curateur/Mandataire secondaire</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="9"/>
+						<xs:pattern value="[0-9]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrusteeType">
+		<xs:complexContent>
+			<xs:extension base="trusd:BasicTrusteeType">
+				<xs:sequence>
+					<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType" nillable="true" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Numéro BCE du curateur. Cet élément est absent dans le cas d’un mandataire. Cette zone a uniquement une valeur indicative.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="heldByPerson" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="personNumber" type="niss:PersonNumberType" nillable="true">
+									<xs:annotation>
+										<xs:documentation>Si le curateur est une personne physique, cette zone comprend le NISS du curateur.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="languageRule" type="cod:DescriptiveCodeType" nillable="true" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Cette zone comprend le code linguistique du curateur :
+1 français
+2 allemand
+3 néerlandais
+4 bilingue</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="trusteeshipDate" nillable="true">
+						<xs:annotation>
+							<xs:documentation>Date de la ‘Curatelle’.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:date"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

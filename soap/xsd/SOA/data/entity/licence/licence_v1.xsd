@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:approv="http://soa.spw.wallonie.be/data/entity/licence/licence/v1" xmlns:org="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:date="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:pernum="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:entnum="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/licence/licence/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>
+            Definitions of licence types.
+        </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" schemaLocation="../spw/organisation_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../enterprise/enterpriseNumber_v2.xsd"/>
+	<xs:complexType name="licenceType">
+		<xs:annotation>
+			<xs:documentation>
+                Definition of a licence.
+            </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="licenceNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro de permis attribué par le service public</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="licenceType" type="cod:CodeType">
+				<xs:annotation>
+					<xs:documentation>Type de permis (environnement,urbanisme ,pêche, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="licenceObject" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Objet du permis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="licenceLanguage" type="cod:DescriptiveCodeType" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Langue du dossier (Fr ou DE)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="licenceOwner" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Propriétaire du permis</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="enterpriseNumber" type="entnum:CbeEntityNumberType" minOccurs="0"/>
+						<xs:element name="personNumber" type="pernum:PersonNumberType" minOccurs="0"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="organisation" type="org:OrganisationType" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Organisation ou service responsable du permis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="administrativeStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Statut du permis : actif, retiré, suspendu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="validityPeriod" type="date:PeriodType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Période de validité du permis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:element name="licence" type="approv:licenceType"/>
+</xs:schema>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:att="http://bced.wallonie.be/data/entity/dmfa/attestation/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:work="http://bced.wallonie.be/data/entity/dmfa/worker/v1" targetNamespace="http://bced.wallonie.be/data/entity/dmfa/attestation/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://bced.wallonie.be/data/entity/dmfa/worker/v1" schemaLocation="workerRecordType_v1.xsd"/>
+	<xs:element name="attestation">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="attestationInformation" type="att:AttestationInformationType"/>
+				<xs:element name="workerRecord" type="work:ExtendedWorkerRecordType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AttestationType">
+		<xs:sequence>
+			<xs:element name="attestationInformation" type="att:AttestationInformationType"/>
+			<xs:element name="workerRecord" type="work:ExtendedWorkerRecordType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttestationInformationType">
+		<xs:sequence>
+			<xs:element name="attestationIdentification">
+				<xs:annotation>
+					<xs:documentation>100040</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:long">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999999999"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="attestationSituationNbr">
+				<xs:annotation>
+					<xs:documentation>100041</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:long">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="99999999999"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="attestationStatus">
+				<xs:annotation>
+					<xs:documentation>100003</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="4"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="attestationCreationDate">
+				<xs:annotation>
+					<xs:documentation>100043</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:date">
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

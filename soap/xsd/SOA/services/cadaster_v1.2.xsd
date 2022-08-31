@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:adr="http://soa.spw.wallonie.be/data/entity/address/address/v2" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:bcad_common="http://soa.spw.wallonie.be/data/businness/cadaster/cadaster/v1" xmlns:parcelId="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentification/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:ns2="http://soa.spw.wallonie.be/services/cadaster/v1" targetNamespace="http://soa.spw.wallonie.be/services/cadaster/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/businness/cadaster/cadaster/v1" schemaLocation="../data/business/cadaster/cadaster_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../data/common/code_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentification/v1" schemaLocation="../data/entity/property/parcelIdentification_v1.2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../data/entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v2" schemaLocation="../data/entity/address/address_v2.xsd"/>
+	<xs:element name="getParcel">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType"/>
+									<xs:element name="parcelPicture" default="false">
+										<xs:simpleType>
+											<xs:restriction base="xs:boolean">
+												<xs:pattern value="true"/>
+												<xs:pattern value="false"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="parcelPropertyHistory" default="false">
+										<xs:simpleType>
+											<xs:restriction base="xs:boolean">
+												<xs:pattern value="true"/>
+												<xs:pattern value="false"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getParcelResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="parcel" type="bcad_common:ParcelType"/>
+						<xs:element name="parcelIdentifications">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getParcelByAddress">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice>
+										<xs:element name="addressId">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="source" type="xs:string"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:sequence>
+											<xs:element name="municipalityCode">
+												<xs:annotation>
+													<xs:documentation>code of the community (INS)</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:totalDigits value="5"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="streetCode">
+												<xs:annotation>
+													<xs:documentation>code of the street(NSR)</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:totalDigits value="5"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="houseNumber" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Housenumber</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="11"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:choice>
+									<xs:element name="parcelPicture" default="false">
+										<xs:simpleType>
+											<xs:restriction base="xs:boolean">
+												<xs:pattern value="true"/>
+												<xs:pattern value="false"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="maxResult">
+										<xs:annotation>
+											<xs:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:totalDigits value="3"/>
+												<xs:minInclusive value="1"/>
+												<xs:maxInclusive value="999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getParcelByAddressResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="parcel" type="bcad_common:ParcelType" minOccurs="0"/>
+						<xs:element name="parcelByAddressIdentifications" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcelByAddressIdentification" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType"/>
+												<xs:element name="address" type="adr:AddressType" minOccurs="0"/>
+												<xs:element name="nature" type="cod:CodeType" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getParcelHistory">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType"/>
+									<xs:element name="parcelPicture" default="false">
+										<xs:simpleType>
+											<xs:restriction base="xs:boolean">
+												<xs:pattern value="true"/>
+												<xs:pattern value="false"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getParcelHistoryResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="parcels" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcel" type="bcad_common:ParcelType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<!--
+						<xs:element name="parcelIdentifications">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcelIdentification" type="parcelId:ParcelIdentificationType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						-->
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getPropertySituationsHistory">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="articleId">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="22"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:sequence>
+										<xs:element name="cadastralDivision">
+											<xs:annotation>
+												<xs:documentation>Cadastral division</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:integer">
+													<xs:totalDigits value="5"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="article">
+											<xs:annotation>
+												<xs:documentation>article number from Cadnet</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:integer">
+													<xs:totalDigits value="5"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="sequenceNumber">
+											<xs:simpleType>
+												<xs:restriction base="xs:integer">
+													<xs:totalDigits value="4"/>
+													<xs:minInclusive value="1"/>
+													<xs:maxInclusive value="9999"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getPropertySituationsHistoryResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="propertySituationsHistory" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="propertySituationHistory" type="bcad_common:PropertySituationHistoryType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchCadastralMatrix">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:sequence>
+										<xs:element name="cadastralDivision" type="xs:string"/>
+										<xs:element name="enterpriseNumber" type="ns1:CbeEntityNumberType"/>
+									</xs:sequence>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchCadastralMatrixResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="parcels" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="parcel" type="bcad_common:ParcelType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

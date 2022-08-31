@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:finho="http://bced.wallonie.be/data/entity/nonprofit/financinghour/v1" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" targetNamespace="http://bced.wallonie.be/data/entity/nonprofit/financinghour/v1" elementFormDefault="qualified" version="1.00">
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of CENM financing hours types.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="FinancingHourType">
+		<xs:sequence>
+			<xs:element name="source" type="cod:CodeType"/>
+			<xs:element name="hours" type="xs:double"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

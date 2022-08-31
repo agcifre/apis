@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:aa="http://soa.spw.wallonie.be/services/enterpriseAnnualAccounts/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:entdat="http://soa.spw.wallonie.be/data/entity/enterprise/date/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" targetNamespace="http://soa.spw.wallonie.be/services/enterpriseAnnualAccounts/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" schemaLocation="../data/entity/enterprise/denomination_v1.xsd"/>
+	<xs:element name="getEnterpriseAnnualAccounts">
+		<xs:annotation>
+			<xs:documentation>Opération rendant les comptes annuels d'une entrprise pour une année définie.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="aa:GetEnterpriseAnnualAccountRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEnterpriseAnnualAccountsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="enterpriseAnnualAccounts" type="aa:GetEnterpriseAnnualAccountResponseType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchAvailableEnterpriseAnnualAccounts">
+		<xs:annotation>
+			<xs:documentation>Opération permettant de lister l'ensemble des comptes annuels disponibles</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="aa:SearchAvailableEnterpriseAnnualAccountsRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchAvailableEnterpriseAnnualAccountsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="availableEnterpriseAnnualAccounts" type="aa:SearchAvailableEnterpriseAnnualAccountsResponseType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetEnterpriseAnnualAccountRequestType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType">
+				<xs:annotation>
+					<xs:documentation>le numéro d'entreprise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accountingYear">
+				<xs:annotation>
+					<xs:documentation>l'année comptable recherchée</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:gYear">
+						<xs:minInclusive value="2008"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="xbrlVersion" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>la version XBRL dans laquelle les comptes doivent être rendu</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:gYear">
+						<xs:minInclusive value="2014"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchAvailableEnterpriseAnnualAccountsRequestType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType">
+				<xs:annotation>
+					<xs:documentation>Le numéro BCE de l'entreprise recherchée</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetEnterpriseAnnualAccountResponseType">
+		<xs:sequence>
+			<xs:element name="entepriseNumber" type="num:CbeEntityNumberType">
+				<xs:annotation>
+					<xs:documentation>Le numéro d'entreprise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accountingYear">
+				<xs:annotation>
+					<xs:documentation>L'année comptable</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:gYear">
+						<xs:minInclusive value="2008"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="xbrl" type="xs:base64Binary">
+				<xs:annotation>
+					<xs:documentation>la référence XOP des comptes annuels</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchAvailableEnterpriseAnnualAccountsResponseType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="xs:long"/>
+			<xs:element name="denomination" type="den:DenominationType" minOccurs="0"/>
+			<xs:element name="annualAccount" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="accountingYear">
+							<xs:simpleType>
+								<xs:restriction base="xs:gYear">
+									<xs:minInclusive value="2008"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="closingDate" type="xs:date"/>
+						<xs:element name="depositPeriod" type="dat:ClosedPeriodType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 sp1 (http://www.altova.com) by End User (free.org) -->
+<xs:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://spw.wallonie.be/common/identification/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tic="http://spw.wallonie.be/data/common/ticket/v1" targetNamespace="http://spw.wallonie.be/common/identification/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.01">
+	<!--Describe how a customer is identifed-->
+	<!--related to bced namespace v3.00-->
+	<!--v1.01 : Add RecipietOrEmitterType-->
+	<xs:import namespace="http://spw.wallonie.be/data/common/ticket/v1" schemaLocation="ticket_v1.xsd"/>
+	<xs:complexType name="RecipientOrIssuerType">
+		<xs:annotation>
+			<xs:documentation>The type recipientOrEmitter is used to 
+describe an application that will send or receive mesaages.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="organisationId">
+				<xs:annotation>
+					<xs:documentation>The identifier of the organisation.
+For example, the RWID, the CBE number, ...</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="source">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="RWID"/>
+										<xs:enumeration value="CBEN"/>
+										<xs:enumeration value="SPWLDAPID"/>
+										<xs:enumeration value="OTHER"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="applicationId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The id of the application in DTIC application's repository</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicationName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The name of the application</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomerInformationsType">
+		<xs:sequence>
+			<xs:element name="humanContact" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the client application's responsible person. 
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xsd:string">
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="e-Mail" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Email of the client application's responsible person.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xsd:string">
+						<xs:pattern value="[^@]+@[^\.]+\..+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="applicationName">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the client application.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="organisationId">
+				<xs:annotation>
+					<xs:documentation>
+						The organisationId is the CBE Number of the organisation.
+						If no CBE Number exists, that could also be the RWID ( provider = notra.wallonie.be ).
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestIdentificationType">
+		<xs:sequence>
+			<xs:element name="ticket" type="tic:UUIDType">
+				<xs:annotation>
+					<xs:documentation>
+						A unique request identification, created by the consumer
+						of the service. The main use is for logging and auditing.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timestampSent" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="customerInformations" type="tns:CustomerInformationsType"/>
+	<xs:element name="requestIdentification" type="tns:RequestIdentificationType"/>
+</xs:schema>

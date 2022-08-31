@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" version="1.0">
+	<xs:complexType name="EntrepriseType">
+		<xs:sequence>
+			<xs:element name="DateInscription" type="xs:date" nillable="true"/>
+			<xs:element name="DateDemarrage" type="xs:date" nillable="true"/>
+			<xs:element name="DateCessation" type="xs:date" nillable="true"/>
+			<xs:element name="MotifCessation" type="xs:string"/>
+			<xs:element name="DateCloture" type="xs:date" nillable="true"/>
+			<xs:element name="StatutActuel" type="xs:string"/>
+			<xs:element name="Designation" type="xs:string"/>
+			<xs:element name="DesignationType" type="xs:string"/>
+			<xs:element name="Duree" type="xs:int"/>
+			<xs:element name="Capital" type="xs:int"/>
+			<xs:element name="CodeMonetaire" type="xs:string"/>
+			<xs:element name="Adresses" type="AdresseType"/>
+			<xs:element name="Activites" type="ActiviteType"/>
+			<xs:element name="Autorisations" type="AutorisationType"/>
+			<xs:element name="Bilans" type="BilanType"/>
+			<xs:element name="CompteBancaires" type="CompteBancaireType"/>
+			<xs:element name="Finances" type="FinanceType"/>
+			<xs:element name="FormeJuridiques" type="FormeJuridiqueType"/>
+			<xs:element name="IdentifiantExternes" type="IdentExterneType"/>
+			<xs:element name="PositionJuridiques" type="PositionJuridiqueType"/>
+			<xs:element name="Denominations" type="DenominationType"/>
+			<xs:element name="Publications" type="PublicationType"/>
+			<xs:element name="Etablissements" type="EtablissementType"/>
+			<xs:element name="EntreprisesFilsPere" type="EntrepriseFilsPereType"/>
+			<xs:element name="EntreprisesPereFils" type="EntreprisePereFilsType"/>
+			<xs:element name="NumeroEntreprise" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdresseType">
+		<xs:sequence>
+			<xs:element name="Adresse" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Type" type="xs:string"/>
+						<xs:element name="CodeRue" type="xs:string"/>
+						<xs:element name="CodeRegime" type="xs:string"/>
+						<xs:element name="CodeLangue" type="xs:string"/>
+						<xs:element name="NomRue" type="xs:string"/>
+						<xs:element name="NomRue21" type="xs:string"/>
+						<xs:element name="NomRue25" type="xs:string"/>
+						<xs:element name="NumeroMaison" type="xs:string"/>
+						<xs:element name="Boite" type="xs:string"/>
+						<xs:element name="CodePostal" type="xs:string"/>
+						<xs:element name="CodeIns" type="xs:string"/>
+						<xs:element name="NomCommune" type="xs:string"/>
+						<xs:element name="Etat" type="xs:string"/>
+						<xs:element name="CodePays" type="xs:string"/>
+						<xs:element name="NomPays" type="xs:string"/>
+						<xs:element name="Complement" type="xs:string"/>
+						<xs:element name="Telephone" type="xs:string"/>
+						<xs:element name="Fax" type="xs:string"/>
+						<xs:element name="Email" type="xs:string"/>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActiviteType">
+		<xs:sequence>
+			<xs:element name="Activite" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AdminInstrum" type="xs:string"/>
+						<xs:element name="Nacebel" type="xs:string"/>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="Niveau" type="xs:string"/>
+						<xs:element name="Activ" type="xs:string"/>
+						<xs:element name="NaceVersion" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AutorisationType">
+		<xs:sequence>
+			<xs:element name="Autorisation" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Autoris" type="xs:string"/>
+						<xs:element name="DateInscription" type="xs:date" nillable="true"/>
+						<xs:element name="PhaseActuelle" type="xs:string"/>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="MotifCessation" type="xs:string"/>
+						<xs:element name="AdminDelivrance" type="xs:string"/>
+						<xs:element name="Duree" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BilanType">
+		<xs:sequence>
+			<xs:element name="Bilan" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateDebutExercice" type="xs:date" nillable="true"/>
+						<xs:element name="DateFinExercice" type="xs:date" nillable="true"/>
+						<xs:element name="NatureCompteAnnuel" type="xs:string"/>
+						<xs:element name="DateAssembleeGenerale" type="xs:date" nillable="true"/>
+						<xs:element name="DateDepotAccept" type="xs:date" nillable="true"/>
+						<xs:element name="Langue" type="xs:string"/>
+						<xs:element name="AdminInstrum" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CompteBancaireType">
+		<xs:sequence>
+			<xs:element name="CompteBancaire" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="ObjetUtilisation" type="xs:string"/>
+						<xs:element name="NumeroSequence" type="xs:string"/>
+						<xs:element name="NumeroCompte" type="xs:string"/>
+						<xs:element name="NumeroCompteEuro" type="xs:string"/>
+						<xs:element name="BIC" type="xs:string"/>
+						<xs:element name="NumeroCompteNonSEPA" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FinanceType">
+		<xs:sequence>
+			<xs:element name="Finance" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="FinExerciceJJ" type="xs:int"/>
+						<xs:element name="FinExerciceMM" type="xs:int"/>
+						<xs:element name="DebutExercice" type="xs:date" nillable="true"/>
+						<xs:element name="FinExercice" type="xs:date" nillable="true"/>
+						<xs:element name="AssAnnuelleMM" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FormeJuridiqueType">
+		<xs:sequence>
+			<xs:element name="FormeJuridique" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="FinExerciceJJ" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentExterneType">
+		<xs:sequence>
+			<xs:element name="IdentifiantExterne" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Type" type="xs:string"/>
+						<xs:element name="IdentExterne" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PositionJuridiqueType">
+		<xs:sequence>
+			<xs:element name="PositionJuridique" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="PositionJurid" type="xs:string"/>
+						<xs:element name="AdminDelivrance" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DenominationType">
+		<xs:sequence>
+			<xs:element name="Denomination" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CodeLangue" type="xs:string"/>
+						<xs:element name="TypeNom" type="xs:string"/>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="Denom" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublicationType">
+		<xs:sequence>
+			<xs:element name="Publication" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DatePublication" type="xs:date" nillable="true"/>
+						<xs:element name="NumeroActe" type="xs:string"/>
+						<xs:element name="TypeSujet" type="xs:string"/>
+						<xs:element name="Langue" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EtablissementPereFilsType">
+		<xs:sequence>
+			<xs:element name="EtablissementPereFils" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FilsId">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="CodeLien" type="xs:string"/>
+						<xs:element name="DateFinale" type="xs:date" nillable="true"/>
+						<xs:element name="MotifFinLien" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EtablissementFilsPereType">
+		<xs:sequence>
+			<xs:element name="EtablissementFilsPere" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PereId">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="CodeLien" type="xs:string"/>
+						<xs:element name="DateFinale" type="xs:date" nillable="true"/>
+						<xs:element name="MotifFinLien" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EntreprisePereFilsType">
+		<xs:sequence>
+			<xs:element name="EntreprisePereFils" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FilsId">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="CodeLien" type="xs:string"/>
+						<xs:element name="DateFinale" type="xs:date" nillable="true"/>
+						<xs:element name="MotifFinLien" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EntrepriseFilsPereType">
+		<xs:sequence>
+			<xs:element name="EntrepriseFilsPere" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PereId">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DateInitiale" type="xs:date" nillable="true"/>
+						<xs:element name="CodeLien" type="xs:string"/>
+						<xs:element name="DateFinale" type="xs:date" nillable="true"/>
+						<xs:element name="MotifFinLien" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EtablissementType">
+		<xs:sequence>
+			<xs:element name="Etablissement" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NumeroEtablissement" type="xs:string"/>
+						<xs:element name="DateInscription" type="xs:date" nillable="true"/>
+						<xs:element name="DateDemarrage" type="xs:date" nillable="true"/>
+						<xs:element name="DateCessation" type="xs:date" nillable="true"/>
+						<xs:element name="MotifCessation" type="xs:string"/>
+						<xs:element name="DateCloture" type="xs:date" nillable="true"/>
+						<xs:element name="StatutActuel" type="xs:string"/>
+						<xs:element name="Designation" type="xs:string"/>
+						<xs:element name="DesignationType" type="xs:string"/>
+						<xs:element name="Duree" type="xs:int"/>
+						<xs:element name="Capital" type="xs:int"/>
+						<xs:element name="CodeMonetaire" type="xs:string"/>
+						<xs:element name="Adresses" type="AdresseType"/>
+						<xs:element name="Activites" type="ActiviteType"/>
+						<xs:element name="Autorisations" type="AutorisationType"/>
+						<xs:element name="Denominations" type="DenominationType"/>
+						<xs:element name="IdentifiantExternes" type="IdentExterneType"/>
+						<xs:element name="EtablissementsFilsPere" type="EtablissementFilsPereType"/>
+						<xs:element name="EtablissementsPereFils" type="EtablissementPereFilsType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

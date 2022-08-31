@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" xmlns:exOff="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../../common/code_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" schemaLocation="exOfficioExecution_v2.xsd"/>
+	<xs:simpleType name="CbeJuridicalFormCodeType">
+		<xs:annotation>
+			<xs:documentation>Reference to the juridical form of the enterprise (anonymous corporation, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalFormOfficialAbbreviationCodeType">
+		<xs:annotation>
+			<xs:documentation>Reference to the</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="JuridicalFormType">
+		<xs:annotation>
+			<xs:documentation>Juridical Form information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="form" type="cod:DescriptiveCodeType"/>
+			<xs:element name="officialCodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="officialAbbreviation" type="jurf:CbeJuridicalFormOfficialAbbreviationCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="exOfficioExecutions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="exOfficioExecution" type="exOff:ExOfficioExecutionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="validityStartDate" type="xs:date"/>
+		<xs:attribute name="validityEndDate" type="xs:date"/>
+	</xs:complexType>
+</xs:schema>

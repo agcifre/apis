@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:lot="http://soa.spw.wallonie.be/data/entity/lot/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/lot/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns:eve="http://soa.spw.wallonie.be/data/entity/event/v1" xmlns:pref="http://soa.spw.wallonie.be/data/entity/document/v1"
+	xmlns:cri="http://soa.spw.wallonie.be/data/entity/awardCriteria/v1" xmlns:par="http://soa.spw.wallonie.be/data/entity/partner/v1">
+	<xs:import schemaLocation="event_v1.xsd" namespace="http://soa.spw.wallonie.be/data/entity/event/v1">
+	</xs:import>
+	<xs:import schemaLocation="document_v1.xsd" namespace="http://soa.spw.wallonie.be/data/entity/document/v1"></xs:import>
+	<xs:import schemaLocation="awardCriteria_v1.xsd" namespace="http://soa.spw.wallonie.be/data/entity/awardCriteria/v1"></xs:import>
+    <xs:import schemaLocation="partner_v1.xsd" namespace="http://soa.spw.wallonie.be/data/entity/partner/v1"></xs:import>
+	<xs:complexType name="LotType">
+        <xs:annotation>
+            <xs:documentation>Structure générale d'un lot.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="lotGeneralInformation" type="lot:LotGeneralInformationType">
+                <xs:annotation>
+                    <xs:documentation>Informations générales du lot</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+			<xs:element name="lotCharacteristics" type="lot:LotCharacteristicsType">
+                <xs:annotation>
+                    <xs:documentation>Caractéristiques du lot</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+			<xs:element name="lotDocuments" type="pref:DocumentListType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Documents liés au lot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lotEvents" type="eve:EventsListType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Evénements liés au lot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+            <xs:element name="lotAmendments" type="lot:LotAmendmentsListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Avenants liés au lot</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LotGeneralInformationType">
+        <xs:annotation>
+            <xs:documentation>Informations générales du lot.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="lotId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>L'identifiant Ariane unique du lot, généré par Ariane</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="lotExternalId">
+				<xs:annotation>
+					<xs:documentation>L'identifiant externe unique du lot, géré par l'application responsable du marché</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Intitulé du lot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Description du lot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lotStatusCode">
+				<xs:annotation>
+					<xs:documentation>Le statut du lot (Domaine de la liste : STATUT_LOT)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="estimatedAmount" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Montant estimé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="biddersNumber" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nombre de soumissionnaires</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="successfullBidderBce" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Numéro BCE de l'adjudicataire</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="15"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="successfullBidderName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dénomination de l'adjudicataire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LotCharacteristicsType">
+        <xs:annotation>
+            <xs:documentation>Caractéristiques du lot.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="jointLot" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Lot conjoint</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="partners" type="par:PartnersListType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Partenaire(s)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cpvCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Domaine CPV du lot (Domaine de la liste : CPV)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nutsCode">
+				<xs:annotation>
+					<xs:documentation>Lieu d'exécution (Domaine de la liste : NUTS)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="precisionPlaceExecution" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Précision lieu d'exécution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="guarantee" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Garantie</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="guaranteeDuration" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée garantie (nombre)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="guaranteeDurationUnitCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée garantie (unité) (Domaine de la liste : UNITE_DELAIS)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="optionLot" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Lot à options</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="freeOptionsAllowed" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Options libres autorisées</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="relatedOptions" minOccurs="0" type="lot:OptionListType">
+				<xs:annotation>
+					<xs:documentation>Options liées au lot</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="variantLot" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Lot à variantes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="freeVariantsAllowed" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Variantes libres autorisées</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="relatedVariants" minOccurs="0" type="lot:VarianteListType">
+				<xs:annotation>
+					<xs:documentation>Variantes liées au lot</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element name="repeatingLot" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Lot répétable</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="repeatingLimitDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date limite de répétabilité</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="renewableLot" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Lot reconductible</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="renewableMax" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nombre max de reconductions</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="minDurationOrders" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée minimum pour les commandes (nombre)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="minDurationOrdersUnitCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée minimum pour les commandes (unité) (Domaine de la liste : UNITE_DELAIS)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="maxDurationOrders" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée maximum pour les commandes (nombre)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maxDurationOrdersUnitCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Durée maximum pour les commandes (unité) (Domaine de la liste : UNITE_DELAIS)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"></xs:maxLength>
+						<xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="awardCriteriaCode" type="cri:AwardCriteriaType">
+				<xs:annotation>
+					<xs:documentation>Critère d'attribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LotListType">
+        <xs:annotation>
+            <xs:documentation>Liste des lots d'un marché public.</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="lot" type="lot:LotType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Liste de lots</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="LotOptionType">
+        <xs:annotation>
+            <xs:documentation>Option d'un lot.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Intitulé de l'option</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description de l'option</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="mandatory" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Option obligatoire ?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="OptionListType">
+        <xs:annotation>
+            <xs:documentation>Liste d'options liées à un lot</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="option" type="lot:LotOptionType" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="LotVarianteType">
+        <xs:annotation>
+            <xs:documentation>Variante d'un lot.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Intitulé de la variante</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description de la variante</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="mandatory" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Variante obligatoire ?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="minimumRequirements" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Les exigences minimales de la variante</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="VarianteListType">
+        <xs:annotation>
+            <xs:documentation>Liste de variantes liées à un lot</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="variante" type="lot:LotVarianteType" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="LotAmendmentType">
+        <xs:annotation>
+            <xs:documentation>Avenant d'un lot</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="amendmentCauseCode">
+                <xs:annotation>
+                    <xs:documentation>La cause de l'avenant (Domaine de la liste : CAUSE_AVENANT)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"></xs:maxLength>
+                        <xs:pattern value="[A-Za-z0-9_]{1,50}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="title" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Intitulé de l'avenant</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description de l'avenant</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="financialImpact" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Impact financier ?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="delayImpact" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Impact délai ?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="amendmentDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Date de l'avenant</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LotAmendmentsListType">
+        <xs:annotation>
+            <xs:documentation>Liste des amendements liés à un lot.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="amendment" type="lot:LotAmendmentType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Liste d'amendements</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

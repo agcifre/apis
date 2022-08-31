@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:debt="http://soa.spw.wallonie.be/data/business/enterpriseDebt/debtAttestation/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/enterpriseDebt/debtAttestation/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:complexType name="BasicDebtAttestationType">
+		<xs:attribute name="submissionDate" type="xs:date"/>
+		<xs:attribute name="referenceNumber">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="64"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>Fiscal Debt Types</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="FiscalDebtAttestationType">
+		<xs:complexContent>
+			<xs:extension base="debt:BasicDebtAttestationType">
+				<xs:sequence>
+					<xs:element name="hasFiscallDebt" type="xs:boolean"/>
+					<xs:element name="fiscalDebtAmount" type="debt:AmountType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>SocialDebt Types</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="CDSDocumentIdType">
+		<xs:annotation>
+			<xs:documentation>[1,2,3][A,B,C,D][00, ..., 99]</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DisputeTypeType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="4"/>
+			<xs:totalDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AmountType">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EurocentAmountType">
+		<xs:restriction base="xs:long">
+			<xs:minExclusive value="-100000000000000000"/>
+			<xs:maxExclusive value="100000000000000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SocialDebtAttesationType">
+		<xs:complexContent>
+			<xs:extension base="debt:BasicDebtAttestationType">
+				<xs:sequence>
+					<xs:element name="cdsDocumentId" type="debt:CDSDocumentIdType"/>
+					<xs:element name="closingDate" type="xs:date"/>
+					<xs:element name="closingQuarter" type="dat:QuarterType"/>
+					<xs:element name="isPaymentPlanFollowed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="balanceAmounts" type="debt:BalanceAmountsType" minOccurs="0"/>
+					<xs:element name="dispute" type="debt:DisputeType" minOccurs="0"/>
+					<xs:element name="missingDeclarationQuarters" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="quarter" type="dat:QuarterType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BalanceAmountsType">
+		<xs:sequence>
+			<xs:element name="totalContribution" type="debt:EurocentAmountType" minOccurs="0"/>
+			<xs:element name="totalIncreases" type="debt:EurocentAmountType" minOccurs="0"/>
+			<xs:element name="totalInterests" type="debt:EurocentAmountType" minOccurs="0"/>
+			<xs:element name="totalLegalCost" type="debt:EurocentAmountType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DisputeType">
+		<xs:sequence>
+			<xs:element name="disputeType" type="debt:DisputeTypeType"/>
+			<xs:element name="amount" type="debt:AmountType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

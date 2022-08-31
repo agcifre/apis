@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/business/enterprise/businessUnit/v3" xmlns:basic="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" xmlns:activ="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v3" xmlns:link="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v2" xmlns:func="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v5" targetNamespace="http://soa.spw.wallonie.be/business/enterprise/businessUnit/v3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" schemaLocation="enterpriseBasicType_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../../common/code_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v3" schemaLocation="activity_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v5" schemaLocation="functions_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/linked/v2" schemaLocation="linkedEnterprise_v2.xsd"/>
+	<xs:complexType name="BusinessUnitType">
+		<xs:complexContent>
+			<xs:extension base="basic:EnterpriseBasicType">
+				<xs:sequence>
+					<xs:element name="linkedEnterprises" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="linkedEnterprise" type="link:LinkedEnterpriseType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="activities" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="activity" type="activ:ActivityType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="functions" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="function" type="func:FunctionType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="source" type="cod:CodeSourceType"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

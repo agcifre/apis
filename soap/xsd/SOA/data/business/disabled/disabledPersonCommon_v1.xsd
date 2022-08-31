@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonCommon/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/data/business/disabled/disabledPersonCommon/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:complexType name="HandicapAuthenticSourcesType">
+		<xsd:sequence>
+			<xsd:element name="DGPH" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="VSB" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="KindEnGezin" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="IrisCare" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="NicCin" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="AVIQ" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="DSL" type="xsd:boolean" default="false" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HandicapAuthenticPaymentsSourcesType">
+		<xsd:sequence>
+			<xsd:element name="DGPH" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="VSB" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="IrisCare" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="NicCin" type="xsd:boolean" default="false" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FilePartsType">
+		<xsd:sequence>
+			<xsd:element name="evolutionOfRequest" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="handicapRecognitions" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="rights" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="socialCards" type="xsd:boolean" default="false" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

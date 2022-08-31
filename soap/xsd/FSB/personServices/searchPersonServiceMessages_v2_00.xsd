@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		xmlns:mes="http://fsb.belgium.be/searchPersonService/messages/v2_00" 
+		xmlns:nam="http://fsb.belgium.be/data/entity/person/name/v1_00" 
+		xmlns:add="http://fsb.belgium.be/data/entity/address/v1_00"
+		xmlns:dat="http://fsb.belgium.be/data/common/date/v1_00" 
+		xmlns:ctx="http://fsb.belgium.be/data/business/context/v1_00"
+		xmlns:bus="http://fsb.belgium.be/data/business/person/v1_00"
+		xmlns:err="http://fsb.belgium.be/data/common/error/v1_00"
+		targetNamespace="http://fsb.belgium.be/searchPersonService/messages/v2_00" 
+		elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	
+	<xs:annotation>
+		<xs:documentation>Definition of the request and response messages used by the wsPerson search service.</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://fsb.belgium.be/data/entity/address/v1_00" schemaLocation="../data/entity/address/v1_00/address.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/common/date/v1_00" schemaLocation="../data/common/date/v1_00/date.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/entity/person/name/v1_00" schemaLocation="../data/entity/person/name/v1_00/name.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/business/person/v1_00" schemaLocation="../data/business/person/v1_00/naturalPerson.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/business/context/v1_00" schemaLocation="../data/business/context/v1_00/context.xsd"/>
+	<xs:import namespace="http://fsb.belgium.be/data/common/error/v1_00" schemaLocation="../data/common/error/v1_00/error.xsd"/>
+
+	<xs:element name="searchPersonByNameRequest" type="mes:SearchPersonByNameRequestType"/>
+	<xs:element name="searchPersonByNameResponse" type="mes:SearchPersonByNameResponseType"/>
+
+	<xs:element name="searchPersonByAddressRequest" type="mes:SearchPersonByAddressRequestType"/>
+	<xs:element name="searchPersonByAddressResponse" type="mes:SearchPersonByAddressResponseType"/>
+
+	<xs:complexType name="SearchPersonByNameRequestType">
+		<xs:annotation>
+			<xs:documentation>The request requires a mandatory person name and birth date, and optionally a birth date tolerance, a gender, a NIS code, and the maximum number of data to be returned.
+
+Searches are phonetically, so persons who are not an exact match may also be returned.
+
+If the search yields too many results, an error is returned and the consumer must retry with narrower search criteria.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="ctx:userContext"/>
+			<xs:element name="personName">
+				<xs:annotation>
+					<xs:documentation>The person name must contain the last name, and may optionally contain first names.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+						<xs:element name="middleName" type="xs:string" minOccurs="0"/>
+						<xs:element name="lastName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="birthDate">
+				<xs:annotation>
+					<xs:documentation>The birth date should be exact as possible to narrow the search criteria. The century and the year indicators must be filled in. The month and the day indicators may be omitted.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="century">
+							<xs:annotation>
+								<xs:documentation>Century indicator. Valid centuries: 16, 17, 18, 19, 20</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="16|17|18|19|20"/>
+								</xs:restriction>					
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="year">
+							<xs:annotation>
+								<xs:documentation>Year indicator. Valid years: 00, 01, ..., 99</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d\d"/>
+								</xs:restriction>					
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="month" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Month indicator. Valid months: 00, 01, 02, ..., 12</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="00|01|02|03|04|05|06|07|08|09|10|11|12"/>
+								</xs:restriction>					
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="day" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Day of the month indicator. Valid days: 00, 01, 02, ..., 31</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[012]\d|30|31"></xs:pattern>
+								</xs:restriction>					
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="birthDateTolerance" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The birth date tolerance is specified in the most significant units of the birth date that are filled in. For example, if the birth date is specified to the day, then the tolerance is also in days. If the birth date is specified to the month, then  the tolerance is in months.
+If the birth date is specified to the year, then the tolerance is in years.
+
+Note that for rare names a tolerance in years may work fine, but for a very common name the tolerance should be set very small.
+
+If no tolerance is provided, it is set to one, by default.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gender" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The gender specification allows searches to be limited to either males or females.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="MALE"/>
+						<xs:enumeration value="FEMALE"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nisCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The NIS code can be specified to search only within a specific (Belgian) municipality.
+This must be a five-digit number.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="maxReturnData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The maximum number of data to be returned.
+
+Note that the service provider has a limitation of 30 persons. If more persons are found, the service provider returns an error.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minExclusive value="0"/>
+						<xs:maxExclusive value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="SearchPersonByNameResponseType">
+		<xs:annotation>
+			<xs:documentation>The response is a list of persons with basic information, and the total number of results.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="numberOfResults" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The number of results returned</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="bus:basicNaturalPerson" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The list of persons fulfilling the search criteria. Only some basic information is filled in for each person.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="err:error" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="SearchPersonByAddressRequestType">
+		<xs:annotation>
+			<xs:documentation>The request requires a mandatory address, and optionally the type of persons to search for and the page number of the result data.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="ctx:userContext"/>
+			<xs:element name="address">
+				<xs:annotation>
+					<xs:documentation>The address at which to search the persons. Only Belgian addresses can be searched.
+
+The address must contain a postcode, a streetcode, and a house number. The bus number (or house number extension) is optional. The address type also requires a municipality. This should be set to nil; any other value is ignored.
+
+The house number cannot have more than four digits, which is a service-provider limitation.
+
+For apartment blocks, the house number extension, or bus number, generally defines a single apartment. Searches with the house number extension filled in yield the persons living in a single apartment, whereas searches without the extension filled in may yield all persons living in the whole block.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="postcode" type="xs:string"/>
+						<xs:element name="streetcode" type="xs:string"/>
+						<xs:element name="houseNumber" type="xs:string"/>
+						<xs:element name="houseNumberExtension" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="typeOfPersons" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indicator stating whether all persons living at the specified address need to be returned, or only those persons who are head of family.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ALL"/>
+						<xs:enumeration value="HEAD_OF_FAMILY"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="page" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The page number of the search results. Defaults to one.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SearchPersonByAddressResponseType">
+		<xs:annotation>
+			<xs:documentation>The response is a list of persons with basic information, and the total number of results.
+
+Also returned is a 'page' indicator and an indicator if there are more pages or not. Each page contains at most 20 results. This is a current limitation enforced by the service provider.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="numberOfResults" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>The number of results returned</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="bus:basicNaturalPerson" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The list of persons fulfilling the search criteria. Only some basic information is filled in for each person.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="page" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The page number of the search results.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasNextPage" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicator if there are more pages than the current one.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="err:error" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

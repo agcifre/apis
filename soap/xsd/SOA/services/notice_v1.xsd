@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:el="http://soa.spw.wallonie.be/data/business/notice/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:ns1="http://soa.spw.wallonie.be/services/notice/messages/v1" targetNamespace="http://soa.spw.wallonie.be/services/notice/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/notice/v1" schemaLocation="../data/business/notice/notice_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>20200128 - Première version</xs:documentation>
+		<xs:documentation>20200305 - Deuxième version suite à la validation SPW</xs:documentation>
+		<xs:documentation>20200611 - Version finale</xs:documentation>
+	</xs:annotation>
+	<xs:element name="searchNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs
+                                            notifications
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="noticeInstanceId" type="xs:string" minOccurs="1" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>Identifiant unique de l'instance d'avis</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="notices" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="notice" type="el:SearchNoticeResponseType" minOccurs="1" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>
+                                            L'identifiant unique d'une notification dans Notice.
+                                            Le résultat sera toujours la notification demandée.
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="noticeId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="notice" type="el:GetNoticeResponseType" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocument">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="documentId" type="xs:string" minOccurs="1" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>
+                                                L'identifiant unique d'un document d'une notification dans Notice
+                                            </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="noticeId" type="xs:string" minOccurs="1" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>
+                                                L'identifiant unique d'une notification dans Notice
+                                            </xs:documentation>
+										</xs:annotation>
+										<!-- Afin d'ajouter de la sécurité à la demande, il est indispensable d'ajouter le numéro d'identification de la notification qui est liée au document demandé -->
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocumentResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="document" type="el:GetDocumentResponseType" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationClaim">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="el:PublishNoticeClaimRequestType" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationClaimResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="result" type="el:PublishNoticeClaimResponseType" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="el:PublishNoticeRequestType" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="result" type="el:PublishNoticeResponseType" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceByName">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs
+                                            instance
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>Dénomination de l'instance</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceByCode">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs
+                                            instance
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>Identifiant de l'instance d'avis (Numéro BCE ou code Annuaire SPW)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="instances" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="instance" type="el:SearchInstanceResponseType" minOccurs="1" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:simpleType name="CbeJuridicalFormCodeType">
+		<xs:annotation>
+			<xs:documentation>Reference to the juridical form of the enterprise (anonymous corporation, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalFormOfficialAbbreviationCodeType">
+		<xs:annotation>
+			<xs:documentation>Reference to the</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="JuridicalFormType">
+		<xs:annotation>
+			<xs:documentation>Juridical Form information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="formCode" type="jurf:CbeJuridicalFormCodeType">
+				<xs:annotation>
+					<xs:documentation>CBE?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="codeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="officialCodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="officialAbbreviation" type="jurf:CbeJuridicalFormOfficialAbbreviationCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="validityPeriod" type="dat:PeriodType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

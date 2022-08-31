@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="inscriptions">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="inscription" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="InscriptionType">
+		<xs:sequence>
+			<xs:element name="inscriptionReference" type="xs:string"/>
+			<xs:element name="subject" type="xs:string"/>
+			<xs:element name="dossierId" type="xs:string" minOccurs="0"/>
+			<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+			<xs:element name="period">
+				<xs:annotation>
+					<xs:documentation>La période durant laquelle l' inscription est valid</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="beginDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="inscriptionDate" type="xs:date" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="organisationId" type="xs:string"/>
+				<xs:element name="organisation" type="xs:string"/>
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="contextId" type="xs:string"/>
+				<xs:element name="context" type="xs:string"/>
+			</xs:choice>
+			<xs:element name="inscriptionType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="IMPLICIT"/>
+						<xs:enumeration value="EXPLICIT"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="deletionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="modificationDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="deleted" type="xs:boolean" use="required"/>
+		<xs:attribute name="isValid" type="xs:boolean"/>
+		<xs:attribute name="action">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="create"/>
+					<xs:enumeration value="update"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="inscription" type="InscriptionType"/>
+</xs:schema>

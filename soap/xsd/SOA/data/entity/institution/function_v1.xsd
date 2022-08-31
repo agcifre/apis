@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/institution/function/v1" xmlns:Q1="http://soa.spw.wallonie.be/data/entity/institution/member/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/institution/function/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/institution/member/v1" schemaLocation="member_v1.xsd"/>
+	<xs:simpleType name="FunctionTypeType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="FunctionType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+			<xs:element name="functionType" type="tns:FunctionTypeType"/>
+			<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="forfeitureDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="remunerated" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="member" type="Q1:MemberType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

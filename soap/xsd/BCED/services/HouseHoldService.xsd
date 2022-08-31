@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/services/HouseHoldService/messages/v1" xmlns:mes="http://fsb.belgium.be/householdService/messages/v1_00" xmlns:mes2="http://fsb.belgium.be/searchPersonService/messages/v2_00" xmlns:num="http://fsb.belgium.be/data/entity/person/number/v1_00" xmlns:ctx="http://fsb.belgium.be/data/business/context/v1_00" xmlns:bus="http://fsb.belgium.be/data/business/person/v1_00" xmlns:err="http://fsb.belgium.be/data/common/error/v1_00" xmlns:id="http://bced.wallonie.be/common/identification" xmlns:priv="http://bced.wallonie.be/common/privacylog/v2" targetNamespace="http://bced.wallonie.be/services/HouseHoldService/messages/v1" elementFormDefault="qualified">
+	<import namespace="http://fsb.belgium.be/data/entity/person/number/v1_00" schemaLocation="../../FSB/data/entity/person/number/v1_00/personNumber.xsd"/>
+	<import namespace="http://fsb.belgium.be/data/business/person/v1_00" schemaLocation="../../FSB/data/business/person/v1_00/naturalPerson.xsd"/>
+	<import namespace="http://fsb.belgium.be/data/business/context/v1_00" schemaLocation="../../FSB/data/business/context/v1_00/context.xsd"/>
+	<import namespace="http://fsb.belgium.be/data/common/error/v1_00" schemaLocation="../../FSB/data/common/error/v1_00/error.xsd"/>
+	<import namespace="http://fsb.belgium.be/householdService/messages/v1_00" schemaLocation="../../FSB/personServices/householdServiceMessages_v1_00.xsd"/>
+	<import namespace="http://bced.wallonie.be/common/identification" schemaLocation="../data/common/identification_v1.xsd"/>
+	<import namespace="http://bced.wallonie.be/common/privacylog/v2" schemaLocation="../data/common/privacy.xsd"/>
+	<element name="getHeadOfHousehold" type="tns:GetHeadOfHouseholdType"/>
+	<element name="getHeadOfHouseholdResponse" type="mes:GetHeadOfHouseholdResponseType">
+		<annotation>
+			<documentation>
+				Definition of the response message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+	</element>
+	<element name="isHeadOfHousehold" type="tns:IsHeadOfHouseholdRequestType"/>
+	<element name="isHeadOfHouseholdResponse" type="mes:IsHeadOfHouseholdResponseType">
+		<annotation>
+			<documentation>
+				Definition of the response message for the isHeadOfHousehold operation
+			</documentation>
+		</annotation>
+	</element>
+	<element name="getNumberOfHouseholdMembers" type="tns:GetNumberOfHouseholdMembersRequestType"/>
+	<element name="getNumberOfHouseholdMembersResponse" type="mes:GetNumberOfHouseholdMembersResponseType">
+		<annotation>
+			<documentation>
+				Definition of the response message for the getNumberOfHouseholdMembers operation
+			</documentation>
+		</annotation>
+	</element>
+	<element name="getHousehold" type="tns:GetHouseholdRequestType"/>
+	<element name="getHouseholdResponse" type="mes:GetHouseholdResponseType">
+		<annotation>
+			<documentation>Definition of the response message for the getHousehold operation</documentation>
+		</annotation>
+	</element>
+	<element name="getHouseholdEvents" type="tns:GetHouseholdEventsRequestType"/>
+	<element name="getHouseholdEventsResponse" type="mes:GetHouseholdEventsResponseType">
+		<annotation>
+			<documentation>Definition of the response message for the getHouseholdHistory operation</documentation>
+		</annotation>
+	</element>
+	<complexType name="GetHeadOfHouseholdType">
+		<annotation>
+			<documentation>
+				Definition of the request message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:GeneralRequestRefDateType">
+				<sequence>
+					<!-- possible extensions go here -->
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="IsHeadOfHouseholdRequestType">
+		<annotation>
+			<documentation>
+				Definition of the request message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:GeneralRequestRefDateType">
+				<sequence>
+					<!-- possible extensions go here -->
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetNumberOfHouseholdMembersRequestType">
+		<annotation>
+			<documentation>
+				Definition of the request message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:GeneralRequestRefDateType">
+				<sequence>
+					<!-- possible extensions go here -->
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetHouseholdRequestType">
+		<annotation>
+			<documentation>
+				Definition of the request message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:GeneralRequestRefDateType">
+				<sequence>
+					<!-- possible extensions go here -->
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetHouseholdEventsRequestType">
+		<annotation>
+			<documentation>
+				Definition of the request message for the getHeadOfHousehold operation
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:GeneralRequestType">
+				<sequence>
+					<!-- possible extensions go here -->
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GeneralRequestType" abstract="true">
+		<annotation>
+			<documentation>Definition of the type of the general request message for household operations</documentation>
+		</annotation>
+		<sequence>
+			<element name="CustomerInformations" type="id:ClientIdentification"/>
+			<element name="RequestIdentification" type="id:RequestIdentification"/>
+			<element name="PrivacyLog" type="priv:PrivacyLog"/>
+			<element name="Request">
+				<complexType>
+					<sequence>
+						<!-- xs:element ref="ctx:userContext" /-->
+						<element name="personNumber" type="num:PersonNumberType">
+							<annotation>
+								<documentation>The person's national or social security number. This must be exactly 11 digits long.</documentation>
+							</annotation>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="GeneralRequestRefDateType" abstract="true">
+		<annotation>
+			<documentation>Definition of the type of the general request message for household operations</documentation>
+		</annotation>
+		<sequence>
+			<element name="CustomerInformations" type="id:ClientIdentification"/>
+			<element name="RequestIdentification" type="id:RequestIdentification"/>
+			<element name="PrivacyLog" type="priv:PrivacyLog"/>
+			<element name="Request">
+				<complexType>
+					<sequence>
+						<!-- xs:element ref="ctx:userContext" /-->
+						<element name="personNumber" type="num:PersonNumberType">
+							<annotation>
+								<documentation>The person's national or social security number. This must be exactly 11 digits long.</documentation>
+							</annotation>
+						</element>
+						<element name="referenceDate" type="xs:date" minOccurs="0">
+							<annotation>
+								<documentation>
+								A reference date may be given to which date the request refers to. This date can only be in the past. If omitted, today's date is
+								implied, and the actual, current situation is returned. If a future date is given, an error will occur.
+							</documentation>
+							</annotation>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+</schema>

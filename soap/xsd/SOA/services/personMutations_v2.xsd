@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://soa.spw.wallonie.be/services/mutation/person/messages/v2" xmlns:ns3="http://soa.spw.wallonie.be/data/business/mutation/person/v2" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/services/mutation/person/messages/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/mutation/person/v2" schemaLocation="../data/business/mutation/person_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:element name="searchPersonMutations">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="period" type="dat:PeriodType"/>
+									<xs:element name="paging" type="xs:integer" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchPersonMutationsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="numberOfMutationEvents" type="xs:int"/>
+						<xs:element name="hasNextPage" type="xs:boolean"/>
+						<xs:element name="personMutations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ns3:personMutation" maxOccurs="50"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

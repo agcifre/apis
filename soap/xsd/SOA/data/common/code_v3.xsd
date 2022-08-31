@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v3" xmlns:lab="http://soa.spw.wallonie.be/data/common/label/v2" targetNamespace="http://soa.spw.wallonie.be/data/common/code/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.01">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/label/v2" schemaLocation="labels_v2.xsd"/>
+	<xs:simpleType name="SimpleCodeType">
+		<xs:annotation>
+			<xs:documentation>A simple code type consists of a string, which is at least one character long, and cannot start with whitespace.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^\s].*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DescriptiveCodeType">
+		<xs:annotation>
+			<xs:documentation>A descriptive code type consists of a simple code, and zero or more descriptions for that code. If more than one description is provided, each should be in a different language, although this is not enforced in the schema.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code">
+				<xs:annotation>
+					<xs:documentation>A code should have a simple code which identifies it.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="cod:SimpleCodeType"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="description" type="lab:DescriptionType" minOccurs="0" maxOccurs="4">
+				<xs:annotation>
+					<xs:documentation>The description of a code is not always known, or required. In many cases, the simple code is sufficient, and the description can be omitted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CodeType">
+		<xs:annotation>
+			<xs:documentation>A code type is the generally reusable code which equals a descriptive code, with the addition of an attribute which defines the origin, or source, of the code. This is useful when passing on codes defined by service providers, and which need to be identified as such.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="cod:DescriptiveCodeType">
+				<xs:attribute name="origin" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Declaration types-->
+	<xs:complexType name="DescriptionType">
+		<xs:simpleContent>
+			<xs:extension base="cod:DescriptionBaseType">
+				<xs:attribute name="language" type="cod:LanguageType"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="DescriptionBaseType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LanguageType">
+		<xs:annotation>
+			<xs:documentation>Type specifying the language of a given value</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="nl"/>
+			<xs:enumeration value="fr"/>
+			<xs:enumeration value="de"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

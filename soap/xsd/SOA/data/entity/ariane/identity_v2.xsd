@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" xmlns:tns="http://soa.spw.wallonie.be/services/identity/messages/v2" targetNamespace="http://soa.spw.wallonie.be/services/identity/messages/v2" attributeFormDefault="unqualified" version="2.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../person/name_v1.1.xsd"/>
+	<xs:complexType name="IdentityType">
+		<xs:sequence>
+			<xs:element name="id">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="source" type="tns:SourceType" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="email" type="xs:string" minOccurs="0"/>
+			<xs:element name="name" type="nam:NameType" minOccurs="0"/>
+			<xs:element name="organization" type="tns:OrganizationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentityListType">
+		<xs:sequence>
+			<xs:element name="identity" type="tns:IdentityType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="code" type="xs:string" minOccurs="0"/>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SourceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IAM"/>
+			<xs:enumeration value="ULIS"/>
+			<xs:enumeration value="AD"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PublicOrganisationCategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="localGov"/>
+			<xs:enumeration value="regionalGov"/>
+			<xs:enumeration value="publicInterest"/>
+			<xs:enumeration value="privateCompanies"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BasicNameType">
+		<xs:sequence>
+			<xs:element name="firstName" nillable="true" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\S+(.*\S+)*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="lastName" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\S+(.*\S+)*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

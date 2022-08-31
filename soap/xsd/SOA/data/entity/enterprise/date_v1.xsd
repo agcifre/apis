@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:entdat="http://soa.spw.wallonie.be/data/entity/enterprise/date/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:entcode="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/date/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" schemaLocation="code_v1.xsd"/>
+	<xs:complexType name="ValidityType">
+		<xs:annotation>
+			<xs:documentation>Validity of an information by CBE, iow : date and reason of a closure if occured.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="validityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="closingDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="stopCode" type="entcode:CbeStopCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseDateType">
+		<xs:annotation>
+			<xs:documentation>Important dates of an enterprise : inscription and age.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="InscriptionDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available, in year</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

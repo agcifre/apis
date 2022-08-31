@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:per="http://soa.spw.wallonie.be/data/business/cadaster/person/v1" xmlns:adr="http://soa.spw.wallonie.be/data/entity/address/address/v5" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v3" targetNamespace="http://soa.spw.wallonie.be/data/business/cadaster/person/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v5" schemaLocation="../../entity/address/address_v5.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" schemaLocation="../../entity/person/personNumber_v3.xsd"/>
+	<!-- ** Person ** -->
+	<xsd:complexType name="PersonType">
+		<xsd:sequence>
+			<xsd:element name="id">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="12"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="personNumber" type="num:PersonNumberType" minOccurs="0"/>
+			<xsd:element name="firstName" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="100"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="lastName" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="100"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="birthDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="addresses" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="address" type="adr:AddressType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="source" type="xsd:string"/>
+	</xsd:complexType>
+</xsd:schema>

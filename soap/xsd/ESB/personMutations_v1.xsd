@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 rel. 3 (x64) (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:element name="publishMutationTrigger">
+		<xs:annotation>
+			<xs:documentation>message that launch the mutation job.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="jobId" type="xs:string"/>
+				<xs:element name="jobType">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="person"/>
+							<xs:enumeration value="household"/>
+							<xs:enumeration value="subjectMutation"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="input">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="bcssVoucher" type="FileType"/>
+							<xs:element name="mutationFiles">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="mutationFile" type="FileType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="output">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="outputFolder" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Folder where output files has to be generated</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="outputFolderStructure">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="organisation/mutationContext"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishBCSSMutationFilesCleanup">
+		<xs:annotation>
+			<xs:documentation>message sent to  ESB used to cleanup the BCSS FTP</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="files">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="file" type="FileType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FileType">
+		<xs:sequence>
+			<xs:element name="fileName" type="xs:string"/>
+			<xs:element name="fileURL" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

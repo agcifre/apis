@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:tns="http://soa.spw.wallonie.be/data/business/notice/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://soa.spw.wallonie.be/services/notice/messages/v1" targetNamespace="http://soa.spw.wallonie.be/services/notice/messages/v1" elementFormDefault="qualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/notice/v1" schemaLocation="../data/business/notice/notice_v1.1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>20200128 - Première version</xs:documentation>
+		<xs:documentation>20200305 - Deuxième version suite à la validation SPW</xs:documentation>
+		<xs:documentation>20200611 - Version finale</xs:documentation>
+	</xs:annotation>
+	<xs:element name="searchNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs notifications</xs:documentation>
+									</xs:annotation>
+									<xs:element name="noticeInstanceId" type="xs:string" minOccurs="1">
+										<xs:annotation>
+											<xs:documentation>Identifiant unique de l'instance d'avis</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="noticeType" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Type de la notification</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="dateFrom" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Date de création de la notification à partir de</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="dateTo" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Date de création de la notification jusqu'à</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="status" minOccurs="0">
+										<xs:simpleType>
+											<xs:annotation>
+												<xs:documentation>Statut de la notification</xs:documentation>
+											</xs:annotation>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="EN_ATTENTE_REPONSE"/>
+												<xs:enumeration value="TERMINE"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="boType" minOccurs="0">
+										<xs:simpleType>
+											<xs:annotation>
+												<xs:documentation>Type de métier</xs:documentation>
+											</xs:annotation>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="TWICE"/>
+												<xs:enumeration value="GESPER"/>
+												<!--Permis d'environnement-->
+												<!--Permis d'urbanisme-->
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="notices" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="notice" type="tns:SearchNoticeResponseType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>
+                                            L'identifiant unique d'une notification dans Notice.
+                                            Le résultat sera toujours la notification demandée.
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="noticeId" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="notice" type="tns:GetNoticeResponseType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocument">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="documentId" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>
+                                                L'identifiant unique d'un document d'une notification dans Notice
+                                            </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="noticeId" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>
+                                                L'identifiant unique d'une notification dans Notice
+                                            </xs:documentation>
+										</xs:annotation>
+										<!-- Afin d'ajouter de la sécurité à la demande, il est indispensable d'ajouter le numéro d'identification de la notification qui est liée au document demandé -->
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocumentResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="document" type="tns:GetDocumentResponseType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationClaim">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishNoticeClaimRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationClaimResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="result" type="tns:PublishNoticeClaimResponseType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:PublishNoticeRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="result" type="tns:PublishNoticeResponseType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceByName">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs
+                                            instance
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="name" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>Dénomination de l'instance</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceByCode">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:annotation>
+										<xs:documentation>Critères de recherche permettant de trouver une ou plusieurs
+                                            instance
+                                        </xs:documentation>
+									</xs:annotation>
+									<xs:element name="code" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>Identifiant de l'instance d'avis (Numéro BCE ou code
+                                                Annuaire SPW)
+                                            </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInstanceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="instances" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="instance" type="tns:SearchInstanceResponseType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishManualNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:publishManualNotificationRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishManualNotificationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="result" type="tns:PublishManualNotificationResponseType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:activity="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/activity/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:simpleType name="CbeActivityVersionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="2003"/>
+			<xs:enumeration value="2008"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbeActivityTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="P">
+				<xs:annotation>
+					<xs:documentation>Principal activity</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="S">
+				<xs:annotation>
+					<xs:documentation>Secondary activity</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="H">
+				<xs:annotation>
+					<xs:documentation>Help activity</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ActivityType">
+		<xs:annotation>
+			<xs:documentation>Activities information, using formally nace code.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="administrationCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nacebel" type="cod:DescriptiveCodeType"/>
+			<xs:element name="activityType" type="activity:CbeActivityTypeType" minOccurs="0"/>
+			<xs:element name="validityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="version" type="activity:CbeActivityVersionType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

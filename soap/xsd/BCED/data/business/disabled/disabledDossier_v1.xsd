@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:disf="http://bced.wallonie.be/data/business/disabled/disabledDossier/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pay="http://bced.wallonie.be/data/entity/disabled/payments/v1" xmlns:rights="http://bced.wallonie.be/data/entity/disabled/rights/v1" xmlns:card="http://bced.wallonie.be/data/entity/disabled/socialCard/v1" xmlns:req="http://bced.wallonie.be/data/business/requestEvolution/v1" xmlns:handi="http://bced.wallonie.be/data/entity/disabled/handicap/v1" targetNamespace="http://bced.wallonie.be/data/business/disabled/disabledDossier/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://bced.wallonie.be/data/entity/disabled/payments/v1" schemaLocation="../../entity/disabled/payments_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/disabled/handicap/v1" schemaLocation="../../entity/disabled/handicap_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/disabled/rights/v1" schemaLocation="../../entity/disabled/rights_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/disabled/socialCard/v1" schemaLocation="../../entity/disabled/socialCard_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/business/requestEvolution/v1" schemaLocation="requestEvolution_v1.xsd"/>
+	<xs:complexType name="DisabledDossierType">
+		<xs:sequence>
+			<xs:element name="requestEvolution" type="req:RequestEvolutionType" minOccurs="0"/>
+			<xs:element name="handicapRecognition" type="handi:HandicapType" minOccurs="0"/>
+			<xs:element name="rights" type="rights:RightsType" minOccurs="0"/>
+			<xs:element name="socialCards" type="card:SocialCardsType" minOccurs="0" maxOccurs="2"/>
+			<xs:element name="payments" type="pay:PaymentsType" minOccurs="0" maxOccurs="24"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

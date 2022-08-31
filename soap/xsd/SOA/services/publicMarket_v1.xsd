@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/publicMarket/messages/v1" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v4" xmlns:busTypology="http://soa.spw.wallonie.be/data/business/ariane/typology/v1" xmlns:busMarket="http://soa.spw.wallonie.be/data/business/ariane/market/v1" targetNamespace="http://soa.spw.wallonie.be/services/publicMarket/messages/v1">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/response/v1" schemaLocation="../data/common/response_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/ariane/typology/v1" schemaLocation="../data/business/ariane/typology_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/ariane/market/v1" schemaLocation="../data/business/ariane/market_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v4" schemaLocation="../data/common/error_v4.xsd"/>
+	<!-- Messages -->
+	<xs:element name="searchTypologyRequest" type="msg:SearchTypologyRequestMsgType"/>
+	<xs:element name="searchTypologyResponse" type="msg:SearchTypologyResponseMsgType"/>
+	<xs:element name="searchMarketRequest" type="msg:SearchMarketRequestMsgType"/>
+	<xs:element name="searchMarketResponse" type="msg:SearchMarketResponseMsgType"/>
+	<xs:element name="getMarketRequest" type="msg:GetMarketRequestMsgType"/>
+	<xs:element name="getMarketResponse" type="msg:GetMarketResponseMsgType"/>
+	<xs:element name="publishMarketRequest" type="msg:PublishMarketRequestMsgType"/>
+	<xs:element name="publishMarketResponse" type="msg:PublishMarketResponseMsgType"/>
+	<xs:element name="fault" type="err:ErrorOrWarningType"/>
+	<!-- Message types -->
+	<xs:complexType name="SearchTypologyRequestMsgType">
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="busTypology:TypologyRequestType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchTypologyResponseMsgType">
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="typologies" type="busTypology:TypologyResponseType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchMarketRequestMsgType">
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="busMarket:SearchMarketRequestType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchMarketResponseMsgType">
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="marketsSummaries" type="busMarket:SearchMarketResponseType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetMarketRequestMsgType">
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="busMarket:GetMarketRequestType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetMarketResponseMsgType">
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="market" type="busMarket:GetMarketResponseType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishMarketRequestMsgType">
+		<xs:complexContent>
+			<xs:extension base="req:PrivacyRequestType">
+				<xs:sequence>
+					<xs:element name="request" type="busMarket:PublishMarketRequestType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishMarketResponseMsgType">
+		<xs:complexContent>
+			<xs:extension base="resp:ResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="market" type="busMarket:PublishMarketResponseType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

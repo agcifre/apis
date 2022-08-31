@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:approv="http://bced.wallonie.be/data/entity/nonprofit/approval/v1" xmlns:disp="http://bced.wallonie.be/data/entity/nonprofit/dispositif/v1" xmlns:train="http://bced.wallonie.be/data/entity/nonprofit/trainingplan/v1" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" xmlns:wrk="http://bced.wallonie.be/data/entity/nonprofit/worker/v1" targetNamespace="http://bced.wallonie.be/data/entity/nonprofit/approval/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>Definitions of CENM approval types.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/dispositif/v1" schemaLocation="dispositif_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/trainingplan/v1" schemaLocation="trainingplan_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/worker/v1" schemaLocation="worker_v1.xsd"/>
+	<xs:complexType name="ApprovalType">
+		<xs:annotation>
+			<xs:documentation>Definition of a CENM approval.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="service" type="xs:string" minOccurs="0"/>
+			<xs:element name="approvalNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro d’agrément attribué par le service public</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="approvalType" type="cod:CodeType">
+				<xs:annotation>
+					<xs:documentation>Type de l’agrément (Agrément, autorisation provisoire, accord de principe)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="legalContextRef" type="disp:DispositifType">
+				<xs:annotation>
+					<xs:documentation>Référence vers le dispositif</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subsidyArticle" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Numéro de l’article sous lequel la subvention est octroyée</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date de début de validité de l’agrément</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date de fin planifié correspond soit à une date clairement définie car l’agrément a été attribué pour une période définie, soit lorsque l’agrément est attribué pour période indéterminée cette date sera la date de contrôle pour le service public. La date de retrait correspond à la date à laquelle l’agrément a été retiré.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="specificContent" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Information complémentaire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Statut de l'agrément : actif, retiré, suspendu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="weeklyTimetable" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Régime de travail hebdomadaire au sein de l’entreprise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="recognizedCapacity" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Capacité agréée</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subsidizedPlaceNumber" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nombre de places subventionnées</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="compensatoryHiring" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicateur pour indiquer si une embauche compensatoire est obligatoire dans le cadre de cet agrément</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointIndustrialComitee" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Commission Paritaire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trainingPlan" type="train:TrainingPlanType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Plan de formation associé à cet agrément</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+</xs:schema>

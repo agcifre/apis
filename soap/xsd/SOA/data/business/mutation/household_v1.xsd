@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:com="http://soa.spw.wallonie.be/data/business/mutation/common/v1" xmlns:mut="http://soa.spw.wallonie.be/data/business/mutation/household/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/mutation/household/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/mutation/common/v1" schemaLocation="common_v1.xsd"/>
+	<xs:complexType name="HouseHoldMutationInformationType">
+		<xs:complexContent>
+			<xs:extension base="com:BasicMutationType">
+				<xs:sequence>
+					<xs:element name="personNumber" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="HouseholdMutationType">
+		<xs:sequence>
+			<xs:element name="mutationContext" type="xs:string"/>
+			<xs:element name="mileStone" type="xs:string"/>
+			<xs:element name="expirationMutations" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="mutationInformation" type="mut:HouseholdExpirationMutationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="updateMutations" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="mutationInformation" type="mut:HouseholdUpdateMutationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HouseholdExpirationMutationType">
+		<xs:complexContent>
+			<xs:extension base="mut:HouseHoldMutationInformationType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="HouseholdUpdateMutationType">
+		<xs:complexContent>
+			<xs:extension base="mut:HouseHoldMutationInformationType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="householdMutations" type="mut:HouseholdMutationType"/>
+</xs:schema>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by Frédéric Boudin (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/employerRegister/v1" xmlns:niss="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:tinf="http://soa.spw.wallonie.be/data/entity/employerRegister/transferInformation/v1" xmlns:empc="http://soa.spw.wallonie.be/data/entity/employerRegister/employerCategory/v1" xmlns:sif="http://soa.spw.wallonie.be/data/entity/employerRegister/socialInsuranceFund/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" xmlns:onr="http://soa.spw.wallonie.be/data/entity/employerRegister/onssRegistration/v1" xmlns:emen="http://soa.spw.wallonie.be/data/entity/employerRegister/employerEnterprise/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/employerRegister/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/transferInformation/v1" schemaLocation="transfertInformation_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/employerCategory/v1" schemaLocation="employerCategory_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/socialInsuranceFund/v1" schemaLocation="socialInsuranceFund_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/onssRegistration/v1" schemaLocation="onssRegistration_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/employerEnterprise/v1" schemaLocation="employerEnterprise_v1.xsd"/>
+	<xs:complexType name="EmployerType">
+		<xs:annotation>
+			<xs:documentation>Definitions of employerRegister.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="enterprise" type="emen:Enterprise"/>
+			<xs:element name="onssRegistration" type="onr:OnssRegistration"/>
+			<xs:element name="kindOfEmployer" type="cod:DescriptiveCodeType" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Le « type d’employeur » indique à quel type d’entreprise appartient l’employeur.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="realEstateSectorCode" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Cette donnée n’est présente que s’il s’agit d’un employeur du secteur de l’immobilier ou de la construction. Ce code se compose de 2 chiffres :
+1ère position:
+    1, 2, 3, 4 = construction
+    ≥ 5 = immobilier
+2e position:
+    1 et 2 = non enregistré
+    3 et 4 = enregistré
+    7 = fin
+    8 = radié</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="2"/>
+						<xs:pattern value="[a-zA-Z0-9]{1}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="serviceProvider" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Est une personne morale ne faisant pas partie de l’entreprise et à qui est confié l'accès aux services en ligne sécurisés de la Sécurité Sociale pour remplir un certain nombre d'obligations. Il peut s'agir d'un comptable, ou d'un autre intermédiaire qui aide l’entreprise dans son administration sociale</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:annotation>
+						<xs:documentation>Cette zone contient le NISS du prestataire de services lorsqu’il s’agit d’une personne physique ou le numéro unique d’entreprise lorsqu’il s’agit d’une entreprise.</xs:documentation>
+					</xs:annotation>
+					<xs:choice>
+						<xs:element name="personNumber" type="niss:PersonNumberType" nillable="true">
+							<xs:annotation>
+								<xs:documentation>Cette zone contient le NISS du prestataire de services lorsqu’il s’agit d’une personne physique.		</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType" nillable="true">
+							<xs:annotation>
+								<xs:documentation>Cette zone contient le numéro unique d’entreprise lorsqu’il s’agit d’une entreprise.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="beginDate" type="xs:date" use="required"/>
+					<xs:attribute name="endDate" type="xs:date"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="socialInsuranceFund" type="sif:SocialInsuranceFund" nillable="true" minOccurs="0"/>
+			<xs:element name="employerCategories" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="employerCategory" type="empc:EmployerCategoryType" nillable="true" maxOccurs="30"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!-- Nombre de motifs mutation trouvés (max. 20) n 3-->
+			<xs:element name="transferInformations" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="transferInformation" type="tinf:TransferInformation" nillable="true" maxOccurs="10"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

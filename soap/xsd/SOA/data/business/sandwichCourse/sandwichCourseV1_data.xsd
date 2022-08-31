@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" xmlns:add="http://soa.spw.wallonie.be/data/entity/address/address/v2" xmlns:num="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" xmlns:tns="http://soa.spw.wallonie.be/data/business/sandwichCourse/v1" xmlns:persnum="http://soa.spw.wallonie.be/data/entity/person/number/v2" targetNamespace="http://soa.spw.wallonie.be/data/business/sandwichCourse/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../../entity/enterprise/enterpriseNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" schemaLocation="../../entity/enterprise/juridicalForm_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v2" schemaLocation="../../entity/address/address_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../../entity/person/personNumber_v2.xsd"/>
+	<xs:complexType name="AgreementType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" minOccurs="0"/>
+			<xs:element name="agreementId" type="xs:string"/>
+			<xs:element name="agreementNumberOperator" type="xs:string" minOccurs="0"/>
+			<xs:element name="askingNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="askingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="origin" type="xs:string" minOccurs="0"/>
+			<xs:element name="requester" type="xs:string" minOccurs="0"/>
+			<xs:element name="manager" type="xs:string" minOccurs="0"/>
+			<xs:element name="status" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastStep" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastStepUser" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+			<xs:element name="validityStartDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="validityEndDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="restriction" type="xs:string" minOccurs="0"/>
+			<xs:element name="job" type="xs:string" minOccurs="0"/>
+			<xs:element name="refusalReason" type="xs:string" minOccurs="0"/>
+			<xs:element name="temporaryAgreementDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+			<xs:element name="opinion" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="coach" type="xs:string" minOccurs="0"/>
+						<xs:element name="operator" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decision" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="decision" type="xs:string" minOccurs="0"/>
+						<xs:element name="date" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="removal" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requester" type="xs:string" minOccurs="0"/>
+						<xs:element name="askingNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="reason" type="xs:string" minOccurs="0"/>
+						<xs:element name="date" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="suspension" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requester" type="xs:string" minOccurs="0"/>
+						<xs:element name="askingNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="reason" type="xs:string" minOccurs="0"/>
+						<xs:element name="date" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="businessUnit" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="trainingUnitReference" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="name" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FinancialIncentiveType">
+		<xs:sequence>
+			<xs:element name="financialIncentiveId" type="xs:string"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+			<xs:element name="denomination" type="xs:string" minOccurs="0"/>
+			<xs:element name="amount" type="xs:integer" minOccurs="0"/>
+			<xs:element name="status" type="xs:string" minOccurs="0"/>
+			<xs:element name="paymentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="institution" type="xs:string" minOccurs="0"/>
+			<xs:element name="askingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="askingOrigin" type="xs:string" minOccurs="0"/>
+			<xs:element name="askingRequester" type="xs:string" minOccurs="0"/>
+			<xs:element name="askingNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastStep" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastStepUser" type="xs:string" minOccurs="0"/>
+			<xs:element name="offaOpinion" type="xs:string" minOccurs="0"/>
+			<xs:element name="offaOpinionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="offaRefusalReason" type="xs:string" minOccurs="0"/>
+			<xs:element name="dg06Opinion" type="xs:string" minOccurs="0"/>
+			<xs:element name="dg06OpinionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="dg06RefusalReason" type="xs:string" minOccurs="0"/>
+			<xs:element name="manager" type="xs:string" minOccurs="0"/>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="learner" type="persnum:PersonNumberType" minOccurs="0"/>
+			<xs:element name="dimona" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="learnerEnterpriseContract" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="enterpriseContractCount" type="xs:integer" minOccurs="0"/>
+						<xs:element name="lastCall" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="enterpriseDebt" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="fiscal" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="lastFiscalCall" type="xs:date" minOccurs="0"/>
+						<xs:element name="social" type="tns:SocialDebtType" minOccurs="0"/>
+						<xs:element name="lastSocialCall" type="xs:date" minOccurs="0"/>
+						<xs:element name="socialTicket" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="trainingUnitReference" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="name" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decision" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CertificationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="status" type="xs:boolean"/>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="date" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType"/>
+			<xs:element name="denomination" type="tns:DenominationType"/>
+			<xs:element name="juridicalForm" type="jurf:CbeJuridicalFormOfficialAbbreviationCode" minOccurs="0"/>
+			<xs:element name="physicalPerson" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="officialAddress" type="add:BasicAddressType" minOccurs="0"/>
+			<xs:element name="tvaNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="onssNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="insuranceNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="jointCommission" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="key" type="xs:string" minOccurs="0"/>
+						<xs:element name="label" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="contact" type="tns:ContactType" minOccurs="0"/>
+			<xs:element name="responsible" type="tns:ResponsibleType" minOccurs="0"/>
+			<xs:element name="businessUnits" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="businessUnit" type="tns:BusinessUnitType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="enabled" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" minOccurs="0"/>
+			<xs:element name="number" type="tns:ContractNumberType"/>
+			<xs:element name="details">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="status" type="xs:string" minOccurs="0"/>
+						<xs:element name="trainingOperator" type="xs:string" minOccurs="0"/>
+						<xs:element name="startDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date"/>
+						<xs:element name="type" type="xs:string" minOccurs="0"/>
+						<xs:element name="workTime" type="xs:decimal" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="jobs" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="job" type="xs:string" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="breach" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="date" type="xs:date"/>
+						<xs:element name="reason" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="suspension" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="date" type="xs:date"/>
+						<xs:element name="reason" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="level" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="levelADate" type="xs:date" minOccurs="0"/>
+						<xs:element name="levelBDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="levelCDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="avenants" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="contract" type="tns:ContractNumberType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="learner" type="persnum:PersonNumberType" minOccurs="0"/>
+			<xs:element name="enterprise" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="businessUnit" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="tutor" type="persnum:PersonNumberType" minOccurs="0"/>
+			<xs:element name="trainingOperator" type="xs:string" minOccurs="0"/>
+			<xs:element name="trainingUnitId" type="xs:string" minOccurs="0"/>
+			<xs:element name="referent" type="persnum:PersonNumberType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessUnitType">
+		<xs:sequence>
+			<xs:element name="businessUnitNumber" type="num:CbeEntityNumberType"/>
+			<xs:element name="denomination" type="tns:DenominationType"/>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType" minOccurs="0"/>
+			<xs:element name="bankAccount" type="tns:BankAccountType" minOccurs="0"/>
+			<xs:element name="officialAddress" type="add:BasicAddressType" minOccurs="0"/>
+			<xs:element name="contact" type="tns:ContactType" minOccurs="0"/>
+			<xs:element name="responsible" type="tns:ResponsibleType" minOccurs="0"/>
+			<xs:element name="tutors" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="tutor" type="persnum:PersonNumberType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="statistics" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="cefaLearnerCount" type="xs:int" minOccurs="0"/>
+						<xs:element name="ifapmeLearnerCount" type="xs:int" minOccurs="0"/>
+						<xs:element name="sfpmeLearnerCount" type="xs:int" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="bonuses" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="bonusP1received" type="xs:boolean"/>
+						<xs:element name="bonusP2received" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="agreements" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="agreement" type="xs:string" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="enabled" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TutorType">
+		<xs:complexContent>
+			<xs:extension base="tns:PersonType">
+				<xs:sequence>
+					<xs:element name="personNumber" type="persnum:PersonNumberType"/>
+					<xs:element name="trainingCapacity" type="xs:int" minOccurs="0"/>
+					<xs:element name="contact" type="tns:ContactType" minOccurs="0"/>
+					<xs:element name="authorizations" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="incentiveAuthorized" type="xs:boolean" minOccurs="0"/>
+								<xs:element name="managementAuthorized" type="xs:boolean" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="jobs" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="job" type="xs:string" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="businessUnits" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="businessUnit" type="num:CbeEntityNumberType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="contracts" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="contract" type="tns:ContractNumberType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="enabled" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LearnerType">
+		<xs:complexContent>
+			<xs:extension base="tns:PersonType">
+				<xs:sequence>
+					<xs:element name="personNumber" type="persnum:PersonNumberType"/>
+					<xs:element name="contact" type="tns:ContactType" minOccurs="0"/>
+					<xs:element name="registration" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+								<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="certification" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="type" type="xs:string" minOccurs="0"/>
+								<xs:element name="date" type="xs:date" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="level" type="xs:string" minOccurs="0"/>
+					<xs:element name="bonusReceived" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="bankAccount" type="tns:BankAccountType" minOccurs="0"/>
+					<xs:element name="enabled" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="legalRepresentative" type="persnum:PersonNumberType" minOccurs="0"/>
+					<xs:element name="contracts" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="contract" type="tns:ContractNumberType" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="registrations" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="registration" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="startDate" type="xs:date"/>
+											<xs:element name="learner" type="persnum:PersonNumberType"/>
+											<xs:element name="trainingCenter" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="trainingPlans" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="trainingPlan" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="lastUser" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LearningOrganisationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="socialClausesEligible" type="xs:boolean"/>
+			<xs:element name="duration" type="xs:int"/>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="audience" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LegalRepresentativeType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="firstname" type="xs:string"/>
+			<xs:element name="rnNumber" type="xs:string"/>
+			<xs:element name="street" type="xs:string"/>
+			<xs:element name="number" type="xs:string"/>
+			<xs:element name="postalCode" type="xs:int"/>
+			<xs:element name="city" type="xs:string"/>
+			<xs:element name="country" type="xs:string"/>
+			<xs:element name="phoneNumber" type="tns:phoneNumberType"/>
+			<xs:element name="email" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OpinionType">
+		<xs:sequence>
+			<xs:element name="number" type="xs:int"/>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="date" type="xs:date"/>
+			<xs:element name="status" type="xs:string"/>
+			<xs:element name="reason" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReferentType">
+		<xs:sequence>
+			<xs:element name="userId" type="xs:string" minOccurs="0"/>
+			<xs:element name="personNumber" type="persnum:PersonNumberType"/>
+			<xs:element name="phoneNumber" type="tns:phoneNumberType"/>
+			<xs:element name="trainingOperator" type="xs:string" minOccurs="0"/>
+			<xs:element name="trainingUnits" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="trainingUnitId" type="xs:string" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="contracts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="contract" type="tns:ContractNumberType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationType">
+		<xs:sequence>
+			<xs:element name="registration">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="startDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="learner" type="persnum:PersonNumberType"/>
+			<xs:element name="trainingCenter" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SectorialCoachType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="firstname" type="xs:string"/>
+			<xs:element name="rnNumber" type="xs:string"/>
+			<xs:element name="phoneNumber" type="tns:phoneNumberType"/>
+			<xs:element name="email" type="xs:string"/>
+			<xs:element name="sector" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrainingCenterType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="address" type="add:BasicAddressType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrainingOperatorType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="trainingUnits" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="trainingUnit" type="tns:TrainingUnitType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrainingPlanType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="level" type="xs:int"/>
+			<xs:element name="description" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrainingUnitType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="address" type="add:BasicAddressType"/>
+			<xs:element name="trainingCenters" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="trainingCenter" type="tns:TrainingCenterType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrainingNetworkType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UsualAgentType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="firstname" type="xs:string"/>
+			<xs:element name="street" type="xs:string"/>
+			<xs:element name="number" type="xs:string"/>
+			<xs:element name="postalCode" type="xs:int"/>
+			<xs:element name="city" type="xs:string"/>
+			<xs:element name="phoneNumber" type="tns:phoneNumberType"/>
+			<xs:element name="email" type="xs:string"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="function" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ValueListType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="values" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="value" type="tns:ValueType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ValueType">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string"/>
+			<xs:element name="label" type="xs:string"/>
+			<xs:element name="shortDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="longDescription" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VisitingReportType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="description" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="phoneNumbers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="phoneNumber" type="tns:phoneNumberType" maxOccurs="3"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="fax" type="xs:string" minOccurs="0"/>
+			<xs:element name="email" type="xs:string" minOccurs="0"/>
+			<xs:element name="address" type="add:BasicAddressType" minOccurs="0"/>
+			<xs:element name="webSite" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CivilityType" final="list">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Mr."/>
+			<xs:enumeration value="Mme."/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ResponsibleType">
+		<xs:complexContent>
+			<xs:extension base="tns:BasicPersonType">
+				<xs:sequence>
+					<xs:element name="function" type="xs:string" minOccurs="0"/>
+					<xs:element name="email" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasicPersonType">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+			<xs:element name="civility" type="tns:CivilityType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BankAccountType">
+		<xs:sequence>
+			<xs:element name="iban" type="xs:string"/>
+			<xs:element name="bic" type="xs:string" minOccurs="0"/>
+			<xs:element name="beneficiary" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DenominationType">
+		<xs:sequence>
+			<xs:element name="commonName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="businessName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonType">
+		<xs:complexContent>
+			<xs:extension base="tns:BasicPersonType">
+				<xs:sequence>
+					<xs:element name="birthDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="address" type="add:BasicAddressType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ContractNumberType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="phoneNumberType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SocialDebtType">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string"/>
+			<xs:element name="label" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

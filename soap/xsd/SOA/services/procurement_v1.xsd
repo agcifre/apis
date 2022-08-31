@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/services/procurement/messages/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" targetNamespace="http://soa.spw.wallonie.be/services/procurement/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:element name="consumerId">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:normalizedString"/>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishDocument" type="tns:publishDocumentType"/>
+	<xs:element name="publishDocumentResponse" type="tns:publishDocumentResponseType"/>
+	<xs:element name="searchInbox" type="tns:searchInboxType"/>
+	<xs:element name="searchInboxResponse" type="tns:searchInboxResponseType"/>
+	<xs:element name="getDocument" type="tns:getDocumentType"/>
+	<xs:element name="getDocumentResponse" type="tns:getDocumentResponseType"/>
+	<xs:element name="deleteDocument" type="tns:deleteDocumentType"/>
+	<xs:element name="deleteDocumentResponse" type="tns:deleteDocumentResponseType"/>
+	<xs:element name="fault" type="tns:faultType"/>
+	<xs:complexType name="publishDocumentType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="document" type="tns:UBLDocumentType"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="publishDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="publication" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ackIndicator" type="xs:boolean"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="searchInboxType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="senderId" type="xs:string" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="searchInboxResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="inbox" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="documentReference" type="tns:DocumentReferenceType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="getDocumentType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="senderId" type="xs:normalizedString"/>
+								<xs:element name="documentType" type="xs:normalizedString"/>
+								<xs:element name="documentId" type="xs:normalizedString"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="getDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="document" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="receivedDate" type="xs:date"/>
+								<xs:element name="ublDocument" type="tns:UBLDocumentType"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="deleteDocumentType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="senderId" type="xs:normalizedString"/>
+								<xs:element name="documentType" type="xs:normalizedString"/>
+								<xs:element name="documentId" type="xs:normalizedString"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="deleteDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="deletion" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ackIndicator" type="xs:boolean"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="faultType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="responseCode" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UBLDocumentType">
+		<xs:sequence>
+			<xs:any processContents="lax"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentReferenceType">
+		<xs:sequence>
+			<xs:element name="documentId" type="xs:string"/>
+			<xs:element name="documentTypeCode" type="xs:string"/>
+			<xs:element name="receiverId" type="xs:string"/>
+			<xs:element name="senderId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:parcelIdH="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentificationPropertySitHist/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/cadaster/parcelIdentificationPropertySitHist/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v2" schemaLocation="../../common/code_v2.xsd"/>
+	<xs:complexType name="ParcelIdentificationPropertySitHistType">
+		<xs:sequence>
+			<xs:element name="cadastralDivision" type="cod:DescriptiveCodeType" minOccurs="0"/>
+			<xs:element name="section" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>section</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1"/>
+						<xs:pattern value="([a-zA-Z])"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="primaryNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="bisNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="exponentNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>exponentnumber
+							</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="exponentLetter" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="partNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="([P,p][0-9][0-9][0-9][0-9])"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="precad" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xsd:schema xmlns:tns="http://soa.spw.wallonie.be/data/business/requestEvolution/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/data/business/requestEvolution/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xsd:complexType name="RequestEvolutionType">
+		<xsd:sequence>
+			<xsd:element name="legislation">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:int">
+						<xsd:minInclusive value="0"/>
+						<xsd:maxInclusive value="20"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="requestDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="administrativePendingRequest" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="handicapRecognitionPending" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="folderCompletionDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="appeal" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

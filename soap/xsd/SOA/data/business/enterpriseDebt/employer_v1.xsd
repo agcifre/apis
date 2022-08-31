@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:employer="http://soa.spw.wallonie.be/data/business/enterpriseDebt/employer/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/enterpriseDebt/employer/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:complexType name="EmployerInformationsType">
+		<xs:sequence>
+			<xs:element name="coordinatesRepresentative" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="96"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="legalDistrict" type="employer:LegalDistrictType" minOccurs="0"/>
+			<xs:element name="employerActivityPeriod" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="startingDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="startingQuarter" type="dat:QuarterType" minOccurs="0"/>
+						<xs:element name="dueDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="endingDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="endingQuarter" type="dat:QuarterType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="employerClasses" type="employer:EmployerClassInformationType" minOccurs="0"/>
+			<xs:element name="importanceCode" type="employer:ImportanceCodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmployerClassInformationType">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="employerClass" type="employer:EmployerClassType"/>
+			<xs:element name="startingDate" type="xs:date"/>
+			<xs:element name="endingDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="EmployerClassType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="000"/>
+			<xs:maxInclusive value="999"/>
+			<xs:totalDigits value="3"/>
+			<xs:pattern value="\d{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LegalDistrictType">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ImportanceCodeType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="9"/>
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

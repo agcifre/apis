@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<!-- édité avec XMLSpy v2018 sp1 (x64) (http://www.altova.com) par - (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/employerRegister/messages/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:remp="http://soa.spw.wallonie.be/data/entity/employerRegister/v1" xmlns:emp="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v2" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/services/employerRegister/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/employerRegister/v1" schemaLocation="../data/entity/employerRegister/employerRegister_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../data/entity/enterprise/enterpriseNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:element name="getEmployerRegister">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:annotation>
+								<xs:documentation>contenu de la soumission</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice minOccurs="1" maxOccurs="1">
+										<xs:element name="nossRegistrationNumber" type="emp:NOSSRegistrationNumberSimpleType"/>
+										<xs:element name="enterpriseNumber" type="emp:CbeEntityNumberType"/>
+									</xs:choice>
+									<xs:element name="referencePeriod" type="dat:OpenPeriodType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEmployerRegisterResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="employerRegister" minOccurs="0">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="remp:EmployerType">
+										<xs:attribute name="lastUpdateDate" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>Date de la dernière modification.
+Une modification du répertoire des employeurs peut porter soit sur l’adresse,  soit sur le nom / prénom. (YYYYDDD).</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="situationDate" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>La date à laquelle la situation en question est valable.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

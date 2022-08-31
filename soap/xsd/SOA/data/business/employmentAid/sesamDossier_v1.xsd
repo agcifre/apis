@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:sesam="http://soa.wallonie.be/data/business/employmentAid/sesam/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:add="http://soa.spw.wallonie.be/data/entity/address/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:cont="http://soa.spw.wallonie.be/data/common/contact/v1" xmlns:bank="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:eacommon="http://soa.wallonie.be/data/business/employmentAid/common/v1" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/person/number/v1" targetNamespace="http://soa.wallonie.be/data/business/employmentAid/sesam/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/v1" schemaLocation="../../entity/address/address_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../../entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/contact/v1" schemaLocation="../../common/contact_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/bankAccount/v1" schemaLocation="../../entity/enterprise/bankAccount_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.wallonie.be/data/business/employmentAid/common/v1" schemaLocation="employmentAidCommon.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../../entity/person/name_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../../entity/person/personNumber_v1.xsd"/>
+	<xs:complexType name="EligibleActivityType">
+		<xs:sequence>
+			<xs:element name="nacebelCode">
+				<xs:annotation>
+					<xs:documentation>Le code NACE de l'activité</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="inDeveloppment" type="xs:boolean">
+								<xs:annotation>
+									<xs:documentation>Définit si l'activité est déjà déclarée ou pas</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="salesPercentage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pourcentage du chiffre d'affaire pour cette activité</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="5"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DossierReference">
+		<xs:sequence>
+			<xs:element name="internalReference">
+				<xs:annotation>
+					<xs:documentation>Le numéro de référence interne</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:int">
+							<xs:attribute name="source" use="required">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="caliope"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="reference">
+				<xs:annotation>
+					<xs:documentation>Le numéro de dossier côté Caliope : concaténation projectId, amendmentNumber, positionNumber </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="14"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OccupationType">
+		<xs:sequence>
+			<xs:element name="location">
+				<xs:annotation>
+					<xs:documentation>Localisation des prestations liées au poste</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="entepriseNumber" type="num:CbeEntityNumberType"/>
+							<xs:element name="businessUnitNumber" type="num:CbeEntityNumberType"/>
+						</xs:choice>
+						<xs:element name="address" type="add:StructuredAddressType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="duration">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:maxInclusive value="48"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="beginDateCalculated" type="xs:boolean"/>
+			<xs:element name="period" type="dat:OpenPeriodType" minOccurs="0"/>
+			<xs:element name="function" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1024"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="employmentStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Régime de travail</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="18"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="contribution" type="sesam:ContributionType" minOccurs="0"/>
+			<xs:element name="category" type="sesam:CategoryType"/>
+			<xs:element name="traceability" type="sesam:TraceabilityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code budget</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="comment" type="xs:string" nillable="true"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SesamDossierType">
+		<xs:sequence>
+			<xs:element name="dossierIdentification" type="sesam:DossierIdentificationType"/>
+			<xs:element name="dossier" type="sesam:DossierType"/>
+			<xs:element name="dossierFollowUp" type="eacommon:DossierFollowUpType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DossierIdentificationType">
+		<xs:complexContent>
+			<xs:extension base="eacommon:AbstractDossierIdentificationType">
+				<xs:sequence>
+					<xs:element name="positionNumber">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DossierType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType">
+				<xs:annotation>
+					<xs:documentation>Description de l'entreprise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="employerInformationsSnapshot" type="eacommon:EmployerType">
+				<xs:annotation>
+					<xs:documentation>Description de l'employeur au moment de la demande</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="employerSesamSpecificInformations">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eligibleActivities" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Les activités éligibles</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="eligibleActivity" type="sesam:EligibleActivityType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="bankAccount" type="bank:BankAccount" minOccurs="0"/>
+						<xs:element name="contact" type="cont:ContactType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="occupationRequested" type="sesam:OccupationType">
+				<xs:annotation>
+					<xs:documentation>Le poste demandé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="occupation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Le poste octroyé par le ministre. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="sesam:OccupationType">
+							<xs:sequence>
+								<xs:element name="decision" type="eacommon:TypeDecision" minOccurs="0"/>
+								<xs:element name="effectiveDate" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:date">
+											<xs:minInclusive value="2013-01-01"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Classique"/>
+			<xs:enumeration value="PMThematique"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TraceabilityType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Classique"/>
+			<xs:enumeration value="DevDurable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AmendmentType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOUVSAM"/>
+			<xs:enumeration value="NOUVPOSTE"/>
+			<xs:enumeration value="NOUVCOV"/>
+			<xs:enumeration value="NOUVPOCO"/>
+			<xs:enumeration value="DEROGSAM1"/>
+			<xs:enumeration value="DEROGSAM12"/>
+			<xs:enumeration value="DEROGSAM2"/>
+			<xs:enumeration value="EXT"/>
+			<xs:enumeration value="MODFCTSAM"/>
+			<xs:enumeration value="PROLMOD"/>
+			<xs:enumeration value="PROLSMOD"/>
+			<xs:enumeration value="RECSCIFUS"/>
+			<xs:enumeration value="SCISSION"/>
+			<xs:enumeration value="FINPROJET"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContributionType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--v1.01
+	Version Tracking : 
+		2016-11-25 : 
+				- update worker to employee
+				- update WorkerType to EmployeeType
+				- remove workerId : replaced by sequenceId at the realisedOccupation level.
+-->
+	<xs:complexType name="BasicOccupationType">
+		<xs:sequence>
+			<xs:element name="occupationPeriod" type="dat:ClosedPeriodType"/>
+			<xs:element name="anticipatedEndOfOcccupationDate" type="xs:date"/>
+			<xs:element name="notificationDate" type="xs:date"/>
+			<xs:element name="grantingDate" type="xs:date"/>
+			<xs:element name="effectiveDate" type="xs:date"/>
+			<xs:element name="duration" type="xs:int"/>
+			<xs:element name="deadlineFlag" type="xs:boolean"/>
+			<xs:element name="anticipatedEndofOccupationReason" type="xs:string" nillable="true" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BasicDossierIdentificationType">
+		<xs:complexContent>
+			<xs:extension base="eacommon:AbstractBasicDossierIdentificationType">
+				<xs:sequence>
+					<xs:element name="positionNumber">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RealisedOccupationsType">
+		<xs:sequence>
+			<xs:element name="firstRecruitmentDate" type="xs:date" nillable="true" minOccurs="0"/>
+			<xs:element name="principalBankAccount" type="bank:BankAccount" minOccurs="0"/>
+			<xs:element name="realisedOccupation" type="sesam:RealisedOccupationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Le poste réalisé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RealisedOccupationType">
+		<xs:sequence>
+			<xs:element name="Contract" type="sesam:ContractType"/>
+			<xs:element name="workerNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="period" type="dat:ClosedPeriodType"/>
+			<xs:element name="increases" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="increase" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="isSubventionCalculationDependant" type="xs:boolean"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="realisedQuarters" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="realisedQuarter" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="year">
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minInclusive value="2013"/>
+												<xs:maxInclusive value="2050"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="quarter">
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minInclusive value="1"/>
+												<xs:maxInclusive value="4"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="subventions" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="subvention" type="sesam:SubsidyType" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="realisedFteRatio" type="sesam:FractionType" minOccurs="0"/>
+			<xs:element name="adaptedWorkPattern" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pourcentage" type="xs:short" nillable="true" minOccurs="0"/>
+						<xs:element name="type" nillable="true" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="undefined"/>
+									<xs:enumeration value="medicalHalfTime"/>
+									<xs:enumeration value="carreerInteruption"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="sequenceNumber" type="xs:string"/>
+		<xs:attribute name="isAdaptedWorkPattern" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="ContractType">
+		<xs:sequence>
+			<xs:element name="contractCode" type="sesam:ContractCodeType"/>
+			<xs:element name="contractPeriod" type="dat:OpenPeriodType" minOccurs="0"/>
+			<xs:element name="function" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="targetGroup">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="undefined">
+							<xs:annotation>
+								<xs:documentation>Aucun = 0</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="DEI">
+							<xs:annotation>
+								<xs:documentation>DEI = 1</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="DEO">
+							<xs:annotation>
+								<xs:documentation>DEO = 2</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="DEO3">
+							<xs:annotation>
+								<xs:documentation>DEO3 = 3</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="workPatternRatio" type="sesam:FractionType" minOccurs="0"/>
+			<xs:element name="jointCommission" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="code" type="xs:string" minOccurs="0"/>
+						<xs:element name="payScaleReference" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="seniority" type="xs:string" minOccurs="0"/>
+			<xs:element name="remuneration" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="perHour"/>
+									<xs:enumeration value="perMonth"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="remuneration" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="employee" type="sesam:EmployeeType"/>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:complexType name="EmployeeType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="ns1:PersonNumberType"/>
+			<xs:element name="name" type="nam:NameType"/>
+			<xs:element name="dossiers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="dossier" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="birthDate" type="xs:date" nillable="true" minOccurs="0"/>
+			<xs:element name="aviq" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="isAviq" type="xs:boolean"/>
+						<xs:element name="isAviqSince" type="xs:date" nillable="true" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="cesi" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="isCesi" type="xs:boolean"/>
+						<xs:element name="isCesiSince" type="xs:date" nillable="true" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="tai" nillable="true" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="isTai" type="xs:boolean"/>
+						<xs:element name="isTaiSince" type="xs:date" nillable="true" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FractionType">
+		<xs:sequence>
+			<xs:element name="numerator" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="denominator" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ContractCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NULL"/>
+			<xs:enumeration value="CDD"/>
+			<xs:enumeration value="CDI"/>
+			<xs:enumeration value="CR"/>
+			<xs:enumeration value="CTND"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SubsidyType">
+		<xs:sequence>
+			<xs:element name="period" type="dat:ClosedPeriodType"/>
+			<xs:element name="status">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Unknown"/>
+									<xs:enumeration value="payment"/>
+									<xs:enumeration value="cancel"/>
+									<xs:enumeration value="penality"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="reason">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Unknown"/>
+									<xs:enumeration value="replacementContract"/>
+									<xs:enumeration value="contractEndDateModification"/>
+									<xs:enumeration value="workPatternModification"/>
+									<xs:enumeration value="tiersCodeModification"/>
+									<xs:enumeration value="realisedOccupationModification"/>
+									<xs:enumeration value="contractModification"/>
+									<xs:enumeration value="cancelledDelcaration"/>
+									<xs:enumeration value="anticipatedEndOfOccupation"/>
+									<xs:enumeration value="deactivatedOccupation"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="occupationRatio" type="sesam:FractionType"/>
+			<xs:element name="subsidyDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subsidyDetail" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="code">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="10"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="baseAmount" type="xs:decimal"/>
+									<xs:element name="calculatedSubsidy" type="xs:decimal"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="paymentDate" type="xs:date" nillable="true" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2016 rel. 2 (http://www.altova.com) by Hugues Roland (Service Public de Wallonie) -->
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/services/identity/messages/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:cont="http://soa.spw.wallonie.be/data/common/contact/v1" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" xmlns:pers="http://soa.spw.wallonie.be/data/entity/person/number/v1" xmlns:ent="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" targetNamespace="http://soa.spw.wallonie.be/services/identity/messages/v2" version="2.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/contact/v1" schemaLocation="../data/common/contact_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../data/entity/person/name_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../data/entity/person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../data/entity/enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:element name="searchIdentitiesByApplicationId" type="tns:SearchIdentitiesByApplicationIdType"/>
+	<xs:element name="searchIdentitiesByApplicationIdResponse" type="tns:SearchIdentitiesByApplicationIdResponseType"/>
+	<xs:element name="getIdentity" type="tns:GetIdentityType"/>
+	<xs:element name="getIdentityResponse" type="tns:GetIdentityResponseType"/>
+	<xs:element name="publishIdentity" type="tns:PublishIdentityType"/>
+	<xs:element name="publishIdentityResponse" type="tns:PublishIdentityResponseType"/>
+	<xs:complexType name="ApplicationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchIdentitiesByApplicationIdType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="urbiId" type="xs:positiveInteger"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchIdentitiesByApplicationIdResponseType">
+		<xs:annotation>
+			<xs:documentation>The response containing the found users for the requested application.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="identities" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identity" type="tns:IdentityType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetIdentityType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="id">
+									<xs:complexType>
+										<xs:simpleContent>
+											<xs:extension base="xs:string">
+												<xs:attribute name="source" type="tns:SourceType" use="required"/>
+											</xs:extension>
+										</xs:simpleContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetIdentityResponseType">
+		<xs:annotation>
+			<xs:documentation>The response containing the requested user</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="identity" type="tns:IdentityType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishIdentityType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncRequestType">
+				<xs:sequence>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="person">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:choice>
+												<xs:element name="name" type="tns:BasicNameType"/>
+												<xs:element name="personNumber" type="pers:PersonNumberType">
+													<xs:annotation>
+														<xs:documentation xml:lang="FR">NISS Numero d'identification de la securite social</xs:documentation>
+														<xs:documentation xml:lang="NL">INSZ - identificatienummer bij sociale zekerheid</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:choice>
+											<xs:element name="email">
+												<xs:simpleType>
+													<xs:restriction base="cont:EmailFormatType">
+														<xs:minLength value="1"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="organisationCategory">
+									<xs:simpleType>
+										<xs:restriction base="tns:PublicOrganisationCategoryType">
+											<xs:minLength value="1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublishIdentityResponseType">
+		<xs:annotation>
+			<xs:documentation>The response containing the update status</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="identity" type="tns:IdentityType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IdentityType">
+		<xs:sequence>
+			<xs:element name="id">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="source" type="tns:SourceType" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="email" type="xs:string" minOccurs="0"/>
+			<xs:element name="name" type="nam:NameType" minOccurs="0"/>
+			<xs:element name="organization" type="tns:OrganizationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="code" type="xs:string" minOccurs="0"/>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SourceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IAM"/>
+			<xs:enumeration value="ULIS"/>
+			<xs:enumeration value="AD"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PublicOrganisationCategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="localGov"/>
+			<xs:enumeration value="regionalGov"/>
+			<xs:enumeration value="publicInterest"/>
+			<xs:enumeration value="privateCompanies"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BasicNameType">
+		<xs:sequence>
+			<xs:element name="firstName" nillable="true" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\S+(.*\S+)*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="lastName" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\S+(.*\S+)*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

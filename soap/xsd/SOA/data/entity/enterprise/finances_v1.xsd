@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/finances/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:complexType name="Finances">
+		<xs:sequence>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="FiscalYearEndDay" type="xs:integer"/>
+			<xs:element name="FiscalYearEndMonth" type="xs:integer"/>
+			<xs:element name="ExceptionalFiscalYearStart" type="xs:date" minOccurs="0"/>
+			<xs:element name="ExceptionalFiscalYearEnd" type="xs:date" minOccurs="0"/>
+			<xs:element name="MonthAnnualMeeting" type="xs:integer" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by Frédéric Boudin (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://soa.spw.wallonie.be/services/mutation/household/messages/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:mut="http://soa.spw.wallonie.be/data/business/mutation/household/v1" targetNamespace="http://soa.spw.wallonie.be/services/mutation/household/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/mutation/household/v1" schemaLocation="../data/business/mutation/household_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:element name="searchHouseholdMutations">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="period" type="dat:PeriodType"/>
+									<xs:element name="paging" type="xs:integer" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchHouseholdMutationsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="numberOfMutationEvents" type="xs:int" minOccurs="0"/>
+						<xs:element name="hasNextPage" type="xs:boolean" minOccurs="0"/>
+						<xs:element ref="mut:householdMutations" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:subs="http://soa.wallonie.be/data/entity/subsidy/subsidy/v1" xmlns:org="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:date="http://soa.spw.wallonie.be/data/common/date/v1" targetNamespace="http://soa.wallonie.be/data/entity/subsidy/subsidy/v1" elementFormDefault="qualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" schemaLocation="../spw/organisation_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of CENM Subsidy types.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="SubsidyType">
+		<xs:sequence>
+			<xs:element name="subsidyType" type="cod:CodeType" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Type de subvention (subside, aide, prime, allocation, personnel, fonctionnement, prime syndicale, ancienneté, …)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organisation" type="org:OrganisationType" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Organisation ou service responsable de l'octroie de la subvention</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="approvalNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Numéro de l’agrément auquel le subvention se rapporte</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Payment">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="attributedAmount" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation>Montant de la subvention</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="subsidyArticle" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Numéro de l’article budgétaire sous lequel la subvention est octroyée</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="organisation" type="org:OrganisationType" minOccurs="1">
+							<xs:annotation>
+								<xs:documentation>Organisation ou service responsable du payement du subvention</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="coveredPeriod" type="date:PeriodType">
+				<xs:annotation>
+					<xs:documentation>Année ou trimestre couvert par le subvention</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="date:PeriodType">
+				<xs:annotation>
+					<xs:documentation>Période de validité du subvention</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:element name="subsidy" type="subs:SubsidyType"/>
+</xs:schema>

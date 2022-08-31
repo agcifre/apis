@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/institution/institution/v1" xmlns:Q1="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" xmlns:Q2="http://soa.spw.wallonie.be/data/entity/institution/authority/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/institution/institution/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/institution/authority/v1" schemaLocation="authority_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseBasicType/v1" schemaLocation="../enterprise/enterpriseBasicType_v1.xsd"/>
+	<xs:complexType name="InstitutionType">
+		<xs:sequence>
+			<xs:element name="institutionType" type="tns:InstitutionTypeType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="membersTotal" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="enterprise" type="Q1:EnterpriseBasicType"/>
+			<xs:element name="authorities" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="authority" type="Q2:AuthorityType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="InstitutionTypeType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

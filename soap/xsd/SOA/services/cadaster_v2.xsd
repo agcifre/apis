@@ -1,0 +1,1384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/cadaster/messages/v2" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v2" xmlns:cpr="http://soa.spw.wallonie.be/data/business/cadaster/compositeProperty/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v3" xmlns:kbo="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" xmlns:per="http://soa.spw.wallonie.be/data/business/cadaster/person/v1" xmlns:ent="http://soa.spw.wallonie.be/data/business/cadaster/enterprise/v1" xmlns:pst="http://soa.spw.wallonie.be/data/business/cadaster/pathislSp/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v5" targetNamespace="http://soa.spw.wallonie.be/services/cadaster/messages/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/response/v2" schemaLocation="../data/common/response_v2.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/error/v5" schemaLocation="../data/common/error_v5.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../data/common/code_v5.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/person/v1" schemaLocation="../data/business/cadaster/person_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/enterprise/v1" schemaLocation="../data/business/cadaster/enterprise_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/compositeProperty/v1" schemaLocation="../data/business/cadaster/compositeProperty_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/pathislSp/v1" schemaLocation="../data/business/cadaster/pathislSp_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" schemaLocation="../data/entity/person/personNumber_v3.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" schemaLocation="../data/entity/enterprise/enterpriseNumber_v3.xsd"/>
+	<!-- Messages -->
+	<xsd:element name="getListForAddress" type="msg:GetListForAddressType"/>
+	<xsd:element name="getListForAddressResponse" type="msg:GetListForAddressResponseType"/>
+	<xsd:element name="getListForByParcelId" type="msg:GetListForByParcelIdType"/>
+	<xsd:element name="getListForByParcelIdResponse" type="msg:GetListForByParcelIdResponseType"/>
+	<xsd:element name="searchCommunitiesBySearchToken" type="msg:SearchCommunitiesBySearchTokenType"/>
+	<xsd:element name="searchCommunitiesBySearchTokenResponse" type="msg:SearchCommunitiesBySearchTokenResponseType"/>
+	<xsd:element name="searchPropertyByArticle" type="msg:SearchPropertyByArticleType"/>
+	<xsd:element name="searchPropertyByArticleResponse" type="msg:SearchPropertyByArticleResponseType"/>
+	<xsd:element name="searchPropertyByArticleAndDate" type="msg:SearchPropertyByArticleAndDateType"/>
+	<xsd:element name="searchPropertyByArticleAndDateResponse" type="msg:SearchPropertyByArticleAndDateResponseType"/>
+	<xsd:element name="searchPropertyByKBO" type="msg:SearchPropertyByKBOType"/>
+	<xsd:element name="searchPropertyByKBOResponse" type="msg:SearchPropertyByKBOResponseType"/>
+	<xsd:element name="searchPropertyByKBOAndDate" type="msg:SearchPropertyByKBOAndDateType"/>
+	<xsd:element name="searchPropertyByKBOAndDateResponse" type="msg:SearchPropertyByKBOAndDateResponseType"/>
+	<xsd:element name="searchPropertyByNRN" type="msg:SearchPropertyByNRNType"/>
+	<xsd:element name="searchPropertyByNRNResponse" type="msg:SearchPropertyByNRNResponseType"/>
+	<xsd:element name="searchPropertyByNRNAndDate" type="msg:SearchPropertyByNRNAndDateType"/>
+	<xsd:element name="searchPropertyByNRNAndDateResponse" type="msg:SearchPropertyByNRNAndDateResponseType"/>
+	<xsd:element name="searchPropertyByParcelId" type="msg:SearchPropertyByParcelIdType"/>
+	<xsd:element name="searchPropertyByParcelIdResponse" type="msg:SearchPropertyByParcelIdResponseType"/>
+	<xsd:element name="searchPropertyByPropertyId" type="msg:SearchPropertyByPropertyIdType"/>
+	<xsd:element name="searchPropertyByPropertyIdResponse" type="msg:SearchPropertyByPropertyIdResponseType"/>
+	<xsd:element name="searchSitHistoricalByPropertyId" type="msg:SearchSitHistoricalByPropertyIdType"/>
+	<xsd:element name="searchSitHistoricalByPropertyIdResponse" type="msg:SearchSitHistoricalByPropertyIdResponseType"/>
+	<xsd:element name="searchStreetsBySearchToken" type="msg:SearchStreetsBySearchTokenType"/>
+	<xsd:element name="searchStreetsBySearchTokenResponse" type="msg:SearchStreetsBySearchTokenResponseType"/>
+	<xsd:element name="fault" type="err:ErrorOrWarningType"/>
+	<!-- Message types -->
+	<xsd:complexType name="GetListForAddressType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:ListForAddressType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GetListForAddressResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:ListForAddressResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GetListForByParcelIdType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:ListForByParcelIdType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GetListForByParcelIdResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:ListForByParcelIdResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCommunitiesBySearchTokenType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:CommunitiesBySearchTokenType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCommunitiesBySearchTokenResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:CommunitiesBySearchTokenResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByArticleType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByArticleType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByArticleResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByArticleResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByArticleAndDateType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByArticleAndDateType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByArticleAndDateResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByArticleAndDateResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByKBOType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByKBOType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByKBOResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByKBOResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByKBOAndDateType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByKBOAndDateType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByKBOAndDateResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByKBOAndDateResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByNRNType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByNRNType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByNRNResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByNRNResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByNRNAndDateType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByNRNAndDateType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByNRNAndDateResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByNRNAndDateResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByParcelIdType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByParcelIdType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByParcelIdResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByParcelIdResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByPropertyIdType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:PropertyByPropertyIdType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchPropertyByPropertyIdResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:PropertyByPropertyIdResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchSitHistoricalByPropertyIdType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:SitHistoricalByPropertyIdType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchSitHistoricalByPropertyIdResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:SitHistoricalByPropertyIdResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchStreetsBySearchTokenType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:StreetsBySearchTokenType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SearchStreetsBySearchTokenResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:StreetsBySearchTokenResponseType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- Criteria Types-->
+	<xsd:complexType name="ListForAddressType">
+		<xsd:sequence>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="codeNISCommunity">
+				<xsd:annotation>
+					<xsd:documentation>code of the community</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="codeNSRStreet">
+				<xsd:annotation>
+					<xsd:documentation>code of the street(NSR)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="houseNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Housenumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="11"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="maxResult">
+				<xsd:annotation>
+					<xsd:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="3"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="active" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>only addressen results with status active: yes / no
+                        true: give the active parcels
+                        false: give the actieve AND passive addresses</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommunitiesBySearchTokenType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="searchToken" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StreetsBySearchTokenType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="searchToken" type="xsd:string"/>
+			<xsd:element name="codeNisComId">
+				<xsd:annotation>
+					<xsd:documentation>NisCom</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="19"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListForByParcelIdType">
+		<xsd:annotation>
+			<xsd:documentation>This method is used when the client only has a partial parcelId.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="active" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>only parcel results with status active: yes / no
+                        yes: give the active parcels
+                        no: give the actieve AND passive parcels starting from 2002</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maxResult">
+				<xsd:annotation>
+					<xsd:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="cadastralDivision">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="section">
+				<xsd:annotation>
+					<xsd:documentation>section</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([A-Za-z])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="primaryNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>GroundNummer</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="9999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="bisNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>biNumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="2"/>
+						<xsd:minInclusive value="2"/>
+						<xsd:maxInclusive value="99"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentNumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="3"/>
+						<xsd:minInclusive value="2"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentLetter" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentLetter</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([a-zA-Z])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="partNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>partnumber (P0000 -&gt; P9999)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="5"/>
+						<xsd:pattern value="([P,p][0-9][0-9][0-9][0-9])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByPropertyIdType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="propertyId" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>technical identifier of the property</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByParcelIdType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="history" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show history of the propertystate or not</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maxResult">
+				<xsd:annotation>
+					<xsd:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="cadastralDivision">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="section">
+				<xsd:annotation>
+					<xsd:documentation>section</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([a-zA-Z])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="primaryNumber">
+				<xsd:annotation>
+					<xsd:documentation>primaryumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="9999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="bisNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>bisNumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="2"/>
+						<xsd:minInclusive value="2"/>
+						<xsd:maxInclusive value="99"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentNumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="3"/>
+						<xsd:minInclusive value="2"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentLetter" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentLetter</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([a-zA-Z])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="partNumber">
+				<xsd:annotation>
+					<xsd:documentation>partnumber (P0000 -&gt; P9999)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="5"/>
+						<xsd:pattern value="([P,p][0-9][0-9][0-9][0-9])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByArticleType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maxResult">
+				<xsd:annotation>
+					<xsd:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="cadastralDivision">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="article">
+				<xsd:annotation>
+					<xsd:documentation>articlenumber from Cadnet</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="sequenceNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>sequenceNumber XYZ</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="9999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="history" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show history: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByArticleAndDateType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maxResult">
+				<xsd:annotation>
+					<xsd:documentation>The user can choose the maximum amount of results that will be shown on the screen.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="cadastralDivision">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="article">
+				<xsd:annotation>
+					<xsd:documentation>articlenumber from Cadnet</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="sequenceNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>sequenceNumber XYZ</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="9999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="typeSearch" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>J(Juridical), F(Fiscal)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([J,j,F,f])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested year where the personNumber should be an owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceDate" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested date where the personNumber should be an owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="period" type="dat:OpenPeriodType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByNRNType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="coOwners" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show co owners: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="cadastralDivision" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="administrativeCommunNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>NIS code of the community.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="history" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show history: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="num:personNumber"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByNRNAndDateType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="coOwners" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Show co owners: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="typeSearch" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>J(Juridical), F(Fiscal)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([J,j,F,f])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested year where the personNumber should be an owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceDate" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested date where the personNumber should be an owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="period" type="dat:OpenPeriodType" minOccurs="0"/>
+			<xsd:element name="cadastralDivision" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="codeNISCommunity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>NIS code of the community.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element ref="num:personNumber"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByKBOType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="coOwners" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show co owners: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="cadastralDivision" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="administrativeCommunNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>NIS code of the community.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="history" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation>Show history: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="enterpriseNumber" type="kbo:CbeNumberType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByKBOAndDateType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:element name="includeExpired" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Include expired situations</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="situation0101" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Situation at 01/01 of the year requested</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="coOwners" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Show co owners: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="showAddress" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Show addresses of the persons and companies in the response: yes / no</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="typeSearch" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>J(Juridical), F(Fiscal)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([J,j,F,f])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested year where the personNumber should be an	owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="referenceDate" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>requested date where the personNumber should be an	owner(typeSearch must be filled in)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="period" type="dat:OpenPeriodType" minOccurs="0"/>
+			<xsd:element name="cadastralDivision" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Cadastral division</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="codeNISCommunity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>NIS code of the community.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="enterpriseNumber" type="kbo:CbeNumberType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SitHistoricalByPropertyIdType">
+		<xsd:sequence>
+			<xsd:element name="language" type="cod:RequestLanguageBasicType"/>
+			<xsd:choice>
+				<xsd:element name="propertyId" type="xsd:integer">
+					<xsd:annotation>
+						<xsd:documentation>technical identifier of the property</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence>
+					<xsd:element name="cadastralDivision">
+						<xsd:annotation>
+							<xsd:documentation>Cadastral division</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:integer">
+								<xsd:totalDigits value="5"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="article">
+						<xsd:annotation>
+							<xsd:documentation>articlenumber from Cadnet</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:integer">
+								<xsd:totalDigits value="5"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="sequenceNumber">
+						<xsd:annotation>
+							<xsd:documentation>sequenceNumber / volgnummer XYZ</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:integer">
+								<xsd:totalDigits value="4"/>
+								<xsd:minInclusive value="1"/>
+								<xsd:maxInclusive value="9999"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Result Types-->
+	<xsd:complexType name="ListForAddressResponseType">
+		<xsd:sequence>
+			<xsd:element name="addressParty" type="msg:AddressPartyType" nillable="true" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AddressPartyType">
+		<xsd:sequence>
+			<xsd:element name="nature" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Description of the nature of the parcel (codeNatureId)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="busNumber" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>busnumber</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detail" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>detail</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="descriptPrivate" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Description of the private portion - Description partie privative - Beschrijving privatief deel</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="35"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="descriptGeneral" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>description of the general part.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string"/>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dateEnd" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>end date</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateEndYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The year a parcel became passive.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dateBeginYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The year a parcel became active.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="houseNumber" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>housenumber</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="houseNumberTri" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>housenumber used for sorting</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="divCad" type="cod:DescriptiveCodeType">
+				<xsd:annotation>
+					<xsd:documentation>description of the cadastrale division</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="section">
+				<xsd:annotation>
+					<xsd:documentation>section</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="primaryNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>GroundNummer</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="bisNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>bisNnumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentNumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentLetter" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentLetter</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="partNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>partNumber (P0000 -&gt; P9999)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="5"/>
+						<xsd:pattern value="([P,p][0-9][0-9][0-9][0-9])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dateBegin" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>begin date</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="zipCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>zipcode</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nisCom" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The community codedescription.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="street" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>description of the street code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommunitiesBySearchTokenResponseType">
+		<xsd:sequence>
+			<xsd:element name="community" type="msg:CommunityType" nillable="true" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommunityType">
+		<xsd:sequence>
+			<xsd:element name="nisCom" type="cod:DescriptiveCodeType">
+				<xsd:annotation>
+					<xsd:documentation>The community codedescription.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="zipCode">
+				<xsd:annotation>
+					<xsd:documentation>The zipCode of the community.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="19"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StreetsBySearchTokenResponseType">
+		<xsd:sequence>
+			<xsd:element name="streets" type="msg:StreetType" nillable="true" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StreetType">
+		<xsd:sequence>
+			<xsd:element name="street" type="cod:DescriptiveCodeType">
+				<xsd:annotation>
+					<xsd:documentation>The street codedescription. (NsrCode)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nisCom" type="cod:DescriptiveCodeType">
+				<xsd:annotation>
+					<xsd:documentation>The community codedescription.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListForByParcelIdResponseType">
+		<xsd:sequence>
+			<xsd:element name="parcel" type="msg:AddressPartyType" nillable="true" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByPropertyIdResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByParcelIdResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByArticleResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByArticleAndDateResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByNRNResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByNRNAndDateResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByKBOResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyByKBOAndDateResponseType">
+		<xsd:sequence>
+			<xsd:element name="persons" type="msg:PersonsType" nillable="true" minOccurs="0"/>
+			<xsd:element name="enterprises" type="msg:EnterprisesType" nillable="true" minOccurs="0"/>
+			<xsd:element name="properties" type="msg:PropertiesType" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SitHistoricalByPropertyIdResponseType">
+		<xsd:sequence>
+			<xsd:element name="sitHistorical" type="msg:SitHistoricalType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SitHistoricalType">
+		<xsd:annotation>
+			<xsd:documentation>The previous and next situations of this property</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="searchedPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="previousPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="nextPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Data Types-->
+	<xsd:complexType name="PropertiesType">
+		<xsd:sequence>
+			<xsd:element name="property" type="cpr:CompositePropertyStateType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PersonsType">
+		<xsd:sequence>
+			<xsd:element name="person" type="per:PersonType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EnterprisesType">
+		<xsd:sequence>
+			<xsd:element name="enterprise" type="ent:EnterpriseType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

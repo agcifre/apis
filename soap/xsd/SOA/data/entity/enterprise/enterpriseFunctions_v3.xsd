@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseFunctions/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:addr="http://soa.spw.wallonie.be/data/entity/address/address/v5" xmlns:num="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v3" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" xmlns:exOff="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" xmlns:enterType="http://soa.spw.wallonie.be/data/entity/enterprise/enterprisetype/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseFunctions/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" schemaLocation="enterpriseNumber_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v3" schemaLocation="denomination_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../../common/code_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v3" schemaLocation="juridicalForm_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v5" schemaLocation="../address/address_v5.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/exOfficioExecution/v2" schemaLocation="exOfficioExecution_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterprisetype/v1" schemaLocation="enterpriseType_v1.xsd"/>
+	<xs:complexType name="EnterpriseFunctionType">
+		<xs:sequence>
+			<xs:element name="entity">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="number" type="num:CbeNumberType"/>
+						<xs:element name="type" type="enterType:CbeEnterpriseType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="denomination" type="den:DenominationType"/>
+			<xs:element name="juridicalForm" type="jurf:JuridicalFormType" minOccurs="0"/>
+			<xs:element name="address" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="addr:BasicAddressType">
+							<xs:sequence>
+								<xs:element name="creationReason" type="cod:CodeType" minOccurs="0"/>
+								<xs:element name="stopReason" type="cod:DescriptiveCodeType" minOccurs="0"/>
+								<xs:element name="exOfficioExecutions" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="ExOfficioExecution" type="exOff:ExOfficioExecutionType" maxOccurs="unbounded"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="validityStartDate" type="xs:date"/>
+							<xs:attribute name="validityEndDate" type="xs:date"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="function">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type" type="xs:string"/>
+						<xs:element name="typeDescription" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="validityStartDate" type="xs:date"/>
+		<xs:attribute name="validityEndDate" type="xs:date"/>
+	</xs:complexType>
+</xs:schema>

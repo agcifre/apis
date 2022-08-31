@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 rel. 2 sp1 (x64) (http://www.altova.com) by Frédéric Boudin (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/nationality/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:lab="http://soa.spw.wallonie.be/data/common/label/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/person/nationality/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of nationality-related types.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/label/v1" schemaLocation="../../common/labels_v1.xsd"/>
+	<xs:complexType name="NationalityReasonType">
+		<xs:annotation>
+			<xs:documentation>
+				The reason why a person has a certain nationality.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="date" type="dat:DateType" minOccurs="0"/>
+			<xs:element name="comment" type="lab:CommentType" minOccurs="0"/>
+			<xs:element name="justification" type="cod:CodeType" minOccurs="0"/>
+			<xs:element name="place" type="cod:CodeType" minOccurs="0"/>
+			<xs:element name="country" type="cod:CodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Declaration types-->
+	<xs:complexType name="NationalityBaseDeclarationType">
+		<xs:sequence>
+			<xs:element name="code" type="nam:NationalityCodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalityDeclarationType">
+		<xs:complexContent>
+			<xs:extension base="nam:NationalityBaseDeclarationType">
+				<xs:attribute name="inceptionDate" type="xs:date" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="NationalityCodeType">
+		<xs:restriction base="xs:unsignedShort">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

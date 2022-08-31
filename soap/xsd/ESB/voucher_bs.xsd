@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:vou="http://soa.spw.wallonie.be/data/business/file/voucher/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/file/voucher/v1" schemaLocation="voucher_v1.xsd"/>
+	<xs:element name="getVoucherStatus">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="organisationId" type="xs:integer"/>
+				<xs:element name="contextId" type="xs:integer"/>
+				<xs:element name="serviceType" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getVoucherStatusResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="remainingNonAckVoucher" type="xs:boolean"/>
+				<xs:element name="numberOfVoucher" type="xs:integer" minOccurs="0"/>
+				<xs:element ref="vou:voucher" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createVoucherBsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="serviceType" type="xs:string"/>
+				<xs:element name="fileServerURL" type="xs:string"/>
+				<xs:element name="organisationId" type="xs:integer"/>
+				<xs:element name="contextId" type="xs:integer"/>
+				<xs:element name="voucher" type="vou:VoucherType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createVoucherBsRequestResponse"/>
+</xs:schema>

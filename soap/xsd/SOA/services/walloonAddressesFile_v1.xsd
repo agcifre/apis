@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL4440 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:add="http://soa.spw.wallonie.be/services/file/address/walloon/messages/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:vou="http://soa.spw.wallonie.be/data/business/file/voucher/v1" targetNamespace="http://soa.spw.wallonie.be/services/file/address/walloon/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/file/voucher/v1" schemaLocation="../data/business/file/voucher_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>====== Mutations ======</xs:documentation>
+	</xs:annotation>
+	<xs:element name="getWalloonAddressesFileVoucher">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="mutationContext" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getWalloonAddressesFileVoucherResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="voucher" minOccurs="0">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="vou:VoucherType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishWalloonAddressesFileVoucherAck">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPublicSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="voucherId" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishWalloonAddressesFileVoucherAckResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

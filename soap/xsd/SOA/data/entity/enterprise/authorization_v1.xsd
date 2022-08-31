@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:auth="http://soa.spw.wallonie.be/data/entity/enterprise/authorization/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:entcode="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/authorization/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" schemaLocation="code_v1.xsd"/>
+	<xs:complexType name="AuthorizationType">
+		<xs:sequence>
+			<xs:element name="PermissionCode" type="xs:string"/>
+			<xs:element name="RegistrationDateKBO" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="PhaseCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Duration" type="xs:double" minOccurs="0"/>
+			<xs:element name="DistributedAdministrationCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="StoppingCode" type="entcode:CbeStopCodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PermissionCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PERMISSIONS"/>
+			<xs:enumeration value="AUTHORIZATIONS"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

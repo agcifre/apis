@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/vehicle/titular/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:ns1="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/vehicle/titular/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="../enterprise/enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../person/personNumber_v2.xsd"/>
+	<!-- Person ou CBE -->
+	<xs:complexType name="TitularType">
+		<xs:sequence>
+			<xs:element name="titularId" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="personNumber" type="num:PersonNumberType"/>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="enterpriseNumber" type="ns1:CbeEntityNumberType"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonType"/>
+	<xs:complexType name="EnterpriseType"/>
+</xs:schema>

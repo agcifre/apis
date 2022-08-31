@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/services/identity/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v1" xmlns:pub="http://soa.spw.wallonie.be/common/publiclog/v1" targetNamespace="http://soa.spw.wallonie.be/services/identity/messages/v1" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v1" schemaLocation="../data/entity/person/name_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/common/publiclog/v1" schemaLocation="../data/common/publicLog_v1.xsd"/>
+	<xs:element name="searchIdentitiesByApplicationId" type="tns:SearchIdentitiesByApplicationIdType"/>
+	<xs:element name="searchIdentitiesByApplicationIdResponse" type="tns:SearchIdentitiesByApplicationIdResponse"/>
+	<xs:element name="getIdentity" type="tns:GetIdentityType"/>
+	<xs:element name="getIdentityResponse" type="tns:GetIdentityResponseType"/>
+	<xs:complexType name="ApplicationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="0"/>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchIdentitiesByApplicationIdType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractPublicSyncRequestType">
+				<xs:sequence>
+					<xs:element ref="pub:publicLog" minOccurs="0"/>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="urbiId" type="xs:positiveInteger"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchIdentitiesByApplicationIdResponse">
+		<xs:annotation>
+			<xs:documentation>The response containing the found users for the requested application.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="identities" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="identity" type="tns:IdentityType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetIdentityType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractPublicSyncRequestType">
+				<xs:sequence>
+					<xs:element ref="pub:publicLog" minOccurs="0"/>
+					<xs:element name="request">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="id">
+									<xs:complexType>
+										<xs:simpleContent>
+											<xs:extension base="xs:string">
+												<xs:attribute name="source" type="tns:SourceType" use="required"/>
+											</xs:extension>
+										</xs:simpleContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetIdentityResponseType">
+		<xs:annotation>
+			<xs:documentation>The response containing the requested user</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence>
+					<xs:element name="identity" type="tns:IdentityType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IdentityType">
+		<xs:sequence>
+			<xs:element name="id">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="source" type="tns:SourceType" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="email" type="xs:string" minOccurs="0"/>
+			<xs:element name="name" type="nam:NameType" minOccurs="0"/>
+			<xs:element name="organization" type="tns:OrganizationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="code" type="xs:string" minOccurs="0"/>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SourceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IAM"/>
+			<xs:enumeration value="ULIS"/>
+			<xs:enumeration value="AD"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:isoCurrency="http://soa.spw.wallonie.be/data/iso/currency/v1" targetNamespace="http://soa.spw.wallonie.be/data/iso/currency/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:simpleType name="CurrencyType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Currency codes must follow the ISO-4217 code standards. These are three-letter codes derived from the ISO-639-1 two-letter country codes. For details, see http://www.bsi-global.com/British_Standards/currency/index.xalter
+
+Validation rules:
+  - three upper case letters
+
+Regular expression: [A-Z]{3}
+
+Examples: EUR, GBP, USD, ...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://bced.wallonie.be/technical/inscription/messages/v1" xmlns:dat="http://bced.wallonie.be/data/common/date/v1" xmlns:err="http://bced.wallonie.be/data/common/error/v1" xmlns:common="http://soa.spw.wallonie.be/esb/common/v1" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://bced.wallonie.be/data/common/date/v1" schemaLocation="../BCED/data/common/date_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/error/v1" schemaLocation="../BCED/data/common/error_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/esb/common/v1" schemaLocation="common_v1.xsd"/>
+	<xs:complexType name="SearchInscriptionsRequestType">
+		<xs:sequence>
+			<xs:element name="origin" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="organisationId" type="xs:string" minOccurs="0"/>
+						<xs:element name="context" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="filter" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subjects" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="subject" type="xs:string" maxOccurs="50"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="period" type="dat:PeriodType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>La période durant laquelle des inscriptions ont été crées</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="dossierIds" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Le numero de dossier.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="dossierId" nillable="true" maxOccurs="50">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+						<xs:element name="inscriptionDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="inscriptionReferences" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>La référence d'une inscription</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="inscriptionReference" type="xs:string" maxOccurs="50"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="deleted">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="true"/>
+									<xs:enumeration value="false"/>
+									<xs:enumeration value="all"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="modified">
+							<xs:annotation>
+								<xs:documentation>True : return all modified inscriptions ; False : return all  unmodified inscriptions ; all : return modified and unmodified inscriptions</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="true"/>
+									<xs:enumeration value="false"/>
+									<xs:enumeration value="all"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="paging" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>le nombre de rows souhaité</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="startrow"/>
+						<xs:element name="endrow"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="searchInscriptionsResponseType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="hasNextPage" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>Elément indiquant la présence (ou non) de plus de résultats.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="inscription" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="inscriptionReference" type="xs:string"/>
+							<xs:element name="subject" type="xs:string"/>
+							<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+							<xs:element name="dossierId" type="xs:string" minOccurs="0"/>
+							<xs:element name="inscriptionDate" type="xs:date" nillable="true" minOccurs="0"/>
+							<xs:element name="inscriptionBeginDate" type="xs:date"/>
+							<xs:element name="inscriptionEndDate" type="xs:date" minOccurs="0"/>
+							<xs:element name="modificationDate" type="xs:date" nillable="true" minOccurs="0"/>
+							<xs:element name="creationDate" type="xs:date" nillable="false"/>
+							<xs:element name="deletionDate" type="xs:date" nillable="true" minOccurs="0"/>
+							<xs:element name="legalContextId" type="xs:string"/>
+							<xs:element name="legalContext" type="xs:string"/>
+							<xs:element name="organisationId" type="xs:string"/>
+							<xs:element name="organisation" type="xs:string"/>
+						</xs:sequence>
+						<xs:attribute name="inscriptionType" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="IMPLICIT"/>
+									<xs:enumeration value="EXPLICIT"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="err:warning" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element ref="err:error"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="value">
+				<xs:annotation>
+					<xs:documentation>global status of the result</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="DATA_FOUND"/>
+						<xs:enumeration value="NO_DATA_FOUND"/>
+						<xs:enumeration value="NO_RESULT"/>
+						<xs:enumeration value="FATAL"/>
+						<xs:enumeration value="SUCCESS"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="code">
+				<xs:annotation>
+					<xs:documentation>the code of the status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="16"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>the description of the status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="searchInscription">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="contextId" type="xs:string"/>
+				<xs:element name="organisationId" type="xs:string"/>
+				<xs:choice>
+					<xs:element name="inscriptionReference" type="xs:string"/>
+					<xs:sequence>
+						<xs:element name="subject" type="xs:string"/>
+						<xs:element name="dossierId" type="xs:string" minOccurs="0"/>
+						<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+						<xs:element name="inscriptionDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchInscriptionResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="StatusType">
+					<xs:sequence>
+						<xs:element name="inscription" type="InscriptionType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>Inscription -  new version</xs:documentation>
+	</xs:annotation>
+	<xs:element name="publishInscription">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="inscription">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="InscriptionType">
+								<xs:sequence>
+									<xs:element name="bcss" type="BcssInscriptionType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishInscriptionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="common:StatusType"/>
+				<xs:element name="inscription" minOccurs="0">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="inscription">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="inscriptionReference"/>
+										<xs:element name="subject" minOccurs="0"/>
+										<xs:element name="startDate" minOccurs="0"/>
+										<xs:element name="endDate" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="replacedNISS" type="xs:string"/>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="updateInscription">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="action">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="extend"/>
+							<xs:enumeration value="close"/>
+							<xs:enumeration value="cancel"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="extendDuration" minOccurs="0"/>
+				<xs:element name="inscription">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="reference">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="reference" type="xs:string"/>
+										<xs:element name="organisation">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="id" type="xs:string"/>
+													<xs:element name="name" minOccurs="0">
+														<xs:complexType/>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="legalContext">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="id" type="xs:string"/>
+													<xs:element name="name" type="xs:string"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="inscriptionData" type="InscriptionType"/>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="updateInscriptionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="common:StatusType"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="inscription" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="inscriptionReference" type="xs:string"/>
+								<xs:element name="subject" type="xs:string"/>
+								<xs:element name="dossierId" type="xs:string" minOccurs="0"/>
+								<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+								<xs:element name="inscriptionDate" type="xs:date" minOccurs="0"/>
+								<xs:element name="startDate" type="xs:date"/>
+								<xs:element name="endDate" type="xs:date"/>
+								<xs:element name="legalContext" type="xs:string"/>
+								<xs:element name="organisation" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="replacedNISS" type="xs:string" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checkAndPublishInscription">
+		<xs:annotation>
+			<xs:documentation>insertion ou modification d'inscriptions sur base de différents critères</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="InscriptionType">
+					<xs:sequence>
+						<xs:element name="bcss" type="BcssInscriptionType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checkAndPublishInscriptionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="common:StatusType"/>
+				<xs:element name="inscription" minOccurs="0">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="inscription">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="inscriptionReference"/>
+										<xs:element name="subject" minOccurs="0"/>
+										<xs:element name="startDate" minOccurs="0"/>
+										<xs:element name="endDate" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="replacedNISS" type="xs:string"/>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="InscriptionType">
+		<xs:sequence>
+			<xs:element name="reference" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+			<xs:element name="subject">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="NISS"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="id" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="organisation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="name" minOccurs="0">
+							<xs:complexType/>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="legalContext">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="xs:string"/>
+						<xs:element name="name" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dossier">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="dossierId" type="xs:string" minOccurs="0"/>
+						<xs:element name="dossierType" type="xs:string" minOccurs="0"/>
+						<xs:element name="date" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="period" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="beginDate" type="xs:date"/>
+						<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BcssInscriptionType">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="partner"/>
+						<xs:enumeration value="populationIntegrator"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="operation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="serviceName">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="SOA"/>
+									<xs:enumeration value="SSDN"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="operationName">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="ManageInscription.Insert"/>
+									<xs:enumeration value="addInscriptionRequest"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="legalContext" type="xs:string"/>
+					<xs:element name="inscriptionContext" type="xs:string"/>
+					<xs:element name="trustedPartyCertificate" type="xs:string"/>
+					<xs:element name="cbeNumber" type="xs:string"/>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="applicationId" type="xs:string"/>
+					<xs:element name="sector" type="xs:string"/>
+					<xs:element name="institution" type="xs:string"/>
+					<xs:element name="qualityCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cpr="http://soa.spw.wallonie.be/data/business/cadaster/compositeProperty/v1" xmlns:psi="http://soa.spw.wallonie.be/data/business/cadaster/propertyStateInfo/v1" xmlns:cp="http://soa.spw.wallonie.be/data/business/cadaster/compositeParty/v1" xmlns:ps="http://soa.spw.wallonie.be/data/business/cadaster/parcelState/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/cadaster/compositeProperty/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/parcelState/v1" schemaLocation="parcelState_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/compositeParty/v1" schemaLocation="compositeParty_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/business/cadaster/propertyStateInfo/v1" schemaLocation="propertyStateInfo_v1.xsd"/>
+	<!-- ** CompositeProperty ** -->
+	<xsd:complexType name="CompositePropertyStateType">
+		<xsd:sequence>
+			<xsd:element name="parcelState" type="ps:ParcelStateType"/>
+			<xsd:element name="party" type="cp:CompositePartyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="propertyStateInfo" type="psi:PropertyStateInfoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

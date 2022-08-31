@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp2 (x64) (http://www.altova.com) by AL1219 (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/vehicle/plateNumber/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/vehicle/plateNumber/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:element name="plateNumber">
+		<xs:annotation>
+			<xs:documentation>Number as it
+						appears on the plate without any edit
+						characters</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="plateType" type="cod:DescriptiveCodeType"/>
+</xs:schema>

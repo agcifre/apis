@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://soa.spw.wallonie.be/services/representation/messages/v1" xmlns:req="http://soa.spw.wallonie.be/data/common/request/v1" xmlns:resp="http://soa.spw.wallonie.be/data/common/response/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v4" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v4" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v3" targetNamespace="http://soa.spw.wallonie.be/services/representation/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/request/v1" schemaLocation="../data/common/request_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/response/v1" schemaLocation="../data/common/response_v1.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" schemaLocation="../data/entity/person/personNumber_v3.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/error/v4" schemaLocation="../data/common/error_v4.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/code/v4" schemaLocation="../data/common/code_v4.xsd"/>
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<!-- Messages -->
+	<xsd:element name="getRepresentation" type="msg:GetRepresentationType"/>
+	<xsd:element name="getRepresentationResponse" type="msg:GetRepresentationResponseType"/>
+	<xsd:element name="fault" type="err:ErrorOrWarningType"/>
+	<!-- Message types -->
+	<xsd:complexType name="GetRepresentationType">
+		<xsd:complexContent>
+			<xsd:extension base="req:PrivacyRequestType">
+				<xsd:sequence>
+					<xsd:element name="request" type="msg:CriteriaType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GetRepresentationResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="resp:ResponseType">
+				<xsd:sequence minOccurs="0">
+					<xsd:element ref="resp:warnings" minOccurs="0"/>
+					<xsd:element name="result" type="msg:ResultType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- Criteria Types-->
+	<xsd:complexType name="CriteriaType">
+		<xsd:sequence>
+			<xsd:element name="personNumber" type="num:PersonNumberType"/>
+			<xsd:element name="dataGroups" type="msg:DataGroupsCriteriaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DataGroupsCriteriaType">
+		<xsd:sequence>
+			<xsd:element name="parentalAuthorities" type="xsd:boolean"/>
+			<xsd:element name="guardians" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Result Types-->
+	<xsd:complexType name="ResultType">
+		<xsd:sequence>
+			<xsd:element name="parentalAuthorities" type="msg:ParentalAuthoritiesType" minOccurs="0"/>
+			<xsd:element name="guardians" type="msg:GuardiansType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Data Types-->
+	<xsd:complexType name="ParentalAuthoritiesType">
+		<xsd:sequence>
+			<xsd:element name="parentalAuthority" type="msg:ParentalAuthorityType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GuardiansType">
+		<xsd:sequence>
+			<xsd:element name="guardian" type="msg:GuardianType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ParentalAuthorityType">
+		<xsd:complexContent>
+			<xsd:extension base="msg:DataGroupElementType">
+				<xsd:sequence>
+					<xsd:element name="situation" type="cod:DescriptiveCodeType"/>
+					<xsd:element name="justification" type="cod:DescriptiveCodeType"/>
+					<xsd:element name="comment" type="xsd:string" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="GuardianType">
+		<xsd:complexContent>
+			<xsd:extension base="msg:DataGroupElementType">
+				<xsd:sequence>
+					<xsd:element name="status" type="cod:DescriptiveCodeType"/>
+					<xsd:element name="justification" type="cod:DescriptiveCodeType" minOccurs="0"/>
+					<xsd:choice minOccurs="0">
+						<xsd:group ref="msg:IdentificationNumberFragment"/>
+						<xsd:element name="identification" type="xsd:string"/>
+					</xsd:choice>
+					<xsd:element name="comment" type="xsd:string" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DataGroupElementType">
+		<xsd:sequence>
+			<xsd:element name="inceptionDate" type="dat:IncompleteDateType"/>
+			<xsd:element name="expiryDate" type="dat:IncompleteDateType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Response content fragments -->
+	<xsd:group name="IdentificationNumberFragment">
+		<xsd:choice>
+			<xsd:element name="personNumber" type="num:PersonNumberType"/>
+			<xsd:element name="fictionalIdentificationNumber" type="msg:FictionalIdentificationNumberType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:simpleType name="FictionalIdentificationNumberType">
+		<xsd:annotation>
+			<xsd:documentation>non-SSIN reference used at the NR for family members without NR number</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="11"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

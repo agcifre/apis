@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:apreq="http://bced.wallonie.be/data/entity/nonprofit/approvalrequest/v1" xmlns:disp="http://bced.wallonie.be/data/entity/nonprofit/dispositif/v1" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" targetNamespace="http://bced.wallonie.be/data/entity/nonprofit/approvalrequest/v1" elementFormDefault="qualified" version="1.00">
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of CENM Approval request types.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/nonprofit/dispositif/v1" schemaLocation="dispositif_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:complexType name="ApprovalRequestType">
+		<xs:sequence>
+			<xs:element name="requestNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro de la demande, numéro attribué par la source authentique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="requestType" type="cod:CodeType">
+				<xs:annotation>
+					<xs:documentation>Nouvelle demande, prolongation, activation, renouvellement, …</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="requestDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date de la demande</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="approvalNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Le numero est fourni dans le cas d'une prolongation, une reactivation d'un agrement existant. Dans le cas d’une nouvelle demande, le numéro n’est pas encore connu.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="legalContextRef" type="disp:DispositifType">
+				<xs:annotation>
+					<xs:documentation>Référence vers le dispositif</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="deliveranceStatus" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>positive ou négative (true si positif), ce champs est obligatoire si la date de décision est spécifiée.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="deliveranceDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date de la décision, ce champs est obligatoire si le statut de la décision est spécifié.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organismType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Type de l'organisme</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/institution/hierarchy/v1" xmlns:Q1="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" targetNamespace="http://soa.spw.wallonie.be/data/entity/institution/hierarchy/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../enterprise/enterpriseNumber_v2.xsd"/>
+	<xs:complexType name="HierarchyNodeType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="Q1:CbeEntityNumberType"/>
+			<xs:element name="mgtAuthRepresentativesNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="shareAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="subsidyAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="currency" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HierarchyType">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="Q1:CbeEntityNumberType"/>
+			<xs:element name="children" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="child" type="tns:HierarchyNodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parents" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="parent" type="tns:HierarchyNodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

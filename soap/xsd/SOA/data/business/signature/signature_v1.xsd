@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v1" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" xmlns:tns="http://soa.spw.wallonie.be/data/business/userDossier/v1" xmlns:ns1="http://soa.spw.wallonie.be/data/business/signature/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/signature/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:complexType name="DocumentType">
+		<xs:sequence>
+			<xs:element name="content" type="xs:base64Binary" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mimeType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SignatureInfoType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>the name of the signer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="encodedCertificate" type="xs:base64Binary" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>the X509 certificate of the signer.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="signingTime" type="xs:date" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>the claimed signing time of the signature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>the signatory's role</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>the signing location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VisibleSignatureConfigurationType">
+		<xs:sequence>
+			<xs:element name="page" type="xs:int" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="position">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="x" type="xs:int" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="y" type="xs:int" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="signerImageUri" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="customText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

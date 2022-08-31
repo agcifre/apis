@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="status">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="value">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="PROCESSED"/>
+									<xs:enumeration value="PROCESSING"/>
+									<xs:enumeration value="ERROR"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="code">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="SOA[0-9]{7}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:common="http://soa.spw.wallonie.be/esb/common/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/esb/common/v1" schemaLocation="common_v1.xsd"/>
+	<xs:element name="submitLegacyForm">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractRequestType">
+					<xs:sequence>
+						<xs:element name="formTypeId" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>form type identifier in the front end (ex: slot number)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="form" type="FormType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="submitLegacyFormResponse" type="common:AbstractResponseType"/>
+	<xs:complexType name="FormType">
+		<xs:sequence>
+			<xs:element name="formInstanceID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID of the saved form in the front end</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="formName" type="xs:string"/>
+			<xs:element name="formVersion" type="xs:string"/>
+			<xs:element name="formLang" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Language of the Form</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="submissionDate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Submission Date of the form by the citizen</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isFormSigned" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Boolean value that indicates if the form is digitally signed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasAttachment" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Boolean value that indicate if some attachments was provided with the form</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="formBinaryData">
+				<xs:annotation>
+					<xs:documentation>Binary data of the form ( xml, pdf and attachements)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="xml" type="FormDataType"/>
+						<xs:element name="pdf" type="FormDataType" minOccurs="0"/>
+						<xs:element name="attachments" type="FormDataType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FormDataType">
+		<xs:sequence>
+			<xs:element name="data" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

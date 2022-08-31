@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/services/signature/messages/v1" xmlns:ud="http://soa.spw.wallonie.be/data/business/signature/v1" xmlns:stat="http://soa.spw.wallonie.be/common/status/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" targetNamespace="http://soa.spw.wallonie.be/services/signature/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/signature/v1" schemaLocation="../data/business/signature/signature_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/common/status/v1" schemaLocation="../data/common/status_v1.xsd"/>
+	<xs:element name="publishUnsignedDocument">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:publishUnsignedDocumentRequestType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishUnsignedDocumentResponse" type="tns:publishUnsignedDocumentResponseType"/>
+	<xs:element name="document" type="ud:DocumentType"/>
+	<xs:element name="getSignedDocument">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="sessionId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getSignedDocumentResponse" type="tns:getSignedDocumentResponseType"/>
+	<xs:element name="getSigningCertification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="ud:DocumentType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getSigningCertificationResponse" type="tns:getSigningCertificationResponseType"/>
+	<xs:complexType name="publishUnsignedDocumentRequestType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="inputDocument" type="ud:DocumentType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Il s'agit du document à signer électroniquement
+						(exemple: pdf, xml, zip, ooxml, odf, ...)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="landingURL" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						L'url sur laquelle le résultat de l'opération de
+						signature sera envoyée
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="language" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						La langue de l'utilisateur
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Le rôle de l'utilisateur
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="userLocation" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="visibleSignaturePosition" type="ud:VisibleSignatureConfigurationType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="authorizedSubjects" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="authorizedSubject" type="xs:string" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="authorizedCardNumbers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="authorizedCardNumber" type="xs:string" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="publishUnsignedDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="getSignedDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="signedDocument" type="xs:base64Binary" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Le contenu du document signé
+								électroniquement
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="getSigningCertificationResponseType">
+		<xs:complexContent>
+			<xs:extension base="common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="signingCertification" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="renewTimestampBefore" type="xs:dateTime"/>
+								<xs:element name="signatureInfo" type="ud:SignatureInfoType" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

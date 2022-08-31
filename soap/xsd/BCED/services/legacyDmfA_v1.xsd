@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 sp1 (x64) (http://www.altova.com) by Marc Miezal (Network Research Belgium s.a.) -->
+<xs:schema xmlns:tns="http://bced.wallonie.be/services/legacy/dmfa/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:id="http://bced.wallonie.be/common/identification/v3" xmlns:priv="http://bced.wallonie.be/common/privacylog/v5" xmlns:ns1="http://www.ksz-bcss.fgov.be/XmlSchema" targetNamespace="http://bced.wallonie.be/services/legacy/dmfa/v1" elementFormDefault="unqualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://bced.wallonie.be/common/identification/v3" schemaLocation="../data/common/identification_v3.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/common/privacylog/v5" schemaLocation="../data/common/privacy_v5.xsd"/>
+	<xs:import namespace="http://www.ksz-bcss.fgov.be/XmlSchema" schemaLocation="../data/entity/dmfa/legacyDmfA_v1.xsd"/>
+	<xs:element name="getLegacyDmfAByCBEN">
+		<xs:annotation>
+			<xs:documentation>request a dmfa in the old format (L822 + A820) for an enteprise and a quarter.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id:requestIdentification"/>
+				<xs:element ref="priv:privacyLog"/>
+				<xs:element name="request">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="enterpriseNumber">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:totalDigits value="10"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="quarter">
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:totalDigits value="5"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="value">
+				<xs:annotation>
+					<xs:documentation>global status of the result</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="DATA_FOUND"/>
+						<xs:enumeration value="NO_DATA_FOUND"/>
+						<xs:enumeration value="NO_RESULT"/>
+						<xs:enumeration value="FATAL"/>
+						<xs:enumeration value="SUCCESS"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="code">
+				<xs:annotation>
+					<xs:documentation>the code of the status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="16"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>the description of the status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="source">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="BCSS"/>
+					<xs:enumeration value="BCED"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="InformationType">
+		<xs:sequence>
+			<xs:element name="fieldName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="64"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="fieldValue" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TechnicalStatusType">
+		<xs:complexContent>
+			<xs:extension base="tns:StatusType">
+				<xs:sequence>
+					<xs:element name="CBSSTicket" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BusinessStatusType">
+		<xs:complexContent>
+			<xs:extension base="tns:StatusType">
+				<xs:sequence>
+					<xs:element name="informations" type="tns:InformationType" minOccurs="0" maxOccurs="15"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="getLegacyDmfAByCBENResponse">
+		<xs:annotation>
+			<xs:documentation>the dmfa for an enterprise (1 quarter) in the old format (L822 + A820).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="line">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="L822">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="bcss">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="ns1:PersonnelList" minOccurs="0" maxOccurs="unbounded"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="applicationReturnCode" type="xs:int"/>
+										<xs:element name="networkReturnCode" type="xs:int"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="A820" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="bcss">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="ns1:Attestation"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="applicationReturnCode" type="xs:int"/>
+										<xs:element name="networkReturnCode" type="xs:int"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="idOriginDetail" type="xs:byte" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="technicalStatus">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="tns:TechnicalStatusType"/>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="businessStatus" type="tns:BusinessStatusType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:attribute name="idOriginRequest" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

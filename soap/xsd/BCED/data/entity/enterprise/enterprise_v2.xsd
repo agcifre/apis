@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/data/entity/enterprise/enterprise/v2" xmlns:addr="http://bced.wallonie.be/data/entity/address/bce-address/v1" xmlns:iso="http://bced.wallonie.be/data/common/isocodes/v1" xmlns:person="http://bced.wallonie.be/data/entity/person/number/v1" xmlns:cod="http://bced.wallonie.be/data/common/code/v1" targetNamespace="http://bced.wallonie.be/data/entity/enterprise/enterprise/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://bced.wallonie.be/data/entity/address/bce-address/v1" schemaLocation="../address/bce-address_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/isocodes/v1" schemaLocation="../../common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/entity/person/number/v1" schemaLocation="../person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://bced.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:simpleType name="CbeEntityNumber">
+		<xs:annotation>
+			<xs:documentation>Crossroad Bank of Enterprise number, used to identify a unique enterprise or businessUnit. It is composed by 10 digits (the first one could be avoided if equal to 0). A 0 on the first of the 10 digits reprensents an enterprise and a 2 represents a business unit.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeAddressType">
+		<xs:annotation>
+			<xs:documentation>type code to identify the address.
+001->headquarter,
+002->business unit,
+003->foreign branch office</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeDenominationType">
+		<xs:annotation>
+			<xs:documentation>type code to identify different denomination.
+001 -> social denomination,
+002 -> abbreviation,
+003 -> commercial denomination</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="001"/>
+			<xs:enumeration value="002"/>
+			<xs:enumeration value="003"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbeStatusCode">
+		<xs:annotation>
+			<xs:documentation>enterprise or business unit status code. Example : active, juridically created, inactive, ...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeStopCode">
+		<xs:annotation>
+			<xs:documentation>Reference to the reason why the entity has been stopped</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeLinkBusinessType">
+		<xs:annotation>
+			<xs:documentation>Reference to the link between enterprises (sister, mother, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="RestartEnterpriseOriginType">
+		<xs:annotation>
+			<xs:documentation>Only for EPP (Enterprise Physical Person)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Social address or business-unit in Belgium</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Social address or business-unit in EU, but NOT in Belgium</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Social address or business-unit NOT in EU</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbeEnterpriseType">
+		<xs:annotation>
+			<xs:documentation>Reference to the type of enterprise</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ELP">
+				<xs:annotation>
+					<xs:documentation>Enterprise Legal Person</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EPP">
+				<xs:annotation>
+					<xs:documentation>Enterprise Physical Person</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalFormCode">
+		<xs:annotation>
+			<xs:documentation>Reference to the juridical form of the enterprise (anonymous corporation, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalFormOfficialAbbreviationCode">
+		<xs:annotation>
+			<xs:documentation>Reference to the</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalSituationCode">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeJuridicalSituationAdministrationCode">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeActivityVersion">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="2003"/>
+			<xs:enumeration value="2008"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbeActivityTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="P">
+				<xs:annotation>
+					<xs:documentation>
+						Principal activity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="S">
+				<xs:annotation>
+					<xs:documentation>
+						Secondary activity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="H">
+				<xs:annotation>
+					<xs:documentation>Help activity</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CbePublicationType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbePublicationSubject">
+		<xs:annotation>
+			<xs:documentation>
+				subject of a publication
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CbeNacebelCode">
+		<xs:annotation>
+			<xs:documentation>
+				nacebel code used by CBE
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="ExternalIdentificationCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ExternalIdentificationType">
+		<xs:sequence>
+			<xs:element name="Value" type="xs:string"/>
+			<xs:element name="ExternalIdentificationCode" type="tns:ExternalIdentificationCodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseFunctionType">
+		<xs:sequence>
+			<xs:element name="CbeEntityNumber" type="tns:CbeEntityNumber"/>
+			<xs:element name="CbeEnterpriseType" type="tns:CbeEnterpriseType"/>
+			<xs:element name="Denomination" type="tns:DenominationType"/>
+			<xs:element name="JuridicalForm" type="tns:JuridicalForm" minOccurs="0"/>
+			<xs:element name="Address" type="tns:AddressType"/>
+			<xs:element name="Type" type="xs:string"/>
+			<xs:element name="TypeDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="tns:Period"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ForeignBranchOfficeType">
+		<xs:annotation>
+			<xs:documentation>Data's of a foreign branch office, regarding address and validity.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address" type="addr:addressType"/>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="StopCode" type="tns:CbeStopCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if stopped. CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required, Attention, lié à l'existence de StopCode. Devrait être en attribut.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseDateType">
+		<xs:annotation>
+			<xs:documentation>Important dates of an enterprise : inscription and age.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="InscriptionDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available, in year</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="JuridicalForm">
+		<xs:annotation>
+			<xs:documentation>Juridical Form information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FormCode" type="tns:CbeJuridicalFormCode">
+				<xs:annotation>
+					<xs:documentation>CBE?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfficialCodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfficialAbbreviation" type="tns:CbeJuridicalFormOfficialAbbreviationCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if available</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="JuridicalSituation">
+		<xs:annotation>
+			<xs:documentation>Juridical Situation information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SituationCode" type="tns:CbeJuridicalSituationCode"/>
+			<xs:element name="CodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdministrationCode" type="tns:CbeJuridicalSituationAdministrationCode" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="Status" type="xs:string" minOccurs="0"/>
+			<xs:element name="Event" type="xs:string" minOccurs="0"/>
+			<xs:element name="EventDate" type="xs:dateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DenominationType">
+		<xs:annotation>
+			<xs:documentation>denomination information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DenominationCode" type="tns:CbeDenominationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Language" type="iso:LanguageType" minOccurs="0"/>
+			<xs:element name="Value" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActivityType">
+		<xs:annotation>
+			<xs:documentation>
+				activities information, using formally nace code
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AdministrationCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NacebelCode" type="tns:CbeNacebelCode"/>
+			<xs:element name="ActivityType" type="tns:CbeActivityTypeType" minOccurs="0"/>
+			<xs:element name="NacebelCodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="Version" type="tns:CbeActivityVersion" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Period">
+		<xs:annotation>
+			<xs:documentation>timestamp. for example from September 1, 2006 to January 5, 2007</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Begin" type="xs:date" minOccurs="0"/>
+			<xs:element name="End" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if the entity has been stopped</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuthorizationType">
+		<xs:sequence>
+			<xs:element name="PermissionCode" type="xs:string"/>
+			<xs:element name="RegistrationDateKBO" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="PhaseCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Duration" type="xs:double" minOccurs="0"/>
+			<xs:element name="DistributedAdministrationCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="StoppingCode" type="tns:CbeStopCode" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PermissionCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PERMISSIONS"/>
+			<xs:enumeration value="AUTHORIZATIONS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BankAccount">
+		<xs:sequence>
+			<xs:element name="BankAccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="InstrumentalAdministration" type="xs:string" minOccurs="0"/>
+			<xs:element name="UsagePurposeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="IBAN" type="xs:string" minOccurs="0"/>
+			<xs:element name="BIC" type="xs:string" minOccurs="0"/>
+			<xs:element name="NonSepaBankAccountNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Finances">
+		<xs:sequence>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="FiscalYearEndDay" type="xs:integer"/>
+			<xs:element name="FiscalYearEndMonth" type="xs:integer"/>
+			<xs:element name="ExceptionalFiscalYearStart" type="xs:date" minOccurs="0"/>
+			<xs:element name="ExceptionalFiscalYearEnd" type="xs:date" minOccurs="0"/>
+			<xs:element name="MonthAnnualMeeting" type="xs:integer" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EntityCommonDataType">
+		<xs:annotation>
+			<xs:documentation>Domains containing all general information about an enterprise and/or a business unit. iow: common fields of a business entity (common between all realization).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Status" type="tns:StatusType" minOccurs="0"/>
+			<xs:element name="Denomination" type="tns:DenominationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Address" type="tns:AddressType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Activity" type="tns:ActivityType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Function" type="tns:FunctionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LinkedEnterprise" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						enterprise with KBO-known relationship
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:LinkedEnterpriseType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Permission" type="tns:AuthorizationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Validity" type="tns:ValidityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:annotation>
+			<xs:documentation>
+				Specific data's used by CBE for the address of an entity
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address" type="addr:addressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If the address is removed (for privacy for
+						instance), the details of the former address
+						should not be seen, else details are visible
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LinkedEnterpriseType">
+		<xs:annotation>
+			<xs:documentation>
+				Data's of a linked-enterprise
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:CbeEntityNumber"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LinkType" type="tns:CbeLinkBusinessType">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LinkTypeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="StopCode" type="tns:CbeStopCode" minOccurs="0"/>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="IsChild" type="xs:boolean" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ValidityType">
+		<xs:annotation>
+			<xs:documentation>
+				Validity of an information by CBE, iow : date and reason
+				of a closure if occured.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="ClosingDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="StopCode" type="tns:CbeStopCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CreationModeType">
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="3"/>
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EnterpriseOriginType">
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="7"/>
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EnterpriseType">
+		<xs:annotation>
+			<xs:documentation>
+				atomic enterprise (entity realization)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="tns:CbeEntityNumber"/>
+			<xs:element name="Type" type="tns:CbeEnterpriseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						EPP/EPM. isBasicDatas
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JuridicalForm" type="tns:JuridicalForm" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JuridicalSituation" type="tns:JuridicalSituation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ForeignBranchOffice" type="tns:ForeignBranchOfficeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						branch office in Belgium for external society.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessUnit" type="tns:BusinessUnitType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						should not contain details for sub-BusinessUnit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Date" type="tns:EnterpriseDateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>isBasicDatas</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EntityCommonInfo" type="tns:EntityCommonDataType" minOccurs="0"/>
+			<xs:element name="Capital" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Currency" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankAccount" type="tns:BankAccount" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Finances" type="tns:Finances" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ExternalIdentification" type="tns:ExternalIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EnterpriseFunctions" type="tns:EnterpriseFunctionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:complexType name="BusinessUnitType">
+		<xs:annotation>
+			<xs:documentation>
+				atomic business unit (entity realization)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="tns:CbeEntityNumber" minOccurs="0"/>
+			<xs:element name="EntityCommonInfo" type="tns:EntityCommonDataType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="source" type="cod:CodeSourceType"/>
+		<xs:attribute name="trust" type="cod:TrustType"/>
+	</xs:complexType>
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="StatusCode" type="tns:CbeStatusCode">
+				<xs:annotation>
+					<xs:documentation>
+						CBE status code isBasicDatas
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CodeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="functionExecutorEnterprise">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="tns:CbeEntityNumber">
+				<xs:annotation>
+					<xs:documentation>
+						The enterprisenumber of the enterprise
+						holding the function
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Denomination" type="tns:DenominationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Names of the enterprise
+						holding the function
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="functionExecutorPerson">
+		<xs:sequence>
+			<xs:element name="personNumber" type="person:PersonNumberType">
+				<xs:annotation>
+					<xs:documentation>
+						The personnumber of the person holding the
+						function
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The first name of the person holding the
+						function
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LastName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The last name of the person holding the function
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetCode" type="addr:streetCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The streetCode of the persons address. Only required in a special
+						situation. Further info in the documentation.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FunctionType">
+		<xs:sequence>
+			<xs:element name="heldByEnterprise" type="tns:functionExecutorEnterprise" minOccurs="0"/>
+			<xs:element name="heldByPerson" type="tns:functionExecutorPerson" minOccurs="0"/>
+			<xs:element name="Type" type="tns:FunctionCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExemptionNOSME" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Exemption" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ExemptionCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="ExemptionCodeDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="tns:Period" minOccurs="0"/>
+			<xs:element name="Stop" type="tns:CbeStopCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						if stopped, CBE code
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FunctionCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FUNCTIONS"/>
+			<xs:enumeration value="ENTERPRENEURIAL_SKILLS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PersonDataType">
+		<xs:annotation>
+			<xs:documentation>atomic cbe people</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PersonIdentification" type="tns:PersonIdentificationType"/>
+			<xs:element name="FoundedEnterprise" type="tns:EnterpriseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonIdentificationType">
+		<xs:choice>
+			<xs:element name="MoralPerson" type="tns:CbeEntityNumber"/>
+			<xs:element name="PhysicalPersonByNumber">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="person:PersonNumberType">
+							<xs:attribute name="OnBehalfOf" type="tns:CbeEntityNumber">
+								<xs:annotation>
+									<xs:documentation>
+										If the physical person has a
+										mandate to do such function on
+										behalf of a moral person, this
+										should be documented
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PhysicalPersonByName" type="tns:PhysicalPersonByNameType">
+				<xs:annotation>
+					<xs:documentation>
+						Should only be used if the identification
+						numbers are unknown.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PhysicalPersonByNameType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string"/>
+			<xs:element name="LastName" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="OnBehalfOf" type="tns:CbeEntityNumber">
+			<xs:annotation>
+				<xs:documentation>
+					If the physical person has a mandate to do such
+					function on behalf of a moral person, this should be
+					documented
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="FunctionCodeType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="enterprise" type="tns:EnterpriseType"/>
+</xs:schema>

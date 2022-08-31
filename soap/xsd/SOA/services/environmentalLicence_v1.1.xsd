@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:el="http://soa.spw.wallonie.be/data/business/environmentalLicence/v1" xmlns:stat="http://soa.spw.wallonie.be/common/status/v1" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" xmlns:tns="http://soa.spw.wallonie.be/services/environmentalLicence/messages/v1" targetNamespace="http://soa.spw.wallonie.be/services/environmentalLicence/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/environmentalLicence/v1" schemaLocation="../data/business/environmentalLicence/environmentalLicence_v1.1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/ticket/v1" schemaLocation="../data/common/ticket_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>20190527 - Première version du service</xs:documentation>
+	</xs:annotation>
+	<xs:element name="getEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el:GetEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el:GetDefaultEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el:EnvironmentalLicenceType" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el:EnvironmentalLicenceType" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEstablishmentCaracteristics">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el:GetEstablishmentCaracteristicsRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEstablishmentCaracteristicsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="establishmentCaracteristics" type="el:establishmentCaracteristics" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el:PublishEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el:EnvironmentalLicenceType" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el:SearchEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicenceSummary" type="el:EnvironmentalLicenceSummaryType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fault" type="tns:faultType" nillable="true"/>
+	<xs:complexType name="faultType">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="code" type="xs:integer"/>
+			<xs:element name="message" type="xs:string"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

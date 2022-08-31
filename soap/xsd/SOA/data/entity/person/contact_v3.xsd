@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cont="http://soa.spw.wallonie.be/data/common/contact/v3" xmlns:nam="http://soa.spw.wallonie.be/data/entity/person/name/v3" xmlns:add="http://soa.spw.wallonie.be/data/entity/address/address/v4" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" targetNamespace="http://soa.spw.wallonie.be/data/common/contact/v3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.0">
+	<xs:annotation>
+		<xs:documentation>
+			Definitions of person types.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/name/v3" schemaLocation="name_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/address/v4" schemaLocation="../address/address_v4.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../../common/isocodes_v1.xsd"/>
+	<xs:simpleType name="HonorificType">
+		<xs:restriction base="xs:normalizedString">
+			<xs:enumeration value="Mr."/>
+			<xs:enumeration value="Ms."/>
+			<xs:enumeration value="Dr."/>
+			<xs:enumeration value="Prof."/>
+			<xs:enumeration value="Miss"/>
+			<xs:enumeration value="Mrs"/>
+			<xs:enumeration value="MSADM">
+				<xs:annotation>
+					<xs:documentation>Madame l'Administratrice</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MSMAYOR">
+				<xs:annotation>
+					<xs:documentation>Madame la Bourgmestre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MSDIR">
+				<xs:annotation>
+					<xs:documentation>Madame la Directrice</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MSPRES">
+				<xs:annotation>
+					<xs:documentation>Madame la Présidente</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MSGSEC">
+				<xs:annotation>
+					<xs:documentation>Madame la Secrétaire générale</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MSMR">
+				<xs:annotation>
+					<xs:documentation>Madame, Monsieur</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MASTER">
+				<xs:annotation>
+					<xs:documentation>Maître</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRS">
+				<xs:annotation>
+					<xs:documentation>Messieurs</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRADM">
+				<xs:annotation>
+					<xs:documentation>Monsieur l'Administrateur</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRDADM">
+				<xs:annotation>
+					<xs:documentation>Monsieur l'Administrateur délégué</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRMAYOR">
+				<xs:annotation>
+					<xs:documentation>Monsieur le Bourgmestre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRDIR">
+				<xs:annotation>
+					<xs:documentation>Monsieur le Directeur</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRMGR">
+				<xs:annotation>
+					<xs:documentation>Monsieur le Gérant</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRPRES">
+				<xs:annotation>
+					<xs:documentation>Monsieur le Président</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRGSEC">
+				<xs:annotation>
+					<xs:documentation>Monsieur le Secrétaire général</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value=""/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="honorific" type="cont:HonorificType" minOccurs="0"/>
+			<xs:choice maxOccurs="2">
+				<xs:element name="person">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="nam:NameType"/>
+							<xs:element name="function" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="enterprise">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="denomination" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="language" type="iso:LanguageType" minOccurs="0"/>
+			<xs:element name="addresses" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="address" type="add:BasicAddressType" maxOccurs="15"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="phoneNumbers" type="cont:PhoneNumberType" minOccurs="0"/>
+			<xs:element name="emails" type="cont:EmailType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="EmailFormatType">
+		<xs:restriction base="xs:normalizedString">
+			<xs:pattern value="[^@]+@[^\.]+\..+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EmailType">
+		<xs:sequence>
+			<xs:element name="email" maxOccurs="15">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="cont:EmailFormatType">
+							<xs:attribute name="type" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PhoneNumberFormatType">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="\+[0-9]{2}[0-9]{8,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="contact" type="cont:ContactType"/>
+	<xs:complexType name="PhoneNumberType">
+		<xs:sequence>
+			<xs:element name="phoneNumber" maxOccurs="15">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="cont:PhoneNumberFormatType">
+							<xs:attribute name="type" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/services/environmentalLicence/messages/v2" xmlns:el2="http://soa.spw.wallonie.be/data/business/environmentalLicence/v2" xmlns:tic="http://soa.spw.wallonie.be/data/common/ticket/v1" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:stat="http://soa.spw.wallonie.be/common/status/v1" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:org="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" targetNamespace="http://soa.spw.wallonie.be/services/environmentalLicence/messages/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/environmentalLicence/v2" schemaLocation="../data/business/environmentalLicence/environmentalLicence_v2.1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/spw/organisation/v1" schemaLocation="../data/entity/spw/organisation_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../data/common/code_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>20190527 - Première version du service</xs:documentation>
+	</xs:annotation>
+	<xs:element name="getEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el2:EnvironmentalLicenceType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetDefaultEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el2:EnvironmentalLicenceType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicenceByIdDGO3">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetDefaultEnvironmentalLicenceByIdDGO3RequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDefaultEnvironmentalLicenceByIdDGO3Response">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el2:EnvironmentalLicenceType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEstablishmentCaracteristics">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetEstablishmentCaracteristicsRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEstablishmentCaracteristicsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="establishmentCaracteristics" type="el2:establishmentCaracteristics" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el2:PublishEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicence" type="el2:EnvironmentalLicenceType" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicence">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:SearchEnvironmentalLicenceRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicenceResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicenceSummary" type="el2:EnvironmentalLicenceSummaryType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicenceByIdDGO3">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:SearchEnvironmentalLicenceByIdDGO3RequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEnvironmentalLicenceByIdDGO3Response">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="environmentalLicenceSummary" type="el2:EnvironmentalLicenceSummaryType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getLegalText">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetLegalTextRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getLegalTextResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="legalTexts" type="el2:GetLegalTextType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getRankings">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getRankingsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="rankings" type="el2:GetRankingsType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocument">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:GetDocumentRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getDocumentResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="document" type="el2:GetDocumentType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEstablishment">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="criteria" type="el2:SearchEstablishmentRequestType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchEstablishmentResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="searchEstablishmentType" type="el2:SearchEstablishmentType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getRubric">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="identifier" type="xs:long"/>
+									<xs:element name="language" type="iso:LanguageType" default="fr"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getRubricResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="rubric" type="el2:RubricType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchRubric">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="code" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>Code des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="codeOperator" default="EXACT">
+										<xs:annotation>
+											<xs:documentation>Opérateur à appliquer au code lors de la recherche</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="EXACT"/>
+												<xs:enumeration value="BEGIN"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="language" type="iso:LanguageType" default="fr">
+										<xs:annotation>
+											<xs:documentation>Langue des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="label" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Libellé des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="simpleLabel" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Libellé simplifié des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="completeLabel" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Libellé complet de l'installation des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="officialLabel" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Libellé officiel de l'installation des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="rank" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Classe des rubriques à rechercher</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchRubricResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="rubric" type="el2:RubricType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchDirectionDPA">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="insCode" type="xs:string"/>
+									<xs:element name="typeDossier" type="cod:DescriptiveCodeType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Type de dossier</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="geometrie" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Géométrie au format JSON</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="capakey" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchDirectionDPAResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence>
+						<xs:element name="response">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="instance" type="org:OrganisationType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchCodification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="request">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="domain" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Domaine de la liste de valeurs à rechercher</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="language" type="iso:LanguageType" default="fr">
+								<xs:annotation>
+									<xs:documentation>Langue de la liste de valeurs à afficher</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="pivotDate" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Date de validité de la liste de valeurs à rechercher</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="activeValues" default="ACTIVE">
+								<xs:annotation>
+									<xs:documentation>Statut de la liste de valeurs à rechercher</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="ALL"/>
+										<xs:enumeration value="ACTIVE"/>
+										<xs:enumeration value="INACTIVE"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="searchCodificationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="domain" type="el2:domainType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fault" type="tns:faultType" nillable="true"/>
+	<xs:complexType name="faultType">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string"/>
+			<xs:element name="code" type="xs:integer"/>
+			<xs:element name="message" type="xs:string"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

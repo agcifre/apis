@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pag="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/specific/wbfin/paging/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	
+	<xs:simpleType name="PagingSizeType">
+		<xs:annotation>
+					<xs:documentation>The maximal number of records returned per page</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:maxInclusive value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="PagingParametersType">
+		<xs:annotation>
+			<xs:documentation>The parameters for a paginated request</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="size" type="pag:PagingSizeType">
+				<xs:annotation>
+					<xs:documentation>The maximal number of records returned per page</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="index" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The index of the page to return</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="PagingResultType">
+		<xs:annotation>
+			<xs:documentation>The results of the pagination</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="size" type="pag:PagingSizeType">
+				<xs:annotation>
+					<xs:documentation>The requested size of the page</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="index" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The index of the page returned</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hits" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The total number of records that matches the request</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="count" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>The total number of pages</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

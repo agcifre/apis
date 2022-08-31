@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 sp1 (http://www.altova.com) by YFE (Service Public de Wallonie) -->
+<xs:schema xmlns="http://soa.spw.wallonie.be/services/europeanDisabilityCard/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:edc="http://soa.spw.wallonie.be/data/business/europeanDisabiltyCard/common/v1" xmlns:iso="http://soa.spw.wallonie.be/data/common/isocodes/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:vou="http://soa.spw.wallonie.be/data/business/file/voucher/v1" targetNamespace="http://soa.spw.wallonie.be/services/europeanDisabilityCard/messages/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../data/entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../data/common/date_v1.xsd"/>
+	<xs:annotation>
+		<xs:documentation>Search active and non-active cards</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/europeanDisabiltyCard/common/v1" schemaLocation="../data/business/europeanDisabilityCard/common_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/isocodes/v1" schemaLocation="../data/common/isocodes_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/file/voucher/v1" schemaLocation="../data/business/file/voucher_v1.xsd"/>
+	<xs:element name="getEuropeanDisabilityCards">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="referenceDate" minOccurs="0">
+										<xs:simpleType>
+											<xs:restriction base="xs:date">
+												<xs:minInclusive value="2017-01-01"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEuropeanDisabilityCardsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="EuropeanDisabilityCards" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="europeanDisabilityCard" type="edc:CardType" maxOccurs="10"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEuropeanDisabilityCardsHistory">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEuropeanDisabilityCardsHistoryResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="EuropeanDisabilityCards" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="europeanDisabilityCard" type="edc:CardType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>Ask creation of a new card</xs:documentation>
+	</xs:annotation>
+	<xs:element name="publishEuropeanDisabilityCardRequest">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="personNumber" type="num:PersonNumberType"/>
+									<xs:element name="language">
+										<xs:simpleType>
+											<xs:restriction base="iso:LanguageType">
+												<xs:enumeration value="fr"/>
+												<xs:enumeration value="nl"/>
+												<xs:enumeration value="de"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="forceCreation" type="xs:boolean"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEuropeanDisabilityCardRequestResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="createdEuropeanDisabilityCard" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="europeanDisabilityCard" type="edc:CardType"/>
+									<xs:element name="legalDataPrinted" type="edc:LegalDataPrintedType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="otherActiveCards" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="europeanDisabilityCard" type="edc:CardType" maxOccurs="10"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="otherStoppedOrCanceledCards" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="stoppedOrCanceledCard" type="edc:StoppedOrCanceledCardType" maxOccurs="10"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>Cancel an active card or cancel a card creation request</xs:documentation>
+	</xs:annotation>
+	<xs:element name="publishEuropeanDisabilityCardCancellation">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="cardNumber" type="edc:CardNumberType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publishEuropeanDisabilityCardCancellationResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="cardCanceled" type="xs:boolean" default="true"/>
+						<xs:element name="prematureValidityEndDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>Get status of cards</xs:documentation>
+	</xs:annotation>
+	<xs:element name="getEuropeanDisabilityCardStatuses">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractPrivacySyncRequestType">
+					<xs:sequence>
+						<xs:element name="request">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="period" type="dat:PeriodType"/>
+									<xs:element name="paging" type="xs:integer" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEuropeanDisabilityCardStatusesResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="hasNextPage" type="xs:boolean"/>
+						<xs:element name="cardOrderStatuses">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="cardOrderStatus" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="cardNumber" type="edc:CardNumberType"/>
+												<xs:element name="personNumber" type="num:PersonNumberType"/>
+												<xs:element name="lifePhase" type="edc:lifePhaseType"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

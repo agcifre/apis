@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dmfaV2="http://soa.spw.wallonie.be/services/dmfa/messages/v2" xmlns:tns="http://soa.spw.wallonie.be/services/dmfa/messages/batch/v2" xmlns:dmfa_att="http://soa.spw.wallonie.be/data/business/dmfa/attestation/v2" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v2" xmlns:entnum="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" xmlns:bced_common="http://soa.spw.wallonie.be/data/common/common/v3" xmlns:err="http://soa.spw.wallonie.be/data/common/error/v3" targetNamespace="http://soa.spw.wallonie.be/services/dmfa/messages/batch/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/services/dmfa/messages/v2" schemaLocation="../../../../SOA/services/dmfa_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/business/dmfa/attestation/v2" schemaLocation="../../../../SOA/data/business/dmfa/dmfaAttestation_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v2" schemaLocation="../../../../SOA/data/entity/person/personNumber_v2.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v2" schemaLocation="../../../../SOA/data/entity/enterprise/enterpriseNumber_v2.1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v3" schemaLocation="../../../../SOA/data/common/common_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/error/v3" schemaLocation="../../../../SOA/data/common/error_v3.xsd"/>
+	<xs:element name="searchEmployeeDMFABatchResponse" type="tns:SearchEmployeeDMFABatchResponseType"/>
+	<xs:element name="searchEmployerDMFABatchResponse" type="tns:SearchEmployerDMFABatchResponseType"/>
+	<xs:complexType name="SearchEmployeeDMFABatchResponseType">
+		<xs:sequence>
+			<xs:element name="searchEmployeeDMFAResponses">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="searchEmployeeDMFAResponse" type="dmfaV2:SearchEmployeeDMFAResponseType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchEmployerDMFABatchResponseType">
+		<xs:complexContent>
+			<xs:extension base="bced_common:AbstractSyncResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="warnings" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="err:warning" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="searchEmployerDMFAResponse">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice>
+									<xs:element name="enterpriseNumber" type="entnum:CbeEntityNumberType"/>
+									<xs:element name="nssoRegistrationNumber" type="entnum:NOSSRegistrationNumberSimpleType"/>
+								</xs:choice>
+								<xs:element name="employees">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="employee" maxOccurs="unbounded">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:choice>
+															<xs:element name="personNumber" type="num:PersonNumberType"/>
+															<xs:element name="cryptPersonNumber" type="num:CryptPersonNumberType"/>
+														</xs:choice>
+														<xs:element name="dmfaAttestations" type="dmfa_att:DmfaAttestationsType"/>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

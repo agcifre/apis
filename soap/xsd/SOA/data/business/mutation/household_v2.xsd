@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by CGR (Service Public de Wallonie) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mutev="http://soa.spw.wallonie.be/data/business/mutation/household/v2" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/person/number/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/mutation/household/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/code/v1" schemaLocation="../../common/code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../../entity/person/personNumber_v1.xsd"/>
+	<xs:element name="householdMutations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="mutationContext" type="xs:string"/>
+				<xs:element name="mileStone" type="xs:string"/>
+				<xs:element ref="mutev:observedMutation"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="MutationInfomationType">
+		<xs:sequence>
+			<xs:element name="reason" type="xs:string" minOccurs="0"/>
+			<xs:element name="mutationEvent" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="modificationDate">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:date">
+										<xs:attribute name="source" type="cod:CodeSourceType"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="modifiedField" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mutationDate">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:date">
+							<xs:attribute name="source" type="cod:CodeSourceType"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HouseholdMutationType">
+		<xs:sequence>
+			<xs:element name="mutationInformation" type="mutev:MutationInfomationType"/>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="replacingPersonNumber" type="num:PersonNumberType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Update"/>
+					<xs:enumeration value="Replacement"/>
+					<xs:enumeration value="Expiration"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="householdMutation" type="mutev:HouseholdMutationType"/>
+	<xs:complexType name="ObservedMutationType">
+		<xs:sequence>
+			<xs:element name="personNumber" type="num:PersonNumberType"/>
+			<xs:element name="modificationDate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="observedMutation" type="mutev:ObservedMutationType"/>
+</xs:schema>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soa.spw.wallonie.be/data/entity/institution/authority/v1" xmlns:Q1="http://soa.spw.wallonie.be/data/entity/institution/function/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/institution/authority/v1" elementFormDefault="qualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/institution/function/v1" schemaLocation="function_v1.xsd"/>
+	<xs:complexType name="AuthorityType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="0"/>
+			<xs:element name="authorityType" type="tns:AuthorityTypeType"/>
+			<xs:element name="functions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="function" type="Q1:FunctionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AuthorityTypeType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:trans="http://soa.spw.wallonie.be/technical/transactions/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soa.spw.wallonie.be/technical/transactions/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.00">
+	<xs:element name="createTransaction">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transactionId" type="xs:string" minOccurs="0"/>
+				<xs:element name="targetFlowId" minOccurs="0"/>
+				<xs:element name="timestampSent" type="xs:date" minOccurs="0"/>
+				<xs:element name="timestampReceived" type="xs:date" minOccurs="0"/>
+				<xs:element name="ticket" type="xs:string" minOccurs="0"/>
+				<xs:element name="status" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="state">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="PROCESSED"/>
+										<xs:enumeration value="PROCESSING"/>
+										<xs:enumeration value="ERROR"/>
+										<xs:enumeration value="SENT"/>
+										<xs:enumeration value="RECEIVED"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="code" type="xs:string" minOccurs="0"/>
+							<xs:element name="description" type="xs:anyType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="updateTransaction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transactionId" type="xs:string"/>
+				<xs:element name="ticket" minOccurs="0"/>
+				<xs:element name="targetFlowId" minOccurs="0"/>
+				<xs:element name="timestampSent" type="xs:date" minOccurs="0"/>
+				<xs:element name="timestampReceived" type="xs:date" minOccurs="0"/>
+				<xs:element name="status" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="state">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="PROCESSED"/>
+										<xs:enumeration value="PROCESSING"/>
+										<xs:enumeration value="ERROR"/>
+										<xs:enumeration value="SENT"/>
+										<xs:enumeration value="RECEIVED"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="code" type="xs:string" minOccurs="0"/>
+							<xs:element name="description" type="xs:anyType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

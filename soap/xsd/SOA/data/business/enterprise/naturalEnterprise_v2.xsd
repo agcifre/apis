@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/business/naturalPersonEnterprise/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:entNum="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" xmlns:perNum="http://soa.spw.wallonie.be/data/entity/person/number/v3" xmlns:extend="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseExtendType/v1" targetNamespace="http://soa.spw.wallonie.be/data/business/naturalPersonEnterprise/v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/number/v3" schemaLocation="../../entity/enterprise/enterpriseNumber_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v3" schemaLocation="../../entity/person/personNumber_v3.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/enterpriseExtendType/v1" schemaLocation="../../entity/enterprise/enterpriseExtendType_v1.xsd"/>
+	<xs:complexType name="NaturalPersonEnterpriseType">
+		<xs:sequence>
+			<xs:element name="personIdentification" type="tns:PersonIdentificationType"/>
+			<xs:element name="enterprise" type="extend:EnterpriseExtendType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonIdentificationType">
+		<xs:choice>
+			<xs:element name="enterpriseNumber" type="entNum:CbeNumberType"/>
+			<xs:element name="personNumber">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="perNum:PersonNumberType">
+							<xs:attribute name="OnBehalfOf" type="entNum:CbeNumberType">
+								<xs:annotation>
+									<xs:documentation>If the physical person has a mandate to do such function on behalf of a moral person, this should be documented</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="person" type="tns:PhysicalPersonByNameType">
+				<xs:annotation>
+					<xs:documentation>Should only be used if the identification numbers are unknown.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PhysicalPersonByNameType">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="OnBehalfOf" type="entNum:CbeNumberType">
+			<xs:annotation>
+				<xs:documentation>If the physical person has a mandate to do such function on behalf of a moral person, this should be documented</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

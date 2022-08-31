@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:person="http://soa.spw.wallonie.be/data/entity/person/number/v1" xmlns:addr="http://soa.spw.wallonie.be/data/entity/address/bce-address/v1" xmlns:num="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" xmlns:den="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" xmlns:dat="http://soa.spw.wallonie.be/data/common/date/v1" xmlns:entcode="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" xmlns:jurf="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" targetNamespace="http://soa.spw.wallonie.be/data/entity/enterprise/functions/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/person/number/v1" schemaLocation="../person/personNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/address/bce-address/v1" schemaLocation="../address/bce-address_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enteprise/number/v1" schemaLocation="enterpriseNumber_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/denomination/v1" schemaLocation="denomination_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/date/v1" schemaLocation="../../common/date_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/code/v1" schemaLocation="code_v1.xsd"/>
+	<xs:import namespace="http://soa.spw.wallonie.be/data/entity/enterprise/juridicalForm/v1" schemaLocation="juridicalForm_v1.xsd"/>
+	<xs:complexType name="functionExecutorEnterprise">
+		<xs:sequence>
+			<xs:element name="enterpriseNumber" type="num:CbeEntityNumberType">
+				<xs:annotation>
+					<xs:documentation>The enterprisenumber of the enterprise holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Denomination" type="den:DenominationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Names of the enterprise holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnterpriseFunctionType">
+		<xs:sequence>
+			<xs:element name="CbeEntityNumber" type="num:CbeEntityNumberType"/>
+			<xs:element name="CbeEnterpriseType" type="entcode:CbeEnterpriseTypeType"/>
+			<xs:element name="Denomination" type="den:DenominationType"/>
+			<xs:element name="JuridicalForm" type="jurf:JuridicalForm" minOccurs="0"/>
+			<xs:element name="Address" type="addr:AddressType"/>
+			<xs:element name="Type" type="xs:string"/>
+			<xs:element name="TypeDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="functionExecutorPerson">
+		<xs:sequence>
+			<xs:element name="personNumber" type="person:PersonNumberType">
+				<xs:annotation>
+					<xs:documentation>The personnumber of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The first name of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LastName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The last name of the person holding the function</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetCode" type="addr:streetCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The streetCode of the persons address. Only required in a special situation. Further info in the documentation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FunctionType">
+		<xs:sequence>
+			<xs:element name="heldByEnterprise" type="tns:functionExecutorEnterprise" minOccurs="0"/>
+			<xs:element name="heldByPerson" type="tns:functionExecutorPerson" minOccurs="0"/>
+			<xs:element name="Type" type="tns:FunctionCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExemptionNOSME" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Exemption" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ExemptionCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="ExemptionCodeDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="ValidityPeriod" type="dat:PeriodType" minOccurs="0"/>
+			<xs:element name="Stop" type="entcode:CbeStopCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If stopped, CBE code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StopDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>if required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FunctionCodeType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

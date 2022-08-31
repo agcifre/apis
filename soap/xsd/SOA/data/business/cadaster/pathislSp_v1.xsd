@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pst="http://soa.spw.wallonie.be/data/business/cadaster/pathislSp/v1" xmlns:cod="http://soa.spw.wallonie.be/data/common/code/v5" targetNamespace="http://soa.spw.wallonie.be/data/business/cadaster/pathislSp/v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- Import des fichiers correspondant aux namespaces déclarés -->
+	<xsd:import namespace="http://soa.spw.wallonie.be/data/common/code/v5" schemaLocation="../../common/code_v5.xsd"/>
+	<!-- ** SitHistoricalByPropertyId ** -->
+	<xsd:complexType name="PathislSpType">
+		<xsd:sequence>
+			<xsd:element name="parcelIdentification" type="pst:ParcelIdentificationSitHistoricalType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>number of the stipad dossier</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="propertySituationIdf" type="xsd:long" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>SitPatrimoniale.oIdfTech =&gt; input voor getPropertyByPropertyId</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="no-parcel" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Textfield for when there isn't a situation (typically before 1979) or for public domains and similar cases.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailApp" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Detail of appartement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="parcelCadStatus" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Status of the patrimonial parcel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dossier" type="pst:DossierSitHistoricalType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The dossier in which the mutation happened</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="sitHistoricalIdf" type="xsd:long" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Technical id of sitHistorical - For logging</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="expiredDate" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Expireddate of the situation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateBegin" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Validitydate of the situation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateBeginYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>year of the start date</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dateEnd" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>end date of situation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateEndYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>year of the end date</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="flag-expired" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="flag-intermediate" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="article" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Article</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="sequenceNumber" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Sequence</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ParcelIdentificationSitHistoricalType">
+		<xsd:sequence>
+			<xsd:element name="bisNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>bisnumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="divCad" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>description the cadastral division</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="exponentLetter" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentLetter</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="exponentNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>exponentNnumber</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="fractionDenominator" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Denominator for the common parts</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="10"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="partNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>partNumber (P0000 -&gt; P9999)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="5"/>
+						<xsd:pattern value="(P[0-9][0-9][0-9][0-9])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="primaryNumber" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>primaryNumber (groundNummer)</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:totalDigits value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="section" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>section</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="precad" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>precad</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1"/>
+						<xsd:pattern value="([s,r,S,R])"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DossierSitHistoricalType">
+		<xsd:sequence>
+			<xsd:element name="dossierNumber" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>number of the dossier</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dossierType" type="cod:DescriptiveCodeType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The dossierType codedescription stipad</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="causeMutation" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The causes of the mutation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="schets" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The schets</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateRealLife" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Validitydate of the parcel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="yearRealLife" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Mutationyear</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dateValidationDossier" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Validitydate of the parcel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="searchedPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="previousPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="nextPropertySituation" type="pst:PathislSpType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

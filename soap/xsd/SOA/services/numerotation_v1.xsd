@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://soa.spw.wallonie.be/services/numerotation/messages/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://soa.spw.wallonie.be/data/common/common/v1" targetNamespace="http://soa.spw.wallonie.be/services/numerotation/messages/v1" elementFormDefault="qualified" version="1.0">
+	<xs:import namespace="http://soa.spw.wallonie.be/data/common/common/v1" schemaLocation="../data/common/common_v1.xsd"/>
+	<!-- Get reception number -->
+	<xs:element name="getReceptionNumber">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncRequestType">
+					<xs:sequence>
+						<xs:element name="request" type="tns:GetReceptionNumberType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getReceptionNumberResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="common:AbstractSyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="receptionNumbers" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="receptionNumber" type="tns:ReceptionNumberType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetReceptionNumberType">
+		<xs:all>
+			<xs:element name="regionCode">
+				<xs:annotation>
+					<xs:documentation>Indicateur de la région demanderesse : RW pour la Région Wallonne, BRC pour la Région Bruxelles-Capitale, VL pour la Région Flamande</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="RW"/>
+						<xs:enumeration value="BRC"/>
+						<xs:enumeration value="VL"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="requestCategoryCode">
+				<xs:annotation>
+					<xs:documentation>Catégorie d'objet : V pour véhicule, TV type de véhicule, P pièce, TP type de pièce, COP</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="V"/>
+						<xs:enumeration value="TV"/>
+						<xs:enumeration value="P"/>
+						<xs:enumeration value="TP"/>
+						<xs:enumeration value="COP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="regulActApprovalCode">
+				<xs:annotation>
+					<xs:documentation>Législation nationale (N), européenne (E) ou internationale (I)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="N"/>
+						<xs:enumeration value="E"/>
+						<xs:enumeration value="I"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="regulActFramework" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nom ou numéro de l'acte règlementaire cadre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isGeneralSafety" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TRUE si le numéro de réception européen doit être établi selon General Safety</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isGroupRequest" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>TRUE si la demande concerne une numérotation groupée. Dans le cas, il faut remplir la liste des demandes avec l'ensemble des pièces composant le groupe. Dans le cas contraire, un seul élement est repris dans la liste.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="clientName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nom du client - nom de la personne physique ou de la société</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="clientReference" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Référence client de la demande</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dossierNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>référence, numéro de dossier attribué par l'administration</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="receptionNumberRequests" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="receptionNumberRequest" type="tns:ReceptionNumberRequestType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="extensionRevisionCorrection" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Utilisé dans le cas de la demande d'extension, de révision ou de correction d'un numéro de réception existant</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="revisionTypeCode">
+							<xs:annotation>
+								<xs:documentation>Type de révision, extension ou correction : R pour révision, E pour extension et C pour correction</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="R"/>
+									<xs:enumeration value="E"/>
+									<xs:enumeration value="C"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="originalReceiptNumber" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Numéro de réception à réviser, étendre ou corriger</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="originalOrNew" type="xs:string" minOccurs="0"/>
+						<xs:element name="receptionNumberDetail" type="tns:ReceptionNumberRequestType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ReceptionNumberRequestType">
+		<xs:all>
+			<xs:element name="basicAct" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nom ou numéro de l'acte règlementaire de base</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amendmentOnAct" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nom ou numéro de l'amendement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="partOfAct" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nom, numéro de la partie (étape) généralement 1 ou 2 lettres</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="supplementOnAmendment" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Complément à un amendement du règlement de Genève, doit être rempli si isGeneralSafety est mis à TRUE</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vehicleCategoryCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Catégorie du véhicule, exemple  M1, M2, M3, O1, T4, L1e, etc</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="codeForBodyworkSpecPurpVeh" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Usage spécial, utilisée lorsque la catégorie du véhicule est M1 par exemple</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vehicleTypeCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Surtout utilisé pour faire la différence entre une remorque ou un semi-remorque</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isEurope" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TRUE si la denière immatriculation a été enregistrée dans un pays européen; FALSE si la dernière immatriculation a été faite dans un pays en dehors de l'Europe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="typeOfPartCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>type de pièce (par exemple 0006 pour l'adaptateur de jante, 00010 pour l'échappement, ...)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isSmallSerie" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TRUE si une petite série</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isValidationMoto" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TRUE si la demande concerne une validation moto</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yearSubmitApprov" type="xs:gYear">
+				<xs:annotation>
+					<xs:documentation>Année de soumission de la demande</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="language" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Langue à utiliser FR, NL, EN, DE - principalement utilisée par la Région Bruxelles Capitale</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ReceptionNumberType">
+		<xs:sequence>
+			<xs:element name="receptionNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Numéro de réception calculé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="counter" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>Compteur calculé</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="revision" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>valeur de la révision</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="extension" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>valeur de l'extension</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="correction" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>valeur de la correction</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
