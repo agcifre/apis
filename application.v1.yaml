@@ -1,0 +1,1014 @@
+openapi: 3.0.1
+info:
+  title: SPW Application Master Data
+  description: This service allows querying SPW applications master data.
+  version: 1.0.2
+servers:
+- url: https://api.wallonie.be/apis/application/v1
+tags:
+- name: Applications
+  description: Everything about Applications
+- name: Organisations
+  description: Everything about Organisations
+paths:
+  /applications:
+    get:
+      tags:
+      - Applications
+      summary: Lists applications
+      operationId: searchApplications
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: name
+        in: query
+        description: Name of the application being searched. Case insensitive.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /applications/{code}:
+    get:
+      tags:
+      - Applications
+      summary: Finds an application based on code
+      operationId: getApplication
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: code
+        in: path
+        description: The Application Code of the application that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organisations:
+    get:
+      tags:
+      - Organisations
+      summary: Lists organisations
+      operationId: searchOrganisations
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /organisations/{id}:
+    get:
+      tags:
+      - Organisations
+      summary: Finds an organisation based on its id
+      operationId: getOrganisation
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: The LDAP code of the organisation that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+components:
+  schemas:
+    ApplicationSummary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: URBI Application Code
+          example: "2840"
+        name:
+          type: string
+          description: URBI Application Name
+          example: PLATEFORME ESB FOREM
+      description: Application summary
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/ApplicationSummary'
+      - type: object
+        properties:
+          description:
+            type: string
+            description: Application short description
+            example: Etablissement des taxes (débit ou crédit) pour les véhicules
+              des redevables situés en Région Wallonne.
+          internal:
+            type: boolean
+            description: Defines if an application is hosted by the SPW or hosted
+              externally.
+            example: false
+          owner:
+            $ref: '#/components/schemas/OrganisationLink'
+          responsible:
+            $ref: '#/components/schemas/InternalContact'
+          responsibleDeputies:
+            minItems: 0
+            type: array
+            items:
+              $ref: '#/components/schemas/InternalContact'
+          applicationProvider:
+            $ref: '#/components/schemas/Application_applicationProvider'
+        description: Application details
+    Contact:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Doe
+        firstName:
+          type: string
+          example: John
+        email:
+          type: string
+    InternalContact:
+      allOf:
+      - $ref: '#/components/schemas/Contact'
+      - type: object
+        properties:
+          id:
+            type: string
+            description: ULIS code
+            example: AL1234
+    ApplicationLink:
+      allOf:
+      - type: object
+        properties:
+          href:
+            type: string
+            format: uri
+            example: https://api.wallonie.be/apis/application/v1/applications/2840
+      - $ref: '#/components/schemas/ApplicationSummary'
+    ApplicationCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/ApplicationLink'
+      - $ref: '#/components/schemas/CollectionProperties'
+    OrganisationSummary:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Organisation reference (LDAP code)
+          example: O5000000
+    Organisation:
+      allOf:
+      - $ref: '#/components/schemas/OrganisationSummary'
+      - required:
+        - description
+        type: object
+        properties:
+          description:
+            type: string
+            description: Organisation long name
+            example: "SPW Budget, Logistique et Technologies de l'Information et de\
+              \ la Communication"
+    OrganisationLink:
+      allOf:
+      - type: object
+        properties:
+          href:
+            type: string
+            format: uri
+            example: https://api.wallonie.be/apis/application/v1/organisations/O5000000
+      - $ref: '#/components/schemas/OrganisationSummary'
+    OrganisationCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganisationLink'
+      - $ref: '#/components/schemas/CollectionProperties'
+    SelfLink:
+      type: object
+      properties:
+        self:
+          type: string
+          description: The URI of the current page
+          format: uri
+          example: https://uri/to/this/ressource
+      description: A base type representing a link to the resource's own location
+        within its representation
+    InvalidParamProblem:
+      properties:
+        invalidParams:
+          type: array
+          description: An array of parameter OpenAPI violations
+          items:
+            $ref: '#/components/schemas/InvalidParam'
+      description: Problem details for invalid input parameter(s)
+      allOf:
+      - $ref: '#/components/schemas/Problem'
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "An URI reference that identifies the problem type. When dereferenced,\
+            \ it SHOULD provide human-readable documentation for the problem type\
+            \ (e.g. using HTML)."
+          format: uri
+          default: about:blank
+        title:
+          type: string
+          description: "A short, summary of the problem type. Written in english and\
+            \ readable for engineers (usually not suited for non technical stakeholders\
+            \ and not localized)"
+        status:
+          maximum: 600
+          exclusiveMaximum: true
+          minimum: 400
+          type: integer
+          description: The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          format: int32
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of
+            the problem
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of
+            the problem. It may or may not yield further information if dereferenced.
+          format: uri
+      description: A Problem Details object (RFC 7807)
+    InvalidParam:
+      type: object
+      properties:
+        in:
+          type: string
+          description: The location of the invalid parameter (cfr Swagger parameters)
+          enum:
+          - body
+          - path
+          - query
+          - header
+        name:
+          type: string
+          description: The name of the invalid parameter
+        reason:
+          type: string
+          description: A message explaining the violation
+        value:
+          type: object
+          description: The value of the erroneous parameter
+    CollectionProperties:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: the total number of items across all pages
+          format: int32
+          example: 1
+        page:
+          type: integer
+          description: "Index of the current page, default 1"
+          format: int32
+          default: 1
+        pageSize:
+          type: integer
+          description: "Maximum number of items per page, default 80"
+          format: int32
+          default: 80
+        next:
+          type: string
+          description: The URI of the next page
+          format: uri
+          example: https://uri/to/this/ressource?page=2&pageSize=80
+    inline_response_200:
+      type: object
+      properties:
+        ApplicationCollection:
+          $ref: '#/components/schemas/ApplicationCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_1:
+      type: object
+      properties:
+        Application:
+          $ref: '#/components/schemas/Application'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_2:
+      type: object
+      properties:
+        OrganisationCollection:
+          $ref: '#/components/schemas/OrganisationCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_3:
+      type: object
+      properties:
+        Organisation:
+          $ref: '#/components/schemas/Organisation'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    Application_applicationProvider:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Provider Name
+          example: DXC Technology Belgium SNC
+        contacts:
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+x-original-swagger-version: "2.0"

@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  title: common technical data types
+  version: '1.0'
+paths: {} #Needed to be a valid swagger file
+definitions:
+  CollectionProperties:
+    type: object
+    properties:
+      total:
+        description: "the total number of items across all pages"
+        type: integer
+        format: "int32"
+        example: 1
+      page: 
+        description: "Index of the current page, default 1"
+        type: "integer"
+        default: 1
+        format: "int32"
+      pageSize: 
+        description: "Maximum number of items per page, default 80"
+        type: "integer"
+        default: 80
+        format: "int32"
+      # first:
+      #   type: string
+      #   format: uri
+      #   description: The URI of the first page
+      #   example: https://api.wallonie.be/apis/application/v1/applications?page=1&pageSize=80
+      # last:
+      #   type: string
+      #   format: uri
+      #   description: The URI of the last page
+      #   example: https://api.wallonie.be/apis/application/v1/applications?page=13&pageSize=80
+      next:
+        type: string
+        format: uri
+        description: The URI of the next page
+        example: "https://uri/to/this/ressource?page=2&pageSize=80"
+      # prev:
+      #   type: string
+      #   format: uri
+      #   description: The URI of the previous page
+      #   example: https://api.wallonie.be/apis/application/v1/applications?page=3&pageSize=80 
+      # self:
+      #   type: string
+      #   format: uri
+      #   description: The URI of the current page
+      #   example: https://api.wallonie.be/apis/application/v1/applications?page=4&pageSize=80 
+  SelfLink:
+    description: A base type representing a link to the resource's own location within its representation
+    type: object
+    properties:
+      self:
+        type: string
+        format: uri
+        description: The URI of the current page
+        example: "https://uri/to/this/ressource" 
+
+parameters:
+  API-GW-Header-Organisation:
+    name: Organisation
+    in: header
+    description: This header contains the identification of the organisation technically sending the request to the BCED. It is the official 10-digit company number as known in the official company register.
+    required: true
+    type: string
+  API-GW-Header-Target-Organisation:
+    name: Target-Organisation
+    in: header
+    description: 'This header contains the identification of the organisation or department for which the information is intended, from which the information is coming or which is business-wise responsible.'
+    required: true
+    type: string
+  API-GW-Header-Target-Organisation-Description:
+    name: Target-Organisation-Description
+    in: header
+    description: This header contains the description of the target-organisation.
+    required: true
+    type: string
+  API-GW-Header-Context:
+    name: Context
+    in: header
+    description: This is name of the finality. This name will be agreed and predefined by the BCED and is based on the business authorisation to the target-organisation.
+    required: true
+    type: string
+  API-GW-Header-User-Id:
+    name: User-Id
+    in: header
+    description: 'This header needs to assure to be able to identify the person who is executing the request. This identification needs to be done by the users own organisation, but not necessarily by the BCED. This header is kept in the logs and when necessary (for example in case of a legal investigation) the organisation needs to be able to identify the user. In case the request is not initiated by an individual user, then an identifiable name should be entered identifying the automated process or the business unit.'
+    required: true
+    type: string
+  API-GW-Header-User-Reference:
+    name: User-Reference
+    in: header
+    description: This header contains a reference assigned by the user.
+    required: true
+    type: string
+  API-GW-Header-Inscription-Reference:
+    name: Inscription-Reference
+    in: header
+    description: The UUID identifying the inscription taken to declare the dossier opened by the target-organisation for the given context. An inscription-reference  is only required when the consultation is done based on a SSIN on data subject to authorization.
+    required: false
+    type: string

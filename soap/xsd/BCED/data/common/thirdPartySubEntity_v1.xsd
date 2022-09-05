@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bced.wallonie.be/common/thirdPartySubEntity/v1" targetNamespace="http://bced.wallonie.be/common/thirdPartySubEntity/v1" elementFormDefault="qualified">
-	<xs:element name="thirdPartySubEntity" type="xs:string">
-		<xs:annotation>
-			<xs:documentation>This optional element can be use to describe a sub entity in the principal organisation.
-It could be necessary in case of the authorisation is delivred to this sub entity.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-</xs:schema>

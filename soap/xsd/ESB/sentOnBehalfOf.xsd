@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by LG (private) -->
-<xs:schema targetNamespace="http://bced.wallonie.be/tools/sentOnBehalfOf/v1" xmlns:ns1="http://bced.wallonie.be/tools/sentOnBehalfOf/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:element name="sentOnBehalfOf" type="xs:string">
-		<xs:annotation>
-			<xs:documentation>Certificates alias to use to issue the ws-security signature</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-</xs:schema>
