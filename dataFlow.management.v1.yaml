@@ -1,0 +1,5733 @@
+openapi: 3.0.1
+info:
+  title: Data Flow Management
+  description: This service allows Data Flow management.
+  version: 1.0.3
+servers:
+- url: https://api.wallonie.be/apis/dataFlow/management/v1
+tags:
+- name: Services
+  description: Everything about exposed services
+- name: Flows
+  description: Everything about configured flows
+- name: Filters
+  description: Everything about configured filters
+- name: ConfigurationClaims
+  description: Everything about configuration claims
+- name: FilterClaims
+  description: Everything about filter claims
+- name: ExposedDataGroups
+  description: Everything about exposed data group definitions
+- name: DataModels
+  description: Technical resource supporting the notion of Data Models
+paths:
+  /services:
+    get:
+      tags:
+      - Services
+      summary: Lists exposed services
+      operationId: searchServices
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: service
+        in: query
+        description: Name of the service being searched. Case insensitive. Partial
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Type of the service being searched. Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Category of the service being searched. Case insensitive. Exact
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: owner
+        in: query
+        description: Owner of the service being searched. Case insensitive. Exact
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: Major Version of the service being searched. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /services/{serviceId}:
+    get:
+      tags:
+      - Services
+      summary: Finds a service by id
+      operationId: getService
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: serviceId
+        in: path
+        description: The ID of the service that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /services/{serviceId}/operations:
+    get:
+      tags:
+      - Services
+      summary: Lists operations exposed by a service
+      operationId: searchOperations
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: serviceId
+        in: path
+        description: The ID of the service exposing the operations. Case sensitive.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /services/{serviceId}/operations/{operation}:
+    get:
+      tags:
+      - Services
+      summary: Finds an operation by service by id and operation name
+      operationId: getOperation
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: serviceId
+        in: path
+        description: The ID of the service exposing the operations
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: operation
+        in: path
+        description: The name of the operation that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /flows:
+    get:
+      tags:
+      - Flows
+      summary: Lists configured flows
+      operationId: searchFlows
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: reference
+        in: query
+        description: Reference of the flows being searched. Case insensitive. Exact
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: owner
+        in: query
+        description: Flow Owner Organisation Reference of the flows being searched.
+          Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: partnerApplication
+        in: query
+        description: Partner Application Name of the flows being searched. Case insensitive.
+          Partial match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: partnerApplicationTechnicalName
+        in: query
+        description: Partner Application Technical Name of the flows being searched.
+          Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: partnerApplicationCode
+        in: query
+        description: Partner Application Code of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: organisation
+        in: query
+        description: Partner Application's Organisation Reference of the flows being
+          searched. Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sobo
+        in: query
+        description: SOBO's Reference of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: context
+        in: query
+        description: Context of the flows being searched. Case insensitive. Partial
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: service
+        in: query
+        description: Service Name of the flows being searched. Case insensitive. Exact
+          match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: operation
+        in: query
+        description: Service Operation of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: provider
+        in: query
+        description: Provider Organisation Id of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: mock
+        in: query
+        description: Filter on the mock type of the flows being searched. Boolean.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: statusTest
+        in: query
+        description: Status on the TEST environment of the flows being searched. Case
+          insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+      - name: statusValid
+        in: query
+        description: Status on the VALID environment of the flows being searched.
+          Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+      - name: statusProd
+        in: query
+        description: Status on the PROD environment of the flows being searched. Case
+          insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+      - name: providerService
+        in: query
+        description: Provider Service Name of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: providerVersion
+        in: query
+        description: Provider Service Version of the flows being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: providerOperation
+        in: query
+        description: Provider Service Operation of the flows being searched. Case
+          insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /flows/{flowId}:
+    get:
+      tags:
+      - Flows
+      summary: Find a configured flow by flowId
+      operationId: getFlow
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: flowId
+        in: path
+        description: The flow ID that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /configurationClaims:
+    get:
+      tags:
+      - ConfigurationClaims
+      summary: Lists configuration claims
+      operationId: searchConfigurationClaims
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: owner
+        in: query
+        description: ConfigurationClaim Owner Organisation Reference of the ConfigurationClaims
+          being searched. Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: ticket
+        in: query
+        description: Ticket of the FilterClaims being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_6'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+    post:
+      tags:
+      - ConfigurationClaims
+      summary: Create a configuration claim
+      operationId: createConfigurationClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Configuration Claim object that needs to be submitted
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/configurationClaims_body'
+        required: true
+      responses:
+        "201":
+          description: Created
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+            Location:
+              description: The URI of the created Configuration Claim
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "409":
+          description: Conflict
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-codegen-request-body-name: body
+  /configurationClaims/{configurationClaimId}:
+    get:
+      tags:
+      - ConfigurationClaims
+      summary: Find a Configuration Claim by claimId
+      operationId: getConfigurationClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: configurationClaimId
+        in: path
+        description: The Configuration Claim ID that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_7'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+      - ConfigurationClaims
+      summary: Update a configuration claim
+      operationId: updateConfigurationClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: configurationClaimId
+        in: path
+        description: The Flow Configuration Claim ID that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Configuration Claim object used for the update
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/configurationClaims_configurationClaimId_body'
+        required: true
+      responses:
+        "204":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "403":
+          description: Forbidden
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - ConfigurationClaims
+      summary: Delete a configuration claim
+      operationId: deleteConfigurationClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: configurationClaimId
+        in: path
+        description: The Flow Configuration Claim ID that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Removed
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "403":
+          description: Forbidden
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /filters:
+    get:
+      tags:
+      - Filters
+      summary: Lists configured filters
+      operationId: searchFilters
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: owner
+        in: query
+        description: Filter Owner Organisation Reference of the filters being searched.
+          Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: exposedDataGroup
+        in: query
+        description: ExposedDataGroup of the filter being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: xsdValid
+        in: query
+        description: Validity of the filter being searched.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_8'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /filters/{filterId}:
+    get:
+      tags:
+      - Filters
+      summary: Find a configured filter by ID
+      operationId: getFilter
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: filterId
+        in: path
+        description: The filter ID that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          pattern: "^[-A-Z0-9_]+$"
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_9'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /filterClaims:
+    get:
+      tags:
+      - FilterClaims
+      summary: Lists filter claims
+      operationId: searchFilterClaims
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      - name: owner
+        in: query
+        description: FilterClaim Owner Organisation Reference of the FilterClaims
+          being searched. Case insensitive. Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: ticket
+        in: query
+        description: Ticket of the FilterClaims being searched. Case insensitive.
+          Exact match.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_10'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+    post:
+      tags:
+      - FilterClaims
+      summary: Post a filter claim
+      operationId: createFilterClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Filter Configuration Claim object that needs to be submitted
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/filterClaims_body'
+        required: true
+      responses:
+        "201":
+          description: Created
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+            Location:
+              description: The URI of the created Filter Configuration Claim
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "409":
+          description: Conflict
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-codegen-request-body-name: body
+  /filterClaims/{filterClaimId}:
+    get:
+      tags:
+      - FilterClaims
+      summary: Find a Filter Configuration Claim by filterClaimId
+      operationId: getFilterClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: filterClaimId
+        in: path
+        description: The Filter Configuration Claim ID that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_11'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+      - FilterClaims
+      summary: Update a filter claim
+      operationId: updateFilterClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: filterClaimId
+        in: path
+        description: The Filter Configuration Claim ID that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Filter Configuration Claim object used for the update
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/filterClaims_filterClaimId_body'
+        required: true
+      responses:
+        "204":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "403":
+          description: Forbidden
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - FilterClaims
+      summary: Delete a filter claim
+      operationId: deleteFilterClaim
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: filterClaimId
+        in: path
+        description: The Flow Configuration Claim ID that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Removed
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content: {}
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "403":
+          description: Forbidden
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /exposedDataGroups:
+    get:
+      tags:
+      - ExposedDataGroups
+      summary: Lists exposedDataGroups
+      operationId: searchDataGroups
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_12'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /exposedDataGroups/{exposedDataGroup}:
+    get:
+      tags:
+      - ExposedDataGroups
+      summary: Find a exposedDataGroup definition by name
+      operationId: getExposedDataGroup
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: exposedDataGroup
+        in: path
+        description: The exposedDataGroup that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_13'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /dataModels:
+    get:
+      tags:
+      - DataModels
+      summary: Lists Data Models
+      operationId: searchDataModels
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Number of requested page in a paged resource collection. Page
+          numbers are 1-based.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: "Maximum number of items per page, default 80"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 80
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_14'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /dataModels/{dataModel}:
+    get:
+      tags:
+      - DataModels
+      summary: Returns the definition of data models used by other resources
+      operationId: getDataModel
+      parameters:
+      - name: Organisation
+        in: header
+        description: This header contains the identification of the organisation technically
+          sending the request to the BCED. It is the official 10-digit company number
+          as known in the official company register.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation
+        in: header
+        description: "This header contains the identification of the organisation\
+          \ or department for which the information is intended, from which the information\
+          \ is coming or which is business-wise responsible."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Target-Organisation-Description
+        in: header
+        description: This header contains the description of the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Context
+        in: header
+        description: This is name of the finality. This name will be agreed and predefined
+          by the BCED and is based on the business authorisation to the target-organisation.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Id
+        in: header
+        description: "This header needs to assure to be able to identify the person\
+          \ who is executing the request. This identification needs to be done by\
+          \ the users own organisation, but not necessarily by the BCED. This header\
+          \ is kept in the logs and when necessary (for example in case of a legal\
+          \ investigation) the organisation needs to be able to identify the user.\
+          \ In case the request is not initiated by an individual user, then an identifiable\
+          \ name should be entered identifying the automated process or the business\
+          \ unit."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Reference
+        in: header
+        description: This header contains a reference assigned by the user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: dataModel
+        in: path
+        description: The dataModel that needs to be fetched
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200_15'
+        "400":
+          description: Bad Request Parameter
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InvalidParamProblem'
+        "404":
+          description: Not Found
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: An unexpected error occured
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "502":
+          description: Bad Gateway
+          headers:
+            flowid:
+              description: The authorized flow identifier
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            transactionId:
+              description: The transaction identifier
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+components:
+  schemas:
+    Application:
+      required:
+      - code
+      - internal
+      - name
+      - owner
+      type: object
+      properties:
+        code:
+          type: string
+          description: URBI Application Code
+          example: "1069"
+        name:
+          type: string
+          description: URBI Application Name.
+          example: CADASPORTS BACK OFFICE V2
+        technicalName:
+          type: string
+          description: |-
+            ESB Application Name. For applications not owned by the SPW, the application technical name SHOULD be suffixed by _\<organisation\>.
+            **Examples:** - notice *(SPW application)* - itinera_spff *(external application owned by SPFF)* - itinera_famiwal *(external application owned by Famiwal)*
+          example: cadasports_bo_v2
+        description:
+          type: string
+          description: Application short description
+          example: Etablissement des taxes (d颩t ou cr餩t) pour les v騩cules des
+            redevables situ鳠en R駩on Wallonne.
+        internal:
+          type: boolean
+          description: Defines if an application is hosted by the SPW or hosted externally.
+          example: false
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/Organisation'
+          - type: object
+            description: Application Owner
+      description: Application authorized to consume the flow
+    Authorisation:
+      required:
+      - contextDescription
+      type: object
+      properties:
+        contextDescription:
+          type: string
+          description: Some lines describing clearly the context in which this flow
+            is opened.
+          example: |
+            La Direction des Programmes européens souhaiterait pouvoir accéder aux données de la BCE afin d'identifier les agriculteurs ou les demandeurs d'aide non-agriculteurs dans la cadre de la mise en oeuvre des processus de sélection des opérations pouvant bénéficier des fonds FEADER et FEAMP mais également dans le cadre du contrôle administratif, et sur place, des opérations et des dépenses mis en paiement des aides publiques.
+        authorisations:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Authorisation_authorisations'
+      description: Information used to submit requests to Authentic Sources
+    ClaimState:
+      type: object
+      properties:
+        state:
+          type: string
+          description: "- submitted:  The claim has been submitted but has not been\
+            \ started yet. \n        Note: The is the only state where the claim can\
+            \ still be updated or deleted.\n- processing: The claim is being processed.\n\
+            - rejected:   The claim has been rejected (ie: it was invalid or impossible\
+            \ to implement)\n- cancelled:  The claim has been cancelled by the submitter.\n\
+            - completed:  The claim has been processed completely.  \n"
+          example: rejected
+          enum:
+          - submitted
+          - processing
+          - rejected
+          - cancelled
+          - completed
+        submittedAt:
+          type: string
+          description: when the task was submitted
+          format: date-time
+          example: 2018-09-10T08:20:00Z
+        modifiedAt:
+          type: string
+          description: when the task was last modified
+          format: date-time
+          example: 2018-09-13T09:10:00Z
+    ConfigurationItems:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigurationItem'
+    ProviderConfigurationItems:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ProviderConfigurationItem'
+    ConfigurationItem:
+      required:
+      - parameter
+      - type
+      - value
+      type: object
+      properties:
+        parameter:
+          $ref: '#/components/schemas/ConfigurationParameterName'
+        type:
+          $ref: '#/components/schemas/ConfigurationParameterType'
+        value:
+          $ref: '#/components/schemas/ConfigurationParameterValue'
+      description: |
+        Configuration Detail
+        Provides the value for a configuration parameter
+    ProviderConfigurationItem:
+      required:
+      - parameter
+      - type
+      - values
+      type: object
+      properties:
+        parameter:
+          $ref: '#/components/schemas/ConfigurationParameterName'
+        type:
+          $ref: '#/components/schemas/ConfigurationParameterType'
+        values:
+          $ref: '#/components/schemas/ProviderConfigurationItem_values'
+      description: |
+        Configuration Detail
+        Provides the values for a provider configuration parameter
+    ProviderSpecifications:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ProviderSpecification'
+    ProviderItemsRead:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ProviderItemRead'
+    ProviderItemsSubmit:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ProviderItemSubmit'
+    ProviderSpecification:
+      properties:
+        state:
+          $ref: '#/components/schemas/ResourceState'
+        preferred:
+          type: boolean
+          description: Is a preferred provider from an operational perspective
+          example: false
+        configurations:
+          $ref: '#/components/schemas/ConfigurationSpecifications'
+      allOf:
+      - $ref: '#/components/schemas/OrganisationDescription'
+      - $ref: '#/components/schemas/ProviderBase'
+    ProviderItemRead:
+      allOf:
+      - $ref: '#/components/schemas/OrganisationDescription'
+      - $ref: '#/components/schemas/ProviderItemSubmit'
+    ProviderItemSubmit:
+      properties:
+        configurations:
+          $ref: '#/components/schemas/ProviderConfigurationItems'
+      allOf:
+      - $ref: '#/components/schemas/ProviderBase'
+    ProviderBase:
+      properties:
+        targetDataGroup:
+          type: string
+          description: The Data Group of the data being returned by the provider
+          example: Vehicle
+        service:
+          type: string
+          description: Target Service Name
+          example: PersonService
+        operation:
+          type: string
+          description: Target Service Operation
+          example: searchPersonBySsin
+        version:
+          type: string
+          description: Target Service Version (may be null)
+          example: "1.4"
+        mock:
+          type: boolean
+          description: Is a mock of the provider
+          example: false
+      allOf:
+      - $ref: '#/components/schemas/OrganisationId'
+    ConfigurationSpecifications:
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigurationSpecification'
+    ConfigurationSpecification:
+      required:
+      - parameter
+      - specification
+      type: object
+      properties:
+        parameter:
+          $ref: '#/components/schemas/ConfigurationParameterName'
+        specification:
+          $ref: '#/components/schemas/ConfigurationParameterSpecification'
+      description: |
+        Configuration Specification
+        Describes one configuration item in a format based on a subset of the JSON Schema Specification Draft 4 (used by Swagger).
+    ConfigurationParameterName:
+      type: string
+      description: a short identifier for the configuration item
+      example: businessUnit
+    ConfigurationParameterType:
+      type: string
+      description: a type for the configuration item
+      example: business
+    ConfigurationParameterValue:
+      type: string
+      description: The configuration parameter value
+      example: "2204323515"
+    ConfigurationParameterSpecification:
+      type: object
+      properties:
+        required:
+          type: boolean
+          description: "a boolean showing if this parameter is required for a POST\
+            \ on /configurationClaim\nFor example, it is not needed to get the targetContext(s)\
+            \ in the configurationclaim \nbut a GET on the /flow/{flowId} must return\
+            \ the targetContext(s) configured for each provider\n"
+          example: false
+          default: true
+        name:
+          type: string
+          description: a long name that may be used to present the configuration item
+            in a client interface
+          example: Business Unit
+        description:
+          type: string
+          description: a description of the configuration item
+          example: Unit頃ommerciale utilis頬ors de l'appel ࠬa Source Authentique
+        type:
+          $ref: '#/components/schemas/ConfigurationParameterType'
+        pattern:
+          type: string
+          description: a regex pattern that can be used to validate an item of type
+            'string'
+          example: "^\\w{1,20}$"
+        enum:
+          minItems: 1
+          type: array
+          example:
+          - P1Y
+          - P3Y
+          - P5Y
+          - P10Y
+          - P20Y
+          - P30Y
+          items:
+            type: string
+        example:
+          type: string
+          description: an example of value for this configuration item
+          example: "2204323515"
+      description: Configuration Specification Describes one configuration item in
+        a format based on a subset of the JSON Schema Specification Draft 4 (used
+        by Swagger).
+    Contact:
+      required:
+      - requesterEmails
+      type: object
+      properties:
+        requesterEmails:
+          minItems: 1
+          type: array
+          example:
+          - john.doe@ensemblesimplifions.be
+          - support-bced@ensemblesimplifions.be
+          items:
+            type: string
+            description: Configuration Claim submitter's email address
+            format: email
+        businessEmails:
+          minItems: 1
+          type: array
+          example:
+          - joe.bloggs@example.com
+          - foo.bar@example.com
+          items:
+            type: string
+            description: Partner application business contacts's email address
+            format: email
+        technicalEmails:
+          minItems: 1
+          type: array
+          example:
+          - john.smith@example.com
+          - joe.schmoe@example.com
+          items:
+            type: string
+            description: Partner application technical contacts's email address
+            format: email
+      description: Contacts used in notifications mails
+    XsdValid:
+      required:
+      - xsdValid
+      type: object
+      properties:
+        xsdValid:
+          type: boolean
+          description: Filter validity in regards to the Filter DataModel
+          example: true
+    Context:
+      pattern: "^[-_:A-Za-z0-9 ]{1,64}$"
+      type: string
+      description: "Consultation or Mutation Context\n\n__Notes:__ \n- New context\
+        \ SHOULD only contain uppercase alphanumeric or underscore characters.\n-\
+        \ Legacy contexts MAY contain lowercase, dashes or spaces.\n"
+      example: DISABLED_PERSON
+    FilterId:
+      required:
+      - filterId
+      type: object
+      properties:
+        filterId:
+          pattern: "^[-A-Z0-9_]+$"
+          type: string
+          description: ESB Filter ID
+          example: FILTER_0353
+    Filter:
+      allOf:
+      - $ref: '#/components/schemas/FilterBase'
+      - $ref: '#/components/schemas/XsdValid'
+      - type: object
+        properties:
+          owner:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Organisation'
+            - type: object
+              description: Filter Owner
+    FilterBase:
+      allOf:
+      - $ref: '#/components/schemas/FilterId'
+      - type: object
+        properties:
+          exposedDataGroup:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/DataGroupName'
+            - $ref: '#/components/schemas/DataGroupLink'
+          xml:
+            type: string
+            description: escaped xml definition of the ESB filter
+            example: |
+              &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+              &lt;filter:filters xmlns:filter=&quot;http://soa.spw.wallonie.be/tools/filter/v1&quot;&gt;
+                &lt;filter type=&quot;RESPONSE&quot;&gt;
+                  &lt;register&gt;false&lt;/register&gt;
+                  &lt;ssin&gt;true&lt;/ssin&gt;
+                  &lt;name&gt;true&lt;/name&gt;
+                  &lt;gender&gt;true&lt;/gender&gt;
+                  &lt;birthDate&gt;true&lt;/birthDate&gt;
+                  &lt;birthPlace&gt;true&lt;/birthPlace&gt;
+                  &lt;nationality&gt;false&lt;/nationality&gt;
+                  &lt;address&gt;true&lt;/address&gt;
+                  &lt;deceaseDate&gt;true&lt;/deceaseDate&gt;
+                  &lt;deceasePlace&gt;false&lt;/deceasePlace&gt;
+                  &lt;civilState&gt;false&lt;/civilState&gt;
+                  &lt;legalCohabitation&gt;false&lt;/legalCohabitation&gt;
+                  &lt;diplomaticPost&gt;false&lt;/diplomaticPost&gt;
+                  &lt;administrator&gt;false&lt;/administrator&gt;
+                  &lt;photo&gt;true&lt;/photo&gt;
+                  &lt;nobilityTitle&gt;false&lt;/nobilityTitle&gt;
+                  &lt;subregister&gt;true&lt;/subregister&gt;
+                &lt;/filter&gt;
+              &lt;/filter:filters&gt;
+        description: Filter details
+    FilterLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/filters/FILTER_0353
+    FilterCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/FilterCollection_inner'
+    FilterPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/FilterCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    FilterClaimSummary:
+      type: object
+      properties:
+        filterClaimId:
+          type: string
+          description: Filter Configuration Claim ID
+          readOnly: true
+          example: FLTCLA_123
+        ticket:
+          $ref: '#/components/schemas/Ticket'
+        state:
+          $ref: '#/components/schemas/ClaimState'
+    FilterClaim:
+      allOf:
+      - $ref: '#/components/schemas/FilterClaimSummary'
+      - required:
+        - filter
+        - operation
+        - owner
+        - ticket
+        type: object
+        properties:
+          ticket:
+            $ref: '#/components/schemas/Ticket'
+          state:
+            $ref: '#/components/schemas/ClaimState'
+          owner:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Organisation'
+            - type: object
+              description: FilterClaim Owner
+          operation:
+            type: string
+            example: create
+            enum:
+            - create
+            - update
+            - delete
+          filter:
+            $ref: '#/components/schemas/FilterBase'
+    FilterClaimLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/filterclaims/FLTCLA_123
+    FilterClaimCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/FilterClaimCollection_inner'
+    FilterClaimPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/FilterClaimCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    DataModelName:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: DataMode name
+          example: filter
+    DataModel:
+      allOf:
+      - $ref: '#/components/schemas/DataModelName'
+      - type: object
+        properties:
+          format:
+            type: string
+            description: DataModel format
+            example: xsd
+          content:
+            type: string
+            description: |
+              The DataModel specification correctly escaped.
+              For example,the content for xsd format would have "'<>& characters escaped.
+            example: '&lt;xs:schema&gt;XSD content&lt;/xs:schema&gt;'
+        description: DataModel definition
+    DataModelLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/dataModels/filter
+    DataModelCollection:
+      type: array
+      items:
+        type: object
+        allOf:
+        - $ref: '#/definitions/DataModelName'
+        - $ref: '#/definitions/DataModelLink'
+    DataModelPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/DataModelCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    DataGroupName:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Exposed dataGroup name
+          example: RN
+    ExposedDataGroup:
+      allOf:
+      - $ref: '#/components/schemas/DataGroupName'
+      - type: object
+        properties:
+          dataModel:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/DataModelName'
+            - $ref: '#/components/schemas/DataModelLink'
+        description: ExposedDataGroup details
+    ExposedDataGroupAlt:
+      required:
+      - exposedDataGroup
+      type: object
+      properties:
+        exposedDataGroup:
+          type: string
+          description: Exposed dataGroup name
+          example: RN
+    DataGroupLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/exposedDataGroups/RN
+    DataGroupCollection:
+      type: array
+      items:
+        type: object
+        allOf:
+        - $ref: '#/definitions/DataGroupName'
+        - $ref: '#/definitions/DataGroupLink'
+    DataGroupPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/DataGroupCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    FlowBase:
+      required:
+      - context
+      - operation
+      - partnerApplication
+      - state
+      type: object
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference'
+        partnerApplication:
+          $ref: '#/components/schemas/Application'
+        sobo:
+          $ref: '#/components/schemas/SoboOrSoboGroup'
+        context:
+          $ref: '#/components/schemas/Context'
+        operation:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/ServiceId'
+          - $ref: '#/components/schemas/OperationName'
+        configurations:
+          $ref: '#/components/schemas/ConfigurationItems'
+        state:
+          $ref: '#/components/schemas/FlowState'
+      description: Common Flow definition for claims and configurations queries
+    FlowClaim:
+      description: Full details of a flow to be included in a flow claim
+      allOf:
+      - $ref: '#/components/schemas/FlowBase'
+      - type: object
+        properties:
+          providers:
+            $ref: '#/components/schemas/ProviderItemsSubmit'
+          filterRef:
+            $ref: '#/components/schemas/FilterRef'
+    FilterRef:
+      required:
+      - ref
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: "The type of reference provided. \nThis reference gives access\
+            \ to a filter definition.\nThis definition can be given in an existing\
+            \ Filter or in a FilterClaim .\n"
+          example: FilterClaimRef
+          enum:
+          - FilterRef
+          - FilterClaimRef
+        ref:
+          type: string
+          description: ID of an existing Filter or FilterClaim
+          example: FLTCLA_123
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/filterClaims/FLTCLA_123
+    ExposedFlow:
+      description: Full details of a flow included its state on each environment
+      allOf:
+      - type: object
+        properties:
+          flowId:
+            type: string
+            description: ESB Flow ID
+            example: "2298"
+      - $ref: '#/components/schemas/FlowBase'
+      - type: object
+        properties:
+          owner:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Organisation'
+            - type: object
+              description: Flow Owner
+          filter:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/FilterId'
+            - $ref: '#/components/schemas/ExposedDataGroupAlt'
+            - $ref: '#/components/schemas/FilterLink'
+          state:
+            $ref: '#/components/schemas/FlowState'
+          providers:
+            $ref: '#/components/schemas/ProviderItemsRead'
+    ConfigurationClaimSummary:
+      type: object
+      properties:
+        configurationClaimId:
+          type: string
+          description: Configuration Claim ID
+          readOnly: true
+          example: CFGCLA_456
+        ticket:
+          $ref: '#/components/schemas/Ticket'
+        state:
+          $ref: '#/components/schemas/ClaimState'
+    ConfigurationClaim:
+      allOf:
+      - $ref: '#/components/schemas/ConfigurationClaimSummary'
+      - required:
+        - authorisation
+        - contacts
+        - flows
+        - owner
+        - ticket
+        type: object
+        properties:
+          ticket:
+            $ref: '#/components/schemas/Ticket'
+          state:
+            $ref: '#/components/schemas/ClaimState'
+          owner:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Organisation'
+            - type: object
+              description: ConfigurationClaim Owner
+          contacts:
+            $ref: '#/components/schemas/Contact'
+          authorisation:
+            $ref: '#/components/schemas/Authorisation'
+          flows:
+            minItems: 1
+            type: array
+            items:
+              $ref: '#/components/schemas/FlowClaim'
+    ConfigurationClaimLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/configurationclaims/CFGCLA_456
+    ConfigurationClaimCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigurationClaimCollection_inner'
+    ConfigurationClaimPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/ConfigurationClaimCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    FlowLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/flows/2298
+    FlowCollection:
+      type: array
+      items:
+        type: object
+        allOf:
+        - $ref: '#/definitions/FlowSummary'
+        - $ref: '#/definitions/FlowLink'
+    FlowPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/FlowCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    FlowSummary:
+      required:
+      - flowId
+      - owner
+      - reference
+      type: object
+      properties:
+        flowId:
+          type: string
+          description: ESB Flow ID
+          example: "2298"
+        reference:
+          $ref: '#/components/schemas/Reference'
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/OrganisationRef'
+          - type: object
+            description: Flow Owner Organisation reference (LDAP code)
+    OperationName:
+      required:
+      - operation
+      type: object
+      properties:
+        operation:
+          type: string
+          description: Operation Name
+          example: getPerson
+    Operation:
+      allOf:
+      - $ref: '#/components/schemas/OperationName'
+      - type: object
+        properties:
+          contextType:
+            type: string
+            description: "The type of context to be used when configuring a flow for\
+              \ an operation. \n"
+            readOnly: true
+            example: consultation
+            enum:
+            - consultation
+            - mutation
+          filter:
+            $ref: '#/components/schemas/Operation_filter'
+          configurations:
+            $ref: '#/components/schemas/ConfigurationSpecifications'
+          providers:
+            $ref: '#/components/schemas/ProviderSpecifications'
+          state:
+            $ref: '#/components/schemas/ResourceState'
+    OperationLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/services/PersonV3-soa/operations/getPerson
+    OperationPagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/OperationCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    OperationCollection:
+      type: array
+      items:
+        type: object
+        allOf:
+        - $ref: '#/definitions/OperationName'
+        - $ref: '#/definitions/OperationLink'
+    OrganisationId:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/OrganisationRef'
+    OrganisationRef:
+      type: string
+      description: |
+        Organisation reference (LDAP code)
+      example: O5000000
+    OrganisationDescription:
+      required:
+      - description
+      type: object
+      properties:
+        description:
+          type: string
+          description: Organisation long name
+          example: "SPW Budget, Logistique et Technologies de l'Information et de\
+            \ la Communication"
+    Organisation:
+      allOf:
+      - $ref: '#/components/schemas/OrganisationId'
+      - $ref: '#/components/schemas/OrganisationDescription'
+    Reference:
+      type: string
+      description: Requestor Reference
+      example: FLX_1234
+    ServiceId:
+      required:
+      - serviceId
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: "ID made of \n- For Private services: {name}V{version}-{type}\n\
+            - For Public services:  {name}V{version}-{type}-public\n"
+          example: PersonV3-soa
+    ServiceSummary:
+      type: object
+      properties:
+        service:
+          type: string
+          description: Service Name
+          example: Person
+        type:
+          type: string
+          description: Service Type
+          example: soa
+          enum:
+          - soa
+          - api
+        category:
+          type: string
+          description: Service Category
+          example: private
+          enum:
+          - private
+          - public
+        version:
+          type: integer
+          description: Major Version
+          format: int32
+          example: 3
+        owner:
+          type: string
+          description: Service Owner
+          readOnly: true
+          example: BCED
+          enum:
+          - BCED
+          - SPW
+    Service:
+      allOf:
+      - $ref: '#/components/schemas/ServiceId'
+      - type: object
+        properties:
+          operations:
+            minItems: 1
+            type: array
+            description: Operations exposed by the service.
+            items:
+              type: object
+              allOf:
+              - $ref: '#/components/schemas/OperationName'
+              - $ref: '#/components/schemas/OperationLink'
+        description: Service details
+    ServiceLink:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.wallonie.be/apis/dataFlow/management/v1/services/PersonV3-soa
+    ServicePagedCollection:
+      allOf:
+      - required:
+        - items
+        type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/ServiceCollection'
+      - $ref: '#/components/schemas/CollectionProperties'
+    ServiceCollection:
+      type: array
+      items:
+        type: object
+        allOf:
+        - $ref: '#/definitions/ServiceId'
+        - $ref: '#/definitions/ServiceSummary'
+        - $ref: '#/definitions/ServiceLink'
+    SoboOrSoboGroup:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: Sobo
+          enum:
+          - Sobo
+          - SoboGroup
+      discriminator:
+        propertyName: type
+    SoboGroup:
+      description: SendOfBehalfOf Group
+      allOf:
+      - $ref: '#/components/schemas/SoboOrSoboGroup'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: |
+              SOBO Group Name
+            example: EES
+          sobos:
+            minItems: 1
+            type: array
+            description: List of SendOnBehalfOf
+            items:
+              type: object
+              allOf:
+              - $ref: '#/components/schemas/Organisation'
+              - type: object
+                description: SendOnBehalfOf
+    Sobo:
+      allOf:
+      - $ref: '#/components/schemas/SoboOrSoboGroup'
+      - $ref: '#/components/schemas/Organisation'
+    FlowState:
+      required:
+      - PROD
+      - TEST
+      - VALID
+      type: object
+      properties:
+        TEST:
+          type: string
+          description: The flow state in the TEST environment.
+          example: available
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+        VALID:
+          type: string
+          description: The flow state in the VALID environment.
+          example: blocked
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+        PROD:
+          type: string
+          description: The flow state in the PROD environment.
+          example: decommissioned
+          enum:
+          - unavailable
+          - testing
+          - available
+          - blocked
+          - decommissioned
+      description: |
+        The flow state per environment on the ESB can be:
+        - unavailable:    The flow is unavailable.
+        - testing:        The flow is being configured/tested and is not open for real traffic.
+        - available:      The flow is open for real traffic.
+        - blocked:        The flow is configured but has been blocked.
+        - decommissioned: The flow has been decommissioned.
+
+        In a configuration claim, the only states that can be requested are:
+        - available
+        - blocked
+        - decommissioned
+    ResourceState:
+      type: string
+      description: |
+        The resource state.
+        - unavailable:    The resource is unavailable.
+        - testing:        The resource is being configured/tested and is not open for real traffic.
+        - available:      The resource is available for real traffic.
+        - obsolete:     The resource is obsolete and should not be used to configure new flows.
+        - decommissioned: The resource is decommissioned and cannot be used anymore.
+      example: available
+      enum:
+      - unavailable
+      - testing
+      - available
+      - obsolete
+      - decommissioned
+    Ticket:
+      type: string
+      description: Tracking System ID
+      example: BCED-1055
+    SelfLink:
+      type: object
+      properties:
+        self:
+          type: string
+          description: Any absolute URI that is using http or https protocol
+          format: uri
+          readOnly: true
+          example: https://uri/to/this/ressource
+      description: A base type representing a link to the resource's own location
+        within its representation
+    InvalidParamProblem:
+      properties:
+        invalidParams:
+          type: array
+          description: An array of parameter OpenAPI violations
+          items:
+            $ref: '#/components/schemas/InvalidParam'
+      description: Problem details for invalid input parameter(s)
+      allOf:
+      - $ref: '#/components/schemas/Problem'
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "An URI reference that identifies the problem type. When dereferenced,\
+            \ it SHOULD provide human-readable documentation for the problem type\
+            \ (e.g. using HTML)."
+          format: uri
+          default: about:blank
+        title:
+          type: string
+          description: "A short, summary of the problem type. Written in english and\
+            \ readable for engineers (usually not suited for non technical stakeholders\
+            \ and not localized)"
+        status:
+          maximum: 600
+          exclusiveMaximum: true
+          minimum: 400
+          type: integer
+          description: The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          format: int32
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of
+            the problem
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of
+            the problem. It may or may not yield further information if dereferenced.
+          format: uri
+      description: A Problem Details object (RFC 7807)
+    InvalidParam:
+      type: object
+      properties:
+        in:
+          type: string
+          description: The location of the invalid parameter (cfr Swagger parameters)
+          enum:
+          - body
+          - path
+          - query
+          - header
+        name:
+          type: string
+          description: The name of the invalid parameter
+        reason:
+          type: string
+          description: A message explaining the violation
+        value:
+          type: object
+          description: The value of the erroneous parameter
+    CollectionProperties:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: the total number of items across all pages
+          format: int32
+          example: 1
+        page:
+          type: integer
+          description: "Index of the current page, default 1"
+          format: int32
+          default: 1
+        pageSize:
+          type: integer
+          description: "Maximum number of items per page, default 80"
+          format: int32
+          default: 80
+        next:
+          type: string
+          description: The URI of the next page
+          format: uri
+          example: https://uri/to/this/ressource?page=2&pageSize=80
+    inline_response_200:
+      type: object
+      properties:
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+        ServicePagedCollection:
+          $ref: '#/components/schemas/ServicePagedCollection'
+    inline_response_200_1:
+      type: object
+      properties:
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+        ServiceId:
+          $ref: '#/components/schemas/ServiceId'
+        ServiceSummary:
+          $ref: '#/components/schemas/ServiceSummary'
+    inline_response_200_2:
+      type: object
+      properties:
+        OperationPagedCollection:
+          $ref: '#/components/schemas/OperationPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+        ServiceId:
+          $ref: '#/components/schemas/ServiceId'
+    inline_response_200_3:
+      type: object
+      properties:
+        Operation:
+          $ref: '#/components/schemas/Operation'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+        ServiceId:
+          $ref: '#/components/schemas/ServiceId'
+    inline_response_200_4:
+      type: object
+      properties:
+        FlowPagedCollection:
+          $ref: '#/components/schemas/FlowPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_5:
+      type: object
+      properties:
+        ExposedFlow:
+          $ref: '#/components/schemas/ExposedFlow'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_6:
+      type: object
+      properties:
+        ConfigurationClaimPagedCollection:
+          $ref: '#/components/schemas/ConfigurationClaimPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    configurationClaims_body:
+      allOf:
+      - $ref: '#/components/schemas/ConfigurationClaim'
+    inline_response_200_7:
+      type: object
+      properties:
+        ConfigurationClaim:
+          $ref: '#/components/schemas/ConfigurationClaim'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    configurationClaims_configurationClaimId_body:
+      allOf:
+      - $ref: '#/components/schemas/ConfigurationClaim'
+    inline_response_200_8:
+      type: object
+      properties:
+        FilterPagedCollection:
+          $ref: '#/components/schemas/FilterPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_9:
+      type: object
+      properties:
+        Filter:
+          $ref: '#/components/schemas/Filter'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_10:
+      type: object
+      properties:
+        FilterClaimPagedCollection:
+          $ref: '#/components/schemas/FilterClaimPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    filterClaims_body:
+      allOf:
+      - $ref: '#/components/schemas/FilterClaim'
+    inline_response_200_11:
+      type: object
+      properties:
+        FilterClaim:
+          $ref: '#/components/schemas/FilterClaim'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    filterClaims_filterClaimId_body:
+      allOf:
+      - $ref: '#/components/schemas/FilterClaim'
+    inline_response_200_12:
+      type: object
+      properties:
+        DataGroupPagedCollection:
+          $ref: '#/components/schemas/DataGroupPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_13:
+      type: object
+      properties:
+        ExposedDataGroup:
+          $ref: '#/components/schemas/ExposedDataGroup'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_14:
+      type: object
+      properties:
+        DataModelPagedCollection:
+          $ref: '#/components/schemas/DataModelPagedCollection'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    inline_response_200_15:
+      type: object
+      properties:
+        DataModel:
+          $ref: '#/components/schemas/DataModel'
+        SelfLink:
+          $ref: '#/components/schemas/SelfLink'
+    Authorisation_authorisations:
+      required:
+      - reference
+      - uri
+      type: object
+      properties:
+        reference:
+          type: string
+          description: Authorisation Reference
+          example: Decision_RN_087-2020
+        uri:
+          type: string
+          description: Link to Authorisation File
+          format: uri
+      description: Authorisation
+    ProviderConfigurationItem_values:
+      required:
+      - PROD
+      - TEST
+      - VALID
+      type: object
+      properties:
+        TEST:
+          $ref: '#/components/schemas/ConfigurationParameterValue'
+        VALID:
+          $ref: '#/components/schemas/ConfigurationParameterValue'
+        PROD:
+          $ref: '#/components/schemas/ConfigurationParameterValue'
+      description: Parameter values per environment
+    FilterCollection_inner:
+      required:
+      - owner
+      type: object
+      properties:
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/definitions/OrganisationRef'
+          - type: object
+            description: Flow Owner Organisation reference (LDAP code)
+    FilterClaimCollection_inner:
+      required:
+      - owner
+      type: object
+      properties:
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/definitions/OrganisationRef'
+          - type: object
+            description: FilterClaim Owner Organisation reference (LDAP code)
+    ConfigurationClaimCollection_inner:
+      required:
+      - owner
+      type: object
+      properties:
+        owner:
+          type: object
+          allOf:
+          - $ref: '#/definitions/OrganisationRef'
+          - type: object
+            description: ConfigurationClaim Owner Organisation reference (LDAP code)
+    Operation_filter:
+      type: object
+      properties:
+        exposedDataGroup:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/DataGroupName'
+          - $ref: '#/components/schemas/DataGroupLink'
+      readOnly: true
+  parameters:
+    PageNumber:
+      name: page
+      in: query
+      description: Number of requested page in a paged resource collection. Page numbers
+        are 1-based.
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 1
+        type: integer
+        format: int32
+    PageSize:
+      name: pageSize
+      in: query
+      description: "Maximum number of items per page, default 80"
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        default: 80
+x-original-swagger-version: "2.0"
